@@ -1267,7 +1267,7 @@ The site's `index.html` (its layout is STYLE.md §4.9): an opening in the
 author's voice, saying why the course exists (the books Marco studied
 from gave the old models a paragraph and a drawing, never how they were
 found or how their parameters were fitted) and what each page does about
-it; a link to the first ready page (the intro once published); a blue plate of tonight's sky (`hub.js`); the
+it; a link to the first ready page (the intro, 0.1); a blue plate of tonight's sky (`hub.js`); the
 timeline of the astronomers, with the pages that rebuild their models or
 use their observations (`ASTRONOMERS` in `shared/site-map.js`); the story
 in a few short paragraphs; the acts as chapters, one row per page with
@@ -1556,7 +1556,7 @@ templates/                 page template and a demo of the shared components
 tools/numbers/             the script behind each page's numbers (§7.2)
 tools/check/               checks run after every change (golden values, smoke test)
 act0-intro/
-  01-mars-tonight/         index.html, page.js, page.css (optional)
+  01-ptolemy-to-kepler/    index.html, page.js, page.css (optional)
 act1-stage/
   01-turning-sky/
   02-frames/

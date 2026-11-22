@@ -61,7 +61,7 @@ const SITE_MAP = (function () {
 			ready: true,
 			title: 'From Ptolemy to Kepler',
 			question: 'Why did it take fifteen centuries to predict Mars?',
-			path: 'act0-intro/01-mars-tonight/index.html'
+			path: 'act0-intro/01-ptolemy-to-kepler/index.html'
 		},
 		{
 			number: '1.1',

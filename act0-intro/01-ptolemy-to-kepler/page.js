@@ -10,7 +10,7 @@
    models/mean-sun.js, models/precession.js, models/planet-epicycle.js,
    models/planet-equant.js, models/planet-arrangement.js,
    models/kepler.js, plot2d.js, components.js. Every number quoted in the prose comes from
-   tools/numbers/0.1-mars-tonight.js.
+   tools/numbers/0.1-ptolemy-to-kepler.js.
 
    TABLE OF CONTENTS
 	 1. Figure 1: the loop and its dates
@@ -45,7 +45,7 @@ const LOOP_PAST_DAYS = 40;
    (a phone) the strip is narrower, so that the loop is drawn larger; the
    choice is made once, when the page opens. The backward arc is at most
    19.5° long and Mars' ecliptic latitude stays within 3.1° of the strip's
-   middle (AD 2026 - 2060, tools/numbers/0.1-mars-tonight.js), so the
+   middle (AD 2026 - 2060, tools/numbers/0.1-ptolemy-to-kepler.js), so the
    whole loop fits even in the narrow strip. */
 const LOOP_STRIP = {
 	wide: { halfWidth: 20, halfHeight: 10 },
@@ -859,7 +859,7 @@ const machineFigure = {
    each Mars; (b) the gap, the circle's heliocentric longitude less the
    ellipse's, in arcminutes, over one revolution: within ±7.5′, largest
    at the four octants
-   (tools/numbers/0.1-mars-tonight.js), so the axis is ±12′. The day
+   (tools/numbers/0.1-ptolemy-to-kepler.js), so the axis is ±12′. The day
    slider runs over one revolution from the aphelion, and Play advances
    it; the animation starts by itself the first time the figure comes
    into view, unless the reader asks for reduced motion.

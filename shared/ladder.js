@@ -4,7 +4,7 @@
    A static chart of the largest error of several models against the
    reference, one row per model in the order of the course, its dot on a
    horizontal scale of powers of ten (0.1' to 100°), the dots joined from
-   row to row. Page 4.5 (Figure 6, the Sun and Mars) and the toolbox (the
+   row to row. Page 4.5 (Figure 6, the Sun and Mars) and the simulator (the
    Sun, the Moon and the planets) draw it; panels drawn one above the
    other share the scale.
    Needs common.js and plot2d.js. The rows are computed when the panel is
@@ -31,7 +31,7 @@ const ErrorLadder = (function () {
 	   1. THE SCALE
 	   The errors of the course run from a quarter of an arcminute (the
 	   Sun's ellipse) to 54° (the uniform Mars): the axis runs from 0.1' to
-	   100° (tools/numbers/4.5-kepler.js, tools/numbers/toolbox.js).
+	   100° (tools/numbers/4.5-kepler.js, tools/numbers/simulator.js).
 	   ====================================================================== */
 
 	/* The marks of the scale: their value in arcminutes and their label. */

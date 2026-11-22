@@ -15,7 +15,7 @@
 
 /* ==========================================================================
    1. FIGURE 1: JUPITER'S AND SATURN'S ELLIPSES OVER FOUR MILLENNIA
-   Static. The ellipses fitted in the toolbox to the oppositions of
+   Static. The ellipses fitted in the simulator to the oppositions of
    1926 - 2025 (Kepler.PLANETS_FIT) against VSOP87, in heliocentric
    ecliptic longitude referred to the equinox of J2000: the model's
    longitude of date less the linear precession it uses, against VSOP87

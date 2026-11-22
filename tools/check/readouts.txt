@@ -5549,7 +5549,7 @@ Regenerate with: node tools/check/smoke.js --update
     .errorcurve-readout: Point at the plot to read each curve's error on a date (dashed line).
   dragged 0 spheres
 
-=== toolbox/index.html ===
+=== simulator/index.html ===
   as loaded
     OUTPUT (calc-day): 20 Nov 2026
     OUTPUT (calc-hour): 21:00
@@ -5737,7 +5737,7 @@ Regenerate with: node tools/check/smoke.js --update
   hover #ladder-planets left
   dragged 0 spheres
 
-=== toolbox/index.it.html ===
+=== simulator/index.it.html ===
   as loaded
     OUTPUT (calc-day): 20 nov 2026
     OUTPUT (calc-hour): 21:00

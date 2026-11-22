@@ -7,7 +7,7 @@
 
    Publishing a page = setting ready: true on its entry in PAGES. The hub,
    the previous / next links and the detour cards all follow. The
-   toolbox (TOOLBOX) is not in PAGES: it is reached only from the hub's
+   simulator (SIMULATOR) is not in PAGES: it is reached only from the hub's
    button, with no previous / next and no row in the chapters.
    ========================================================================== */
 
@@ -301,19 +301,19 @@ const SITE_MAP = (function () {
 		}
 	];
 
-	/* The toolbox (STRUCTURE.md §4, Epilogue): every model of the course
+	/* The simulator (STRUCTURE.md §4, Epilogue): every model of the course
 	   gathered to be used, reached only from the hub. kicker replaces the
 	   act line of a page in PAGES. */
-	const TOOLBOX = {
-		number: 'toolbox',
-		kicker: tr('Toolbox', 'Cassetta degli attrezzi'),
+	const SIMULATOR = {
+		number: 'simulator',
+		kicker: tr('simulator', 'Simulatore'),
 		ready: true,
-		title: tr('The toolbox', 'La cassetta degli attrezzi'),
+		title: tr('The simulator', 'Il simulatore'),
 		question: tr(
 			'Every model of the course, ready to use on any date',
 			"Tutti i modelli del corso, pronti all'uso in qualunque data"
 		),
-		path: 'toolbox/index.html',
+		path: 'simulator/index.html',
 		italian: true
 	};
 
@@ -479,13 +479,13 @@ const SITE_MAP = (function () {
 		});
 	}
 
-	localizePaths([...PAGES, TOOLBOX]);
+	localizePaths([...PAGES, SIMULATOR]);
 
 	return {
 		ACTS,
 		PAGES,
 		ASTRONOMERS,
-		TOOLBOX,
+		SIMULATOR,
 		TOPICS,
 		TOPIC_GROUPS,
 		ORIGINS,

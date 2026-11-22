@@ -58,7 +58,7 @@ const Site = (function () {
 	   1. SITE MAP (site-map.js)
 	   ====================================================================== */
 
-	const { ACTS, PAGES, ASTRONOMERS, TOOLBOX, TOPICS, TOPIC_GROUPS, ORIGINS, EXERCISE_KINDS } = SITE_MAP;
+	const { ACTS, PAGES, ASTRONOMERS, SIMULATOR, TOPICS, TOPIC_GROUPS, ORIGINS, EXERCISE_KINDS } = SITE_MAP;
 
 	/* ======================================================================
 	   2. PATHS
@@ -72,17 +72,17 @@ const Site = (function () {
 
 	const href = path => ROOT + path;
 
-	/* A page by its number ('2.1', 'beyond'), or the toolbox. */
+	/* A page by its number ('2.1', 'beyond'), or the simulator. */
 	function findPage(number) {
-		if (String(number) === TOOLBOX.number) {
-			return TOOLBOX;
+		if (String(number) === SIMULATOR.number) {
+			return SIMULATOR;
 		}
 
 		return PAGES.find(page => page.number === String(number));
 	}
 
 	/* "2.1 · " before a numbered page's title; nothing before the
-	   epilogue's or the toolbox's. */
+	   epilogue's or the simulator's. */
 	function numberPrefix(page) {
 		return /^\d/.test(page.number) ? `${page.number} · ` : '';
 	}
@@ -91,7 +91,7 @@ const Site = (function () {
 		return ACTS.find(act => act.id === page.act);
 	}
 
-	/* "Act II · 2.1", "Epilogue", or the toolbox's own kicker. */
+	/* "Act II · 2.1", "Epilogue", or the simulator's own kicker. */
 	function pageKicker(page) {
 		if (page.kicker) {
 			return page.kicker;

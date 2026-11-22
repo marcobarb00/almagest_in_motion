@@ -1,6 +1,6 @@
 // @ts-check
 /* ==========================================================================
-   THE TOOLBOX - SCRIPT (page.js)
+   THE SIMULATOR - SCRIPT (page.js)
    Every model of the course gathered to be used (STRUCTURE.md §4,
    Epilogue): the calculator of the places of the Sun, the Moon and the
    five planets on a date, the error ladder of every model, and the table
@@ -13,7 +13,7 @@
    models/planet-epicycle.js, models/planet-equant.js,
    models/planet-arrangement.js, models/kepler.js, plot2d.js, ladder.js,
    components.js. Every number quoted in the prose comes from
-   tools/numbers/toolbox.js.
+   tools/numbers/simulator.js.
 
    TABLE OF CONTENTS
 	 1. The bodies: their models and their reference
@@ -417,7 +417,7 @@ const calculator = {
    Static: every model of the course against the reference, the Sun and
    the Moon every day of 2026, Mars every day of 2010 - 2025 (page 4.5's
    Figure 6), the four ellipses of this page every day of 2026
-   (tools/numbers/toolbox.js).
+   (tools/numbers/simulator.js).
    ========================================================================== */
 
 const crankAlone = Object.assign({}, LunarCrank.FIT_2026, { direction: false });
@@ -655,7 +655,7 @@ const PARAMETER_ROWS = [
 	}
 ].concat(
 	['mercury', 'venus', 'jupiter', 'saturn'].map(name => ({
-		page: tr('toolbox', 'cassetta'),
+		page: tr('simulator', 'cassetta'),
 		model: tr(
 			`${name.charAt(0).toUpperCase() + name.slice(1)}'s ellipse`,
 			`l'ellisse di ${bodyName(name.charAt(0).toUpperCase() + name.slice(1))}`

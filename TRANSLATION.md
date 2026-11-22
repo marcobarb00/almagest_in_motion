@@ -153,4 +153,4 @@ page in English first, then its Italian translation in the same commit.
 | Today (margin note) | Oggi |
 | exercise, hint, answer | esercizio, suggerimento, soluzione |
 | Act, Epilogue | Atto, Epilogo |
-| toolbox | cassetta degli attrezzi |
+| simulator | simulatore |

@@ -101,7 +101,7 @@ title("The Moon's perigee");
 
 /* ==========================================================================
    5. JUPITER AND SATURN (THE FIGURE)
-   The ellipses of the toolbox (Kepler.PLANETS_FIT), fitted to the
+   The ellipses of the simulator (Kepler.PLANETS_FIT), fitted to the
    oppositions of 1926 - 2025, against VSOP87 in heliocentric ecliptic
    longitude, both referred to the fixed ecliptic and equinox of J2000:
    the model's longitude of date less the linear precession it uses. Every
@@ -204,7 +204,7 @@ title('The Earth as a clock: Delta T (shared/time.js), as page 1.3 quotes it');
 /* ==========================================================================
    7. MERCURY'S PERIHELION
    The advance of a perihelion in general relativity, per revolution:
-   6 pi G M / (c^2 a (1 - e^2)), with Mercury's ellipse of the toolbox.
+   6 pi G M / (c^2 a (1 - e^2)), with Mercury's ellipse of the simulator.
    ========================================================================== */
 
 title("Mercury's perihelion");

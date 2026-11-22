@@ -898,7 +898,7 @@ async function checkWithoutCdn(browser, site, pageFile, problems) {
 		return;
 	}
 
-	const context = await browser.newContext({ viewport: VIEWPORTS.desktop });
+	const context = await browser.newContext({ viewport: VIEWPORTS.desktop, reducedMotion: 'reduce' });
 
 	await context.clock.setFixedTime(FIXED_NOW);
 
@@ -928,7 +928,13 @@ async function checkWithoutCdn(browser, site, pageFile, problems) {
 /* Open one page at one width: screenshot (into shotDir), and (desktop)
    the controls, with their read-outs appended to 'log'. */
 async function checkPage(browser, site, pageFile, viewportName, shotDir, log) {
-	const context = await browser.newContext({ viewport: VIEWPORTS[viewportName], ...VIEWPORTS[viewportName] });
+	// reduced motion: a figure that plays by itself (page 0.1) stays at
+	// rest, so that the read-outs do not depend on the time a page took
+	const context = await browser.newContext({
+		viewport: VIEWPORTS[viewportName],
+		...VIEWPORTS[viewportName],
+		reducedMotion: 'reduce'
+	});
 
 	await context.clock.setFixedTime(FIXED_NOW);
 

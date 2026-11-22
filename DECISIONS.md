@@ -26,7 +26,7 @@ section.
   → STRUCTURE.md §4
 - **Act I comes first even though it is the least exciting.** The
   foundations (the turning sky, frames, clocks) are needed to state any
-  prediction. Act 0, the intro ("Where is Mars tonight?"), is built last,
+  prediction. Act 0, the intro ("From Ptolemy to Kepler"), is built last,
   because it needs the Act IV models. → STRUCTURE.md §4, §12
 - **The story ends with Kepler.** Newton, perturbations and modern
   ephemerides are in a short epilogue, "Beyond Kepler", with pointers to
@@ -233,6 +233,38 @@ section.
   first page, "Where is Mars tonight?", built last); the name is the one
   the reader sees on the hub. Its folder is `act0-intro/`. Decided by
   Marco on 2026-11-20. → STRUCTURE.md §4, §9; shared/site-map.js
+- **Page 0.1 is "Ptolemy's Mars tonight", built on 2026-11-21.** The
+  question title "Where is Mars tonight?" became "Ptolemy's Mars
+  tonight", with "How good was a model built from circles?" as the
+  subtitle, for the reason page 4.4 was retitled. The plan's "a few
+  degrees" was wrong: Ptolemy's Mars is about 10° behind today, most of
+  it from his year and his apogee, and the page says so. No rhythm of
+  §5 and no exercises, as on the epilogue pages. Figure 1 follows the
+  date of the visit, the prose quotes 20 November 2026 (the smoke test's
+  date). Decided by Marco on 2026-11-21; the page was replaced on
+  2026-11-22 (next entry), and retitled then. →
+  STRUCTURE.md §4 (page 0.1), shared/site-map.js
+- **The intro is rebuilt as three animated scenes (on trial).** Marco
+  found the first version of page 0.1 (2026-11-21) plain and confusing:
+  it set Ptolemy's model with his own numbers, 10° off today, beside the
+  same model refitted, within a degree. On 2026-11-22 he chose instead:
+  (1) a time-lapse of Mars' backward loop among the stars, the loop
+  nearest the visit; (2) Ptolemy's and Copernicus' models side by side,
+  animated together, giving the same loop (page 4.3's exchange of the
+  vectors), told as history (WRITING.md §9); (3) Kepler's eight
+  arcminutes (Fitzpatrick § 1.4): a circle with a bisected equant, its
+  eccentricity fitted to the ellipse, departs from it by up to 7.5′ in
+  heliocentric longitude, at the octants (9.0′ with the ellipse's own
+  eccentricity; corrected after the math review of 2026-11-22). Built one scene at a time, each approved
+  before the next. Titled "From Ptolemy to Kepler", with "Why did it
+  take fifteen centuries to predict Mars?" as the subtitle (Marco,
+  2026-11-22); the folder keeps its slug, `01-mars-tonight`. Published
+  (ready) on 2026-11-22 at Marco's request, so the hub's filled link now
+  leads to it. A
+  figure may play by itself when it first comes into view, except for
+  readers who ask for reduced motion; the smoke test and the label-jump
+  check therefore run with reduced motion. → STRUCTURE.md §4 (page
+  0.1), tools/check/smoke.js
 
 ## Look
 
@@ -537,6 +569,14 @@ section.
   mid-northern latitudes, the planets not at all. Off for reduced
   motion; the smoke test takes its screenshots with animations at rest.
   → hub.js, theme.css §14
+- **The hub's bodies are carried to the plate's epoch.** The plate's
+  stars are drawn at their places of 2026.0, the Moon and the planets at
+  their apparent places of the visit's date; the equinox moves about 50″
+  a year, so the bodies would slide against the stars (22′ by 2050, over
+  1° by 2100). Since 2026-11-21 `hub.place` precesses each body back to
+  `Plate.EPOCH`, so the plate stays right until the reference's limit, AD
+  3000. Found by Marco's question of how long the plate will work. →
+  hub.js
 - **Orion is drawn with his bow, raised club and the hem of his tunic**
   (Marco, 2026-11-20), on every plate that draws him (pages 1.2 and the
   hub). → shared/plate.js (FIGURES)

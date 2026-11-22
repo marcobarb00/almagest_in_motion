@@ -49,6 +49,7 @@
 const ERROR_MAX_SAMPLES_PER_COLUMN = 48;
 const ERROR_DEGREES_THRESHOLD = 600; // arcmin: above this, 'auto' switches to degrees
 const GHOST_ALPHA = 0.4;
+const SMOOTH_GHOST_ALPHA = 0.9; // drawn over a model's band, which would hide it at GHOST_ALPHA
 
 /* Default sampling step (days) per body: short enough to follow its error. */
 const ERROR_RESOLUTION = {
@@ -100,7 +101,8 @@ const keptName = name => `${name} ${tr('(kept)', '(conservato)')}`;
 
 class ErrorCurve {
 	/* options: body | reference, start, end (JD TT), spans
-	   ([{ label, years, yMax, units }] centered on the current range),
+	   ([{ label, years, yMax, units, center }] centered on the current
+	   range, or on center (JD TT) when the span gives one),
 	   resolution (days), period (days, the error's main period: sets the
 	   band's window), units ('auto' | 'arcmin' | 'deg'), yMax (fixed
 	   half-range, in the chosen units), xLabel, ghostButtons (false: no
@@ -251,7 +253,10 @@ class ErrorCurve {
 		this.update();
 	}
 
-	/* A faint curve from an earlier model, for comparison. */
+	/* A faint curve from an earlier model, for comparison. With smooth:
+	   true, a curve that does not oscillate within a column (page 0.1's
+	   lag of a mean longitude) is drawn as its dashed line over every span,
+	   never as a band, and on top of the models, which would hide it. */
 	addGhost(ghost) {
 		this.ghosts.push(Object.assign({ id: `ghost${this.ghosts.length}` }, ghost));
 		this.rescale = true;
@@ -305,9 +310,11 @@ class ErrorCurve {
 		this.update();
 	}
 
-	/* Span presets keep the center of the current range. */
+	/* Span presets keep the center of the current range, unless the span
+	   gives its own (span.center, JD TT): page 0.1's 2000 years from
+	   Ptolemy's time and 20 years around today. */
 	chooseSpan(span, button) {
-		const center = (this.start + this.end) / 2;
+		const center = span.center ?? (this.start + this.end) / 2;
 		const halfDays = (span.years * 365.25) / 2;
 
 		this.span = span;
@@ -409,7 +416,10 @@ class ErrorCurve {
 	sampleAll() {
 		let largest = 0;
 
-		this.curves = [...this.ghosts, ...this.models].map(entry => {
+		const below = this.ghosts.filter(ghost => !ghost.smooth);
+		const above = this.ghosts.filter(ghost => ghost.smooth);
+
+		this.curves = [...below, ...this.models, ...above].map(entry => {
 			const sample = this.sampleCurve(entry.fn);
 
 			largest = Math.max(largest, ...sample.highs.map(Math.abs), ...sample.lows.map(Math.abs));
@@ -465,10 +475,15 @@ class ErrorCurve {
 			const f = this.unitFactor;
 			const scaleAll = values => values.map(v => v * f);
 			const style = ghost
-				? { color: entry.color ?? COL.muted, width: 1.5, alpha: GHOST_ALPHA, dash: [5, 4] }
+				? {
+						color: entry.color ?? COL.muted,
+						width: 1.5,
+						alpha: entry.smooth ? SMOOTH_GHOST_ALPHA : GHOST_ALPHA,
+						dash: [5, 4]
+					}
 				: { color: entry.color ?? COL.planet, width: 2.2 };
 
-			if (sample.isBand) {
+			if (sample.isBand && !entry.smooth) {
 				plot.band(sample.xs, scaleAll(sample.lows), scaleAll(sample.highs), {
 					color: style.color,
 					alpha: ghost ? 0.15 : 0.45
@@ -534,7 +549,7 @@ class ErrorCurve {
 			return {
 				label: entry.label,
 				color: entry.color ?? COL.muted,
-				mark: sample.isBand ? 'band' : 'line',
+				mark: sample.isBand && !entry.smooth ? 'band' : 'line',
 				ghost: ghost
 			};
 		});
@@ -584,7 +599,8 @@ class ErrorCurve {
 	}
 
 	/* Can the plot reach beyond the dates where the ephemeris is valid, now
-	   or with one of the span presets (centered on the current range)? The
+	   or with one of the span presets (centered on the current range, or
+	   on their own center)? The
 	   legend entry for the shading is then always shown, so the widget does
 	   not change size when the reader changes the span (CLAUDE.md). */
 	canLeaveRange() {
@@ -593,10 +609,13 @@ class ErrorCurve {
 		}
 
 		const range = this.validRange;
-		const center = (this.start + this.end) / 2;
-		const reaches = halfDays => center - halfDays < range.start || center + halfDays > range.end;
+		const current = (this.start + this.end) / 2;
+		const reaches = (center, halfDays) => center - halfDays < range.start || center + halfDays > range.end;
 
-		return reaches((this.end - this.start) / 2) || this.spans.some(span => reaches((span.years * 365.25) / 2));
+		return (
+			reaches(current, (this.end - this.start) / 2) ||
+			this.spans.some(span => reaches(span.center ?? current, (span.years * 365.25) / 2))
+		);
 	}
 
 	/* The note that explains the bands. It is always shown, whether or not

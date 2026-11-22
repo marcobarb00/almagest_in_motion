@@ -96,7 +96,8 @@ const PAGE_FILES = [
 	'act4-planets/04-phases-parallax/index.html',
 	'act4-planets/05-kepler/index.html',
 	'simulator/index.html',
-	'beyond-kepler/index.html'
+	'beyond-kepler/index.html',
+	'act0-intro/01-mars-tonight/index.html'
 ];
 
 /* ==========================================================================
@@ -1541,6 +1542,67 @@ function beyondKepler(c) {
 	);
 }
 
+function page01(c) {
+	const figure = inContext(c, 'loopFigure');
+
+	title('8q. PAGE 0.1 (act0-intro/01-mars-tonight/page.js)');
+	row('titleCase', ['LEO', 'CAPRICORNUS'].map(name => quote(inContext(c, 'titleCase')(name))).join(' '));
+	row('elongation 2027-02-19', num(c.elongation(c.Time.julianDay(2027, 2, 19)), 6));
+	row('nextOpposition from 2026-11-20', num(c.nextOpposition(c.Time.julianDay(2026, 11, 20)), 4));
+	row('motionText', [0.4213, -0.35, 0.01].map(m => quote(figure.motionText(m))).join(' '));
+	row('oppositionText', [23, 1, 0, -12].map(d => quote(figure.oppositionText(d))).join(' '));
+	row(
+		'fixed ranges',
+		JSON.stringify(inContext(c, 'LOOP_STRIP')),
+		num(inContext(c, 'LOOP_NARROW_BELOW')),
+		num(inContext(c, 'LOOP_PAST_DAYS')),
+		num(inContext(c, 'LOOP_EDGE')),
+		num(inContext(c, 'LOOP_DAYS_PER_SECOND')),
+		num(inContext(c, 'STANDING_STILL')),
+		num(inContext(c, 'HALO_RADIUS')),
+		num(inContext(c, 'LOOP_MAG_LIMIT')),
+		num(inContext(c, 'NAME_INSET')),
+		num(inContext(c, 'NAME_GAP')),
+		num(inContext(c, 'EXAMPLE_UT'))
+	);
+	row(
+		'Figure 2',
+		num(inContext(c, 'MACHINE_BEFORE')),
+		num(inContext(c, 'MACHINE_SPAN')),
+		num(inContext(c, 'MACHINE_DAYS_PER_SECOND')),
+		num(inContext(c, 'TRAIL_DAYS')),
+		num(inContext(c, 'TRAIL_STEP')),
+		num(inContext(c, 'TRAIL_DEPTH')),
+		num(inContext(c, 'PATH_DAYS')),
+		num(inContext(c, 'PATH_STEP')),
+		JSON.stringify(inContext(c, 'MACHINE_REACH')),
+		num(inContext(c, 'MACHINE_FILL')),
+		num(inContext(c, 'DIAL_MARGIN')),
+		num(inContext(c, 'DIAL_LABEL'))
+	);
+	row(
+		'Figure 3',
+		num(inContext(c, 'KEPLER_E'), 6),
+		num(inContext(c, 'KEPLER_A'), 6),
+		num(inContext(c, 'KEPLER_PERIOD'), 6),
+		num(inContext(c, 'KEPLER_DAYS_PER_SECOND')),
+		num(inContext(c, 'GAP_RANGE')),
+		num(inContext(c, 'KEPLER_GAP')),
+		num(inContext(c, 'LOUPE_SIZE')),
+		num(inContext(c, 'LOUPE_GAP')),
+		num(inContext(c, 'LOUPE_FILL')),
+		num(inContext(c, 'SIGHT_BEYOND_ALPHA')),
+		num(inContext(c, 'SUN_MARK_INSET'))
+	);
+	row(
+		'CIRCLE_E, largestDifference',
+		num(inContext(c, 'CIRCLE_E'), 9),
+		num(c.largestDifference(inContext(c, 'CIRCLE_E')), 6)
+	);
+	row('keplerGap', [45, 135, 225, 315].map(M => num(c.keplerGap(M), 6)).join(' '));
+	row('machineLongitude 2027-02-19', num(inContext(c, 'machineLongitude')(c.Time.julianDay(2027, 2, 19)), 6));
+}
+
 function page22(c) {
 	title('8e. PAGE 2.2 (act2-sun/02-equation-of-time/page.js)');
 	row('YEAR_START', num(inContext(c, 'YEAR_START')));
@@ -1629,6 +1691,7 @@ function buildTable() {
 	page45(pages[13]);
 	simulator(pages[14]);
 	beyondKepler(pages[15]);
+	page01(pages[16]);
 	numbersSection();
 
 	return lines.join('\n') + '\n';

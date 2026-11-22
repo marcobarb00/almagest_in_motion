@@ -55,16 +55,41 @@ next page.
 
 ### Act 0: Intro
 
-#### 0.1 · Where is Mars tonight?
+#### 0.1 · From Ptolemy to Kepler
 
-- **Question:** how good was a model built from circles?
-- **Content:** Ptolemy's Mars, with the *Almagest* parameters, run forward
-  from his epoch to tonight, beside the real Mars. The error is a few degrees
-  after almost nineteen centuries. Two questions follow: how can circles do
-  this well, and why are they still wrong? The rest of the site answers both.
-- **Figures:** a strip of the zodiac with both positions; a date slider; the
-  error curve over 2000 years.
+- **Question:** why did it take fifteen centuries to predict Mars?
+- **Idea:** a hook in three animated scenes, built one at a time, each
+  approved before the next. No rhythm of §5, no step labels, no
+  exercises.
+  1. **The backward loop of Mars** (built as a sample): a time-lapse of
+     the loop nearest the visit, among the stars and the stick figures
+     of the zodiac, autoplaying when it comes into view, with a date
+     slider, Play and a three-line read-out (the date, the daily motion,
+     the days to or from opposition). The loop comes at opposition, each
+     about 49° further east, 37 loops in 79 years.
+  2. **Ptolemy and Copernicus side by side** (built as a sample): page
+     4.2's Mars in the two descriptions of page 4.3, animated
+     together over about one synodic period, the Earth at rest and the
+     Sun at rest, each line of sight running to a dial of ecliptic
+     longitude that carries Mars' direction over the last 300 days, older
+     further in; a three-line read-out gives the date and the direction
+     computed in each drawing, always equal. What changed
+     (why loops come at opposition, the order and distances of the
+     planets) and what did not (the predicted directions), as history
+     (WRITING.md §9); Tycho and the phases of Venus in a line (page 4.4).
+  3. **Kepler's eight arcminutes** (built as a sample): Kepler with
+     Tycho's observations (Voelkel ch. 3), the circle with a bisected
+     equant about the Sun missing them by about 8′ (Fitzpatrick § 1.4);
+     the figure animates that circle and page 4.5's ellipse together over
+     one revolution, (a) the orbit with a loupe that enlarges the region
+     round Mars, (b) the difference seen from the Sun, within ±7.5′ with
+     the circle's eccentricity fitted to the ellipse; the ellipse
+     found in 1605, published in 1609; then the handover to page 1.1 and
+     a "Begin" link. In scene 2 a dashed parallel through the Sun marks
+     the line of sight's place on the dial, which stands for the stars.
 - **Note:** this page uses the Act IV machinery, so it is **built last**.
+  The first version (2026-11-21, "Ptolemy's Mars tonight") is in the
+  history of the repository.
 
 ### Act I: The stage
 

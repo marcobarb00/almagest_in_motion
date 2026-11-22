@@ -2970,6 +2970,62 @@ The stars of the blue plates at 2026.0 (as plate.js places them)
   averagedDrift at 1000 BC       5.051628 -13.111470
   fixed ranges                   [-999,3000]  [-15,7]  [1926,2026]
 
+=== 8q. PAGE 0.1 (act0-intro/01-mars-tonight/page.js) ===
+  titleCase                      "Leo" "Capricornus"
+  elongation 2027-02-19          -179.104466
+  nextOpposition from 2026-11-20 2461456.1368
+  motionText                     "Moving east, 0.42° a day" "Moving west, 0.35° a day" "Standing still"
+  oppositionText                 "Opposite the Sun in 23 days" "Opposite the Sun in 1 day" "Opposite the Sun today" "Opposite the Sun 12 days ago"
+  fixed ranges                   {"wide":{"halfWidth":20,"halfHeight":10},"narrow":{"halfWidth":14,"halfHeight":7}}  520.000000000  40.000000000  1.000000000  12.000000000  0.020000000  22.000000000  4.800000000  3.000000000  6.000000000  2461365.375000000
+  Figure 2                       400.000000000  800.000000000  30.000000000  300.000000000  2.000000000  26.000000000  780.000000000  3.000000000  {"ptolemy":1.818499,"copernicus":1.7323690409251857}  0.800000000  26.000000000  14.000000000
+  Figure 3                       0.093409  1.523694  686.980760  30.000000000  12.000000000  8.000000000  0.240000000  10.000000000  0.550000000  0.450000000  40.000000000
+  CIRCLE_E, largestDifference    0.093680940  7.494610
+  keplerGap                      -7.467375 7.466136 -7.466136 7.467375
+  machineLongitude 2027-02-19    150.889405
+
+=== 9. tools/numbers/0.1-mars-tonight.js ===
+
+=== Lead: the oppositions and loops of AD 2026 - 2060 ===
+19 Feb 2027: backward 81 days over 19.5°
+25 Mar 2029: backward 80 days over 19.0°
+4 May 2031: backward 76 days over 17.2°
+28 Jun 2033: backward 67 days over 12.7°
+15 Sep 2035: backward 61 days over 10.7°
+19 Nov 2037: backward 71 days over 16.1°
+2 Jan 2040: backward 78 days over 18.7°
+6 Feb 2042: backward 81 days over 19.5°
+11 Mar 2044: backward 81 days over 19.3°
+17 Apr 2046: backward 79 days over 18.1°
+3 Jun 2048: backward 71 days over 14.9°
+14 Aug 2050: backward 60 days over 10.0°
+28 Oct 2052: backward 67 days over 14.2°
+17 Dec 2054: backward 76 days over 18.0°
+24 Jan 2057: backward 80 days over 19.3°
+27 Feb 2059: backward 81 days over 19.5°
+from one opposition to the next: 764 to 810 days, on average 779.7 days = 2.13 years
+the backward run: 60 to 81 days = 2.0 to 2.7 months
+
+=== Figure 1: the animation and the strip ===
+one day in 1/12 of a second
+within 90 days of opposition Mars reaches 14.0° from its place at opposition (2026 - 2060)
+its ecliptic latitude stays within 3.1° of the strip's middle, which is at most 4° from the ecliptic (the narrow strip's half-height is 7°)
+
+=== After Figure 1: each loop further east; 37 loops in 79 years ===
+from one opposition to the next, Mars' ecliptic longitude: 34, 39, 53, 76, 65, 44, 36, 34, 36, 46, 68, 74, 51, 38, 34°
+on average 48.5° further east
+37 mean synodic periods: 78.98 years (from the oppositions above); 79.00 years (mean motions)
+
+=== Figure 2: the two descriptions of page 4.2's Mars ===
+the epicycle r = 0.6580 of the deferent; Mars' distance from the Sun 1 / r = 1.52 au
+the two drawings' directions of Mars, 2010 - 2030: largest difference 1.1e-13°
+the dial trail: 300 days (TRAIL_DAYS); one synodic period of the animation in 780 / 30 = 26 s
+
+=== Figure 3: a circle with a bisected equant against the ellipse ===
+the ellipse: e 0.093409, a 1.523694 au; from aphelion to aphelion 687.0 days
+with the ellipse's e, the circle differs by up to 8.96′: M 45°: -6.31′, M 135.25°: 8.96′, M 224.75°: -8.96′, M 315°: 6.31′
+the circle's e fitted: 0.093681; it differs by up to 7.50′: M 47.5°: -7.50′, M 137.5°: 7.50′, M 222.5°: -7.50′, M 312.5°: 7.50′
+the axis is ±12′, Kepler's 8′ marked; one revolution in 23 s at 30 days a second
+
 === 9. tools/numbers/1.1-turning-sky.js ===
 
 === Fit: the rate, from meridian crossings a century apart ===

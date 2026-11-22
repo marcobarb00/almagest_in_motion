@@ -1,91 +1,170 @@
 // @ts-check
 /* ==========================================================================
-   PAGE 0.1 · PTOLEMY'S MARS TONIGHT - SCRIPT (page.js)
-   The intro: Ptolemy's Mars, page 4.2's model with the Almagest's own
-   parameters (PlanetEquant.PTOLEMY), beside the real Mars.
-   Shared code: common.js, time.js, ephemeris.js, vsop87-data.js,
-   vsop87.js, stars.js, plate-stars.js, plate.js (for its figures of the
-   constellations), models/mean-sun.js, models/precession.js,
-   models/solar-eccentric.js, models/planet-epicycle.js,
-   models/planet-equant.js, models/planet-arrangement.js,
-   models/kepler.js, plot2d.js, ladder.js, errorcurve.js, components.js.
-   Every number quoted in the prose comes from
+   PAGE 0.1 · THE INTRO - SCRIPT (page.js)
+   Sample of the first scene: the backward loop of Mars, animated among
+   the stars. The other two scenes (Ptolemy's and Copernicus' models side
+   by side; Kepler's eight arcminutes) come after approval.
+   Shared code: common.js, time.js, ephemeris.js, stars.js,
+   plate-stars.js, plate.js (for its figures of the constellations),
+   plot2d.js, components.js. Every number quoted in the prose comes from
    tools/numbers/0.1-mars-tonight.js.
 
    TABLE OF CONTENTS
-	 0. The models and the reference
-	 1. Figure 1: the two places of Mars tonight
-	 2. Figure 2: the error curve of Ptolemy's Mars
-	 3. Figure 3: every model of Mars in the course
-	 4. Page start
+	 1. Figure 1: the loop and its dates
+	 2. Figure 1: the strip
+	 3. Page start
    ========================================================================== */
 
 /* ==========================================================================
-   0. THE MODELS AND THE REFERENCE
+   1. FIGURE 1: THE LOOP AND ITS DATES
+   The loop shown is the one around the first opposition of Mars that is
+   less than LOOP_PAST_DAYS before the visit: the loop under way, or the
+   coming one. The animation runs over the days around that opposition
+   during which Mars stays inside the strip, 40° of ecliptic longitude
+   centered on Mars at opposition (28° on a phone, LOOP_STRIP), so that
+   each loop is seen whole, with its approach and its departure. Positions are sampled once a day, at 0h
+   UT, and the figure moves between them in a straight line.
    ========================================================================== */
 
-/* Ptolemy's Mars: JD(TT) -> ecliptic longitude of date (deg). */
-const ptolemyMars = PlanetEquant.make(PlanetEquant.PTOLEMY);
-
-/* The real Mars of Figures 1 and 2: the reference sky (Standish), valid
-   from 3000 BC to AD 3000, which the 2000 years of Figure 2 need. Its
-   longitudes are kept, so that the dashed line of Figure 2, drawn from
-   the same dates as the error curve, costs no second evaluation. */
-const realMarsCache = new Map();
-
-function realMars(jd) {
-	let lon = realMarsCache.get(jd);
-
-	if (lon === undefined) {
-		lon = Ephem.longitude('mars', jd);
-		realMarsCache.set(jd, lon);
-	}
-
-	return lon;
-}
-
-/* The lag of Ptolemy's mean Sun behind the modern mean Sun (page 1.3's
-   fit) (deg): -1.0° in AD 138, -9.2° in 2026. */
-function meanSunLag(jd) {
-	return norm180(MeanSun.meanLongitude(MeanSun.PTOLEMY, jd) - MeanSun.meanLongitude(MeanSun.MODERN, jd));
-}
-
-/* The real Mars of Figure 3: VSOP87, as on page 4.5, since the reference
-   sky's planets are Kepler ellipses themselves (DECISIONS.md). */
-const VSOP = { theory: 'vsop87' };
-const vsopMars = jd => Ephem.longitude('mars', jd, VSOP);
-
-/* ==========================================================================
-   1. FIGURE 1: THE TWO PLACES OF MARS TONIGHT
-   Static, drawn once for the moment the page opens (the example date of
-   the prose if the device's clock is outside the reference's range). A
-   strip of the zodiac, 60° of ecliptic longitude centered between the
-   two places, east to the left as seen looking south, and 12° of
-   ecliptic latitude on each side. The stars are the plate stars
-   (plate-stars.js) at their places of the same moment, with the stick
-   figures of the zodiac (Plate.FIGURES); the names of the constellations
-   run along the bottom of the strip, under the middle of their stars.
-   The real Mars is drawn at its ecliptic latitude; Ptolemy's on the
-   ecliptic, since the course rebuilds his longitudes only.
-   Scales (tools/numbers/0.1-mars-tonight.js): over AD 2000 - 3000 the
-   two places are at most 17.5° apart, so each lies within 9° of the
-   middle of the strip, and Mars' ecliptic latitude stays within -6.9°
-   and +4.6°.
-   ========================================================================== */
-
-/* The example moment of the prose: 20 November 2026, 21:00 UT. */
+/* The example moment of the prose and the smoke test: 20 November 2026,
+   21:00 UT. Used when the device's clock is outside the reference's
+   range. */
 const EXAMPLE_UT = Time.fromDate(new Date('2026-11-20T21:00:00Z'));
 
-/* Half the strip's width, and its half-height (deg). */
-const STRIP_HALF_WIDTH = 30;
-const STRIP_HALF_HEIGHT = 12;
+/* A loop whose opposition is less than this many days past is still
+   shown: the backward run lasts until about 40 days after it. */
+const LOOP_PAST_DAYS = 40;
+
+/* Half the strip's width and height (deg): one degree of ecliptic
+   longitude is as long as one of ecliptic latitude. On a narrow screen
+   (a phone) the strip is narrower, so that the loop is drawn larger; the
+   choice is made once, when the page opens. The backward arc is at most
+   19.5° long and Mars' ecliptic latitude stays within 3.1° of the strip's
+   middle (AD 2026 - 2060, tools/numbers/0.1-mars-tonight.js), so the
+   whole loop fits even in the narrow strip. */
+const LOOP_STRIP = {
+	wide: { halfWidth: 20, halfHeight: 10 },
+	narrow: { halfWidth: 14, halfHeight: 7 }
+};
+
+/* Below this width (px) of the figure, the narrow strip. */
+const LOOP_NARROW_BELOW = 520;
+
+/* Mars leaves the animation this far (deg) inside the strip's ends. */
+const LOOP_EDGE = 1;
+
+/* The animation runs at this many days a second: a loop of about 200
+   days takes some 17 seconds. */
+const LOOP_DAYS_PER_SECOND = 12;
+
+/* The radius (px) of the halo around Mars. */
+const HALO_RADIUS = 22;
+
+/* A daily motion smaller than this (deg a day) is read as standing
+   still. */
+const STANDING_STILL = 0.02;
+
+/* Mars' elongation from the Sun (deg, -180 to 180; negative west). */
+function elongation(jdTT) {
+	return norm180(Ephem.longitude('mars', jdTT) - Ephem.longitude('sun', jdTT));
+}
+
+/* The first opposition of Mars after jdTT (JD TT): the elongation goes
+   from about -180° to about +180° through 180°. */
+function nextOpposition(jdTT) {
+	const step = 2;
+	let previous = elongation(jdTT);
+
+	for (let jd = jdTT; jd < jdTT + 800; jd += step) {
+		const next = elongation(jd + step);
+
+		if (previous < -150 && next > 150) {
+			let a = jd;
+			let b = jd + step;
+
+			for (let i = 0; i < 40; i++) {
+				const middle = (a + b) / 2;
+
+				if (elongation(middle) < 0) {
+					a = middle;
+				} else {
+					b = middle;
+				}
+			}
+
+			return (a + b) / 2;
+		}
+
+		previous = next;
+	}
+
+	return NaN;
+}
+
+/* The days of the loop: { opposition (JD TT), center (Mars' ecliptic
+   longitude at opposition), days: [{ jdUT, lon, lat, sun }] from the
+   first day to the last, once a day at 0h UT }. */
+function loopDays(opposition, halfWidth) {
+	const center = Ephem.planet('mars', opposition).lon;
+	const inside = jd => Math.abs(norm180(Ephem.longitude('mars', jd) - center)) <= halfWidth - LOOP_EDGE;
+	const oppositionDay = Math.floor(Time.utFromTt(opposition) - 0.5) + 0.5;
+	let first = oppositionDay;
+	let last = oppositionDay;
+
+	while (inside(Time.ttFromUt(first - 1)) && oppositionDay - first < 200) {
+		first -= 1;
+	}
+
+	while (inside(Time.ttFromUt(last + 1)) && last - oppositionDay < 200) {
+		last += 1;
+	}
+
+	const days = [];
+
+	for (let jdUT = first; jdUT <= last; jdUT += 1) {
+		const jdTT = Time.ttFromUt(jdUT);
+		const mars = Ephem.planet('mars', jdTT);
+
+		days.push({ jdUT, lon: mars.lon, lat: mars.lat, sun: Ephem.longitude('sun', jdTT) });
+	}
+
+	return { opposition, center, days };
+}
+
+/* The days (indices) where the daily motion changes sign: the stations. */
+function stations(days) {
+	const found = [];
+
+	for (let i = 1; i < days.length - 1; i++) {
+		const before = norm180(days[i].lon - days[i - 1].lon);
+		const after = norm180(days[i + 1].lon - days[i].lon);
+
+		if (before * after <= 0) {
+			found.push(i);
+		}
+	}
+
+	return found;
+}
+
+/* ==========================================================================
+   2. FIGURE 1: THE STRIP
+   A strip of the zodiac in ink on parchment, east to the left as seen
+   looking south: the plate stars (plate-stars.js) at their places of the
+   opposition, the stick figures of the zodiac (Plate.FIGURES), the names
+   of the constellations along the bottom, the ecliptic. Mars leaves a
+   trail from the first day of the loop to the date of the slider; the
+   two stations are rings. The slider runs over the days of the loop, and
+   Play advances it; the animation starts by itself the first time the
+   figure comes into view, unless the reader asks for reduced motion.
+   ========================================================================== */
 
 /* The stars drawn: brighter than this, or on a figure's line. */
-const STRIP_MAG_LIMIT = 4.5;
+const LOOP_MAG_LIMIT = 4.8;
 
 /* A constellation's name stays this far (deg) inside the strip's ends,
    and this far (px) from the next name. */
-const NAME_INSET = 4;
+const NAME_INSET = 3;
 const NAME_GAP = 6;
 
 /* The figures of the zodiac. */
@@ -104,54 +183,83 @@ const ZODIAC = [
 	'PISCES'
 ];
 
-/* Closer than this to the Sun (deg), the read-out says that Mars is lost
-   in the Sun's light. */
-const SUN_GLARE = 15;
-
-/* Mars and the Sun at least this far apart (deg) count as opposite. */
-const OPPOSITE = 150;
-
 /* "Leo" from "LEO", "Capricornus" from "CAPRICORNUS". */
 const titleCase = name => name.charAt(0) + name.slice(1).toLowerCase();
 
-const tonightFigure = {
+const loopFigure = {
 	plot: null,
 
 	init() {
 		const now = Time.now();
+		const nowTT = Ephem.inRange(Time.ttFromUt(now)) ? Time.ttFromUt(now) : Time.ttFromUt(EXAMPLE_UT);
 
-		this.jdUT = Ephem.inRange(Time.ttFromUt(now)) ? now : EXAMPLE_UT;
-		this.jdTT = Time.ttFromUt(this.jdUT);
-		this.compute();
+		const canvas = byId('loop-strip');
 
-		this.plot = new Plot2D(byId('tonight-strip'), {
-			x: [-STRIP_HALF_WIDTH, STRIP_HALF_WIDTH],
-			y: [-STRIP_HALF_HEIGHT, STRIP_HALF_HEIGHT],
+		this.strip = canvas.parentElement.clientWidth < LOOP_NARROW_BELOW ? LOOP_STRIP.narrow : LOOP_STRIP.wide;
+		this.loop = loopDays(nextOpposition(nowTT - LOOP_PAST_DAYS), this.strip.halfWidth);
+		this.stations = stations(this.loop.days);
+		this.yCenter = this.middleLatitude();
+		this.placeStars();
+
+		const slider = /** @type {HTMLInputElement} */ (byId('loop-day'));
+
+		slider.max = String(this.loop.days.length - 1);
+		slider.value = '0';
+
+		this.plot = new Plot2D(canvas, {
+			x: [-this.strip.halfWidth, this.strip.halfWidth],
+			y: [this.yCenter - this.strip.halfHeight, this.yCenter + this.strip.halfHeight],
 			xTicks: () => this.longitudeTicks(),
-			yTicks: () => [-10, -5, 0, 5, 10].map(v => ({ value: v, label: `${v}°` })),
+			yTicks: () => this.latitudeTicks(),
 			xLabel: 'ecliptic longitude',
 			yLabel: 'ecliptic latitude',
-			aspect: 0.42,
-			minHeight: 240,
-			maxHeight: 360,
+			aspect: 0.5,
+			minHeight: 180,
+			maxHeight: 520,
 			onDraw: () => this.draw()
 		});
 
-		this.showReadout();
-		this.plot.redraw();
+		wireSlider(
+			slider,
+			() => this.update(),
+			value => Time.formatDate(this.loop.days[Math.round(Number(value))].jdUT)
+		);
+		wirePresets(slider.closest('figure'));
+		this.player = wirePlayButton(byId('loop-play'), slider, LOOP_DAYS_PER_SECOND);
+		this.autoplay(slider.closest('figure'));
+		this.update();
 	},
 
-	/* The places of the moment: the two Marses, the Sun, the middle of the
-	   strip, and every star in ecliptic coordinates of date. */
-	compute() {
-		const jd = this.jdTT;
-		const eps = Ephem.meanObliquity(jd);
-		const mars = Ephem.planet('mars', jd);
+	/* Press Play the first time the figure comes into view, unless the
+	   reader asks for reduced motion. */
+	autoplay(figure) {
+		const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		let started = false;
 
-		this.real = { lon: mars.lon, lat: mars.lat };
-		this.ptolemy = ptolemyMars(jd);
-		this.sun = Ephem.longitude('sun', jd);
-		this.center = norm360(this.ptolemy + norm180(this.real.lon - this.ptolemy) / 2);
+		if (reduced) {
+			return;
+		}
+
+		whenOffScreen(figure, onScreen => {
+			if (onScreen && !started) {
+				started = true;
+				byId('loop-play').click();
+			}
+		});
+	},
+
+	/* The middle of Mars' ecliptic latitudes over the loop, to 1°: the
+	   strip is centered on it. */
+	middleLatitude() {
+		const lats = this.loop.days.map(day => day.lat);
+
+		return Math.round((Math.min(...lats) + Math.max(...lats)) / 2);
+	},
+
+	/* Every plate star in ecliptic coordinates of the opposition. */
+	placeStars() {
+		const jd = this.loop.opposition;
+		const eps = Ephem.meanObliquity(jd);
 
 		/** @type {Map<string, { lon: number, lat: number, mag: number }>} */
 		this.stars = new Map();
@@ -164,28 +272,62 @@ const tonightFigure = {
 		});
 	},
 
-	/* The x of the strip for an ecliptic longitude: degrees west of the
-	   middle, so that east is to the left. */
+	/* The x of the strip for an ecliptic longitude: degrees west of Mars
+	   at opposition, so that east is to the left. */
 	x(lon) {
-		return norm180(this.center - lon);
-	},
-
-	/* Ticks every 10° of ecliptic longitude, the larger to the left. */
-	longitudeTicks() {
-		const ticks = [];
-		const first = Math.ceil((this.center - STRIP_HALF_WIDTH) / 10) * 10;
-
-		for (let lon = first; lon <= this.center + STRIP_HALF_WIDTH; lon += 10) {
-			ticks.push({ value: this.x(lon), label: `${norm360(lon)}°` });
-		}
-
-		// from left to right, as Plot2D draws them
-		return ticks.sort((a, b) => a.value - b.value);
+		return norm180(this.loop.center - lon);
 	},
 
 	/* Is a place inside the strip? */
 	inside(x, lat) {
-		return Math.abs(x) <= STRIP_HALF_WIDTH && Math.abs(lat) <= STRIP_HALF_HEIGHT;
+		return Math.abs(x) <= this.strip.halfWidth && Math.abs(lat - this.yCenter) <= this.strip.halfHeight;
+	},
+
+	/* Ticks every 10° of ecliptic longitude, from left to right. */
+	longitudeTicks() {
+		const ticks = [];
+		const first = Math.ceil((this.loop.center - this.strip.halfWidth) / 10) * 10;
+
+		for (let lon = first; lon <= this.loop.center + this.strip.halfWidth; lon += 10) {
+			ticks.push({ value: this.x(lon), label: `${norm360(lon)}°` });
+		}
+
+		return ticks.sort((a, b) => a.value - b.value);
+	},
+
+	/* Ticks every 5° of ecliptic latitude. */
+	latitudeTicks() {
+		const ticks = [];
+
+		for (
+			let lat = Math.ceil((this.yCenter - this.strip.halfHeight) / 5) * 5;
+			lat <= this.yCenter + this.strip.halfHeight;
+			lat += 5
+		) {
+			ticks.push({ value: lat, label: `${lat}°` });
+		}
+
+		return ticks;
+	},
+
+	/* The place of Mars at a fractional day of the loop, between the two
+	   daily samples around it. */
+	placeAt(day) {
+		const days = this.loop.days;
+		const i = clamp(Math.floor(day), 0, days.length - 1);
+		const j = Math.min(i + 1, days.length - 1);
+		const f = day - i;
+
+		return {
+			x: this.x(days[i].lon) + f * norm180(this.x(days[j].lon) - this.x(days[i].lon)),
+			lat: days[i].lat + f * (days[j].lat - days[i].lat)
+		};
+	},
+
+	update() {
+		this.day = clamp(readNumber('loop-day'), 0, this.loop.days.length - 1);
+		this.showReadout();
+		this.plot.redraw();
 	},
 
 	draw() {
@@ -195,20 +337,18 @@ const tonightFigure = {
 		this.drawFigures(p);
 		this.drawStars(p);
 		this.drawEcliptic(p);
-		this.drawBodies(p);
+		this.drawMars(p);
 	},
 
-	/* The stick figures of the zodiac, faint, and the names along the
-	   bottom of the strip under the middle of each figure's stars. */
+	/* The stick figures of the zodiac, faint, and their names. */
 	drawFigures(p) {
 		const line = { color: COL.ink, alpha: 0.28, width: 1, clip: true };
 		const names = [];
 
 		ZODIAC.forEach(name => {
-			const figure = Plate.FIGURES[name];
 			const xs = [];
 
-			figure.lines.forEach(([a, b]) => {
+			Plate.FIGURES[name].lines.forEach(([a, b]) => {
 				const s1 = this.stars.get(a);
 				const s2 = this.stars.get(b);
 
@@ -238,23 +378,22 @@ const tonightFigure = {
 	},
 
 	/* The middle of a figure's stars in the strip (x), kept off the
-	   strip's ends, where its name would leave the box; null for a figure
-	   outside the strip. */
+	   strip's ends; null for a figure outside the strip. */
 	figureMiddle(xs) {
-		const inside = xs.filter(x => Math.abs(x) <= STRIP_HALF_WIDTH);
+		const inside = xs.filter(x => Math.abs(x) <= this.strip.halfWidth);
 
 		if (inside.length === 0) {
 			return null;
 		}
 
-		const end = STRIP_HALF_WIDTH - NAME_INSET;
+		const end = this.strip.halfWidth - NAME_INSET;
 
 		return clamp((Math.min(...inside) + Math.max(...inside)) / 2, -end, end);
 	},
 
 	/* The names along the bottom of the strip, the central ones first; a
 	   name that would overlap one already written (on a phone) is left
-	   out. The figure is static, so no name can jump. */
+	   out. The names do not move: the stars are fixed for the loop. */
 	nameFigures(p, names) {
 		const font = labelFont('Leo', 'name');
 		const taken = [];
@@ -270,7 +409,7 @@ const tonightFigure = {
 			}
 
 			taken.push([center - half, center + half]);
-			p.text(name.text, name.middle, -STRIP_HALF_HEIGHT, {
+			p.text(name.text, name.middle, this.yCenter - this.strip.halfHeight, {
 				color: COL.muted,
 				align: 'center',
 				baseline: 'bottom',
@@ -281,16 +420,15 @@ const tonightFigure = {
 		});
 	},
 
-	/* The stars, four-pointed, sized by magnitude, with the names of the
-	   bright stars of the site's catalogue (Regulus, Spica, ...) on their
-	   left, clear of a planet just west of them. */
+	/* The stars, four-pointed, sized by magnitude, and the names of the
+	   bright stars of the site's catalogue on their left. */
 	drawStars(p) {
 		const onFigure = new Set(ZODIAC.flatMap(name => Plate.FIGURES[name].lines.flat()));
 
 		this.stars.forEach((star, id) => {
 			const x = this.x(star.lon);
 
-			if (!this.inside(x, star.lat) || (star.mag > STRIP_MAG_LIMIT && !onFigure.has(id))) {
+			if (!this.inside(x, star.lat) || (star.mag > LOOP_MAG_LIMIT && !onFigure.has(id))) {
 				return;
 			}
 
@@ -306,160 +444,97 @@ const tonightFigure = {
 		});
 	},
 
-	/* The ecliptic, named at the western end of the strip. */
+	/* The ecliptic, named under it at the western end of the strip. */
 	drawEcliptic(p) {
 		p.hline(0, { color: COL.sun, width: 1.5 });
-		p.text('ecliptic', STRIP_HALF_WIDTH, 0, { color: COL.sun, align: 'right', dx: -6, dy: -4 });
+		p.text('ecliptic', this.strip.halfWidth, 0, { color: COL.sun, align: 'right', baseline: 'top', dx: -6, dy: 4 });
 	},
 
-	/* The Sun when it falls in the strip, the two places of Mars, and the
-	   arc between them, labelled. */
-	drawBodies(p) {
-		const xReal = this.x(this.real.lon);
-		const xPtolemy = this.x(this.ptolemy);
-		const xSun = this.x(this.sun);
-		const arcY = Math.max(this.real.lat, 0) + 3;
+	/* The two stations (rings), the trail from the first day to the
+	   slider's date, and Mars. */
+	drawMars(p) {
+		const days = this.loop.days;
+		const xs = [];
+		const ys = [];
 
-		if (Math.abs(xSun) <= STRIP_HALF_WIDTH) {
-			p.marker(xSun, 0, { color: COL.sun, radius: 7 });
-			p.text('Sun', xSun, 0, { color: COL.sun, dx: 8, dy: 16 });
-		}
-
-		// the arc between the two longitudes, with ticks at its ends
-		p.curve([xPtolemy, xReal], [arcY, arcY], { color: COL.ink, width: 1 });
-		p.curve([xPtolemy, xPtolemy], [arcY - 0.6, arcY + 0.6], { color: COL.ink, width: 1 });
-		p.curve([xReal, xReal], [arcY - 0.6, arcY + 0.6], { color: COL.ink, width: 1 });
-		p.text(`${Math.abs(norm180(this.ptolemy - this.real.lon)).toFixed(1)}°`, (xReal + xPtolemy) / 2, arcY, {
-			align: 'center',
-			dx: 0,
-			dy: -4
+		this.stations.forEach(i => {
+			p.marker(this.x(days[i].lon), days[i].lat, { color: COL.planet, radius: 6, ring: false });
+			p.marker(this.x(days[i].lon), days[i].lat, { color: COL.card, radius: 4, ring: false });
 		});
 
-		p.marker(xPtolemy, 0, { color: COL.epicycle, radius: 5.5 });
-		p.text("Ptolemy's Mars", xPtolemy, 0, { color: COL.epicycle, align: 'center', baseline: 'top', dx: 0, dy: 9 });
+		for (let i = 0; i <= Math.floor(this.day); i++) {
+			xs.push(this.x(days[i].lon));
+			ys.push(days[i].lat);
+		}
 
-		p.marker(xReal, this.real.lat, { color: COL.planet, radius: 5.5 });
-		p.text('Mars', xReal, this.real.lat, { color: COL.planet, dx: 7, dy: -6 });
+		const now = this.placeAt(this.day);
+
+		xs.push(now.x);
+		ys.push(now.lat);
+		p.curve(xs, ys, { color: COL.planet, width: 2.4 });
+		this.drawHalo(p, now);
+		p.marker(now.x, now.lat, { color: COL.planet, radius: 6.5 });
 	},
 
-	/* Four lines: the moment, the two ecliptic longitudes (the difference
-	   is written on the strip), and where Mars is in the sky. */
-	showReadout() {
-		const elongation = norm180(this.real.lon - this.sun);
+	/* A soft halo around Mars, so that the eye follows it: a disc of the
+	   planet's colour fading outwards. */
+	drawHalo(p, place) {
+		const ctx = p.ctx;
+		const x = p.px(place.x);
+		const y = p.py(place.lat);
+		const glow = ctx.createRadialGradient(x, y, 0, x, y, HALO_RADIUS);
 
-		// short lines, so that each fits on a phone
-		showLines('tonight-readout', [
-			`\\text{${Time.formatDate(this.jdUT, { time: true })} UT}`,
-			`\\text{Mars: } \\lambda = ${this.real.lon.toFixed(1)}^\\circ`,
-			`\\text{Ptolemy's Mars: } \\lambda = ${this.ptolemy.toFixed(1)}^\\circ`,
-			`\\text{${this.visibility(elongation)}}`
+		glow.addColorStop(0, withAlpha(COL.planet, 0.35));
+		glow.addColorStop(1, withAlpha(COL.planet, 0));
+		ctx.fillStyle = glow;
+		ctx.beginPath();
+		ctx.arc(x, y, HALO_RADIUS, 0, TAU);
+		ctx.fill();
+	},
+
+	/* Three lines: the date, Mars' daily motion, and the days to or from
+	   its opposition. */
+	showReadout() {
+		const days = this.loop.days;
+		const i = clamp(Math.round(this.day), 0, days.length - 1);
+		const j = i < days.length - 1 ? i + 1 : i - 1;
+		const motion = norm180(days[j].lon - days[i].lon) * (j > i ? 1 : -1);
+		const toOpposition = Math.round(this.loop.opposition - Time.ttFromUt(days[i].jdUT));
+
+		showLines('loop-readout', [
+			`\\text{${Time.formatDate(days[i].jdUT)}}`,
+			`\\text{${this.motionText(motion)}}`,
+			`\\text{${this.oppositionText(toOpposition)}}`
 		]);
 	},
 
-	/* Where Mars is in the sky, from its elongation from the Sun (deg). */
-	visibility(elongation) {
-		const angle = Math.abs(elongation).toFixed(0);
-
-		if (Math.abs(elongation) < SUN_GLARE) {
-			return `Lost in the Sun's light, ${angle}° from it`;
+	/* "Moving east, 0.42° a day", "Standing still", "Moving west, ...". */
+	motionText(motion) {
+		if (Math.abs(motion) < STANDING_STILL) {
+			return 'Standing still';
 		}
 
-		if (Math.abs(elongation) >= OPPOSITE) {
-			return `Up all night, ${angle}° from the Sun`;
+		return `Moving ${motion > 0 ? 'east' : 'west'}, ${Math.abs(motion).toFixed(2)}° a day`;
+	},
+
+	/* "Opposite the Sun in 23 days", "today", "23 days ago". */
+	oppositionText(days) {
+		if (days === 0) {
+			return 'Opposite the Sun today';
 		}
 
-		if (elongation < 0) {
-			return `Morning sky, ${angle}° west of the Sun`;
-		}
+		const count = `${Math.abs(days)} day${Math.abs(days) === 1 ? '' : 's'}`;
 
-		return `Evening sky, ${angle}° east of the Sun`;
+		return days > 0 ? `Opposite the Sun in ${count}` : `Opposite the Sun ${count} ago`;
 	}
 };
 
 /* ==========================================================================
-   2. FIGURE 2: THE ERROR CURVE OF PTOLEMY'S MARS
-   Two views: 2000 years from Ptolemy's time (AD 100 - 2100), and 20 years
-   around 2026. The model has no control, so there are no ghost buttons;
-   the dashed line is the lag of his mean Sun (meanSunLag), drawn in the
-   style of a ghost, as a line on top of the model (smooth). The scale
-   is the same in both views: the error stays between -12.3° and -0.1°
-   over AD 100 - 2100 (tools/numbers/0.1-mars-tonight.js), within 14°.
-   ========================================================================== */
-
-const ERROR_Y_MAX = 14;
-
-/* One sample every this many days at most: the 20-year view, about 9 days
-   a pixel on a desktop and 24 on a phone, is then drawn as a line, so the
-   swing between oppositions shows; the 2000-year view is drawn as bands,
-   one synodic period or more per pixel. */
-const ERROR_RESOLUTION_DAYS = 25;
-
-const errorFigure = {
-	init() {
-		const year = y => Time.julianDay(y, 1, 1);
-		const curve = new ErrorCurve(byId('error-ptolemy'), {
-			body: 'mars',
-			reference: realMars,
-			start: year(100),
-			end: year(2100),
-			spans: [
-				{ label: '2000 years', years: 2000, center: year(1100) },
-				{ label: '20 years', years: 20, center: year(2026) }
-			],
-			units: 'deg',
-			yMax: ERROR_Y_MAX,
-			resolution: ERROR_RESOLUTION_DAYS,
-			ghostButtons: false
-		});
-
-		curve.addGhost({
-			label: "the lag of Ptolemy's mean Sun",
-			short: 'his mean Sun',
-			color: COL.sun,
-			smooth: true,
-			fn: jd => realMars(jd) + meanSunLag(jd)
-		});
-		curve.addModel({
-			label: "Ptolemy's Mars",
-			short: "Ptolemy's Mars",
-			color: COL.epicycle,
-			fn: ptolemyMars
-		});
-	}
-};
-
-/* ==========================================================================
-   3. FIGURE 3: EVERY MODEL OF MARS IN THE COURSE
-   Static. The largest error of each model of Mars over 2010 - 2025,
-   every day, against VSOP87: the rows of page 4.5's Figure 6 for Mars,
-   with Ptolemy's model as he left it first. From 5.7' (Kepler's
-   ellipses) to 53.7° (the uniform circle)
-   (tools/numbers/0.1-mars-tonight.js).
-   ========================================================================== */
-
-const MODELS_OF_MARS = [
-	{ page: '', name: 'Almagest', fn: ptolemyMars },
-	{ page: '4.1', name: 'uniform', fn: PlanetEpicycle.makeUniform(PlanetEpicycle.MARS_FIT) },
-	{ page: '4.1', name: 'epicycle', fn: PlanetEpicycle.make(PlanetEpicycle.MARS_FIT) },
-	{ page: '4.2', name: 'equant', fn: PlanetEquant.make(PlanetEquant.MARS_FIT) },
-	{ page: '4.3', name: 'epicyclet', fn: PlanetArrangement.makeEpicyclet() },
-	{ page: '4.5', name: 'ellipses', fn: Kepler.make() }
-];
-
-const ladderFigure = {
-	init() {
-		const year = y => Time.julianDay(y, 1, 1);
-
-		this.panel = ErrorLadder.panel(byId('ladder-mars'), MODELS_OF_MARS, vsopMars, year(2010), year(2026), 1);
-	}
-};
-
-/* ==========================================================================
-   4. PAGE START
+   3. PAGE START
    Shared components first (they typeset the prose), then the figures.
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
 	Site.initPage();
-	startFigures([tonightFigure, errorFigure, ladderFigure]);
+	startFigures([loopFigure]);
 });

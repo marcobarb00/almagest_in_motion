@@ -3,33 +3,39 @@ Regenerate with: node tools/check/smoke.js --update
 
 === act0-intro/01-mars-tonight/index.html ===
   as loaded
-    #tonight-readout: \text{20 Nov 2026 21:00 UT} | \text{Mars: } \lambda = 147.9^\circ | \text{Ptolemy's Mars: } \lambda = 137.6^\circ | \text{Morning sky, 91° west of the Sun}
-    .errorcurve-readout: Point at the plot to read each curve's error on a date (dashed line).
+    OUTPUT (loop-day): 19 Oct 2026
+    #loop-readout: \text{19 Oct 2026} | \text{Moving east, 0.54° a day} | \text{Opposite the Sun in 124 days}
   opened 0 hints and answers
-  button "2000 years"
-    .errorcurve-readout: Point at the plot to read each curve's error on a date (dashed line).
-  button "20 years"
-    .errorcurve-readout: Point at the plot to read each curve's error on a date (dashed line).
-  hover #tonight-strip at 0.3
-    #tonight-readout: \text{20 Nov 2026 21:00 UT} | \text{Mars: } \lambda = 147.9^\circ | \text{Ptolemy's Mars: } \lambda = 137.6^\circ | \text{Morning sky, 91° west of the Sun}
-  hover #tonight-strip at 0.6
-    #tonight-readout: \text{20 Nov 2026 21:00 UT} | \text{Mars: } \lambda = 147.9^\circ | \text{Ptolemy's Mars: } \lambda = 137.6^\circ | \text{Morning sky, 91° west of the Sun}
-  hover #tonight-strip at 0.9
-    #tonight-readout: \text{20 Nov 2026 21:00 UT} | \text{Mars: } \lambda = 147.9^\circ | \text{Ptolemy's Mars: } \lambda = 137.6^\circ | \text{Morning sky, 91° west of the Sun}
-  hover #tonight-strip left
-    #tonight-readout: \text{20 Nov 2026 21:00 UT} | \text{Mars: } \lambda = 147.9^\circ | \text{Ptolemy's Mars: } \lambda = 137.6^\circ | \text{Morning sky, 91° west of the Sun}
-  hover #error-ptolemy-plot at 0.3
-    .errorcurve-readout: 22 Feb 2021 · his mean Sun: −9.20° · Ptolemy's Mars: −8.93°
-  hover #error-ptolemy-plot at 0.6
-    .errorcurve-readout: 29 Aug 2027 · his mean Sun: −9.23° · Ptolemy's Mars: −9.06°
-  hover #error-ptolemy-plot at 0.9
-    .errorcurve-readout: 5 Mar 2034 · his mean Sun: −9.26° · Ptolemy's Mars: −8.69°
-  hover #error-ptolemy-plot left
-    .errorcurve-readout: Point at the plot to read each curve's error on a date (dashed line).
-  hover #ladder-mars at 0.3
-  hover #ladder-mars at 0.6
-  hover #ladder-mars at 0.9
-  hover #ladder-mars left
+  slider #loop-day = 0
+    OUTPUT (loop-day): 19 Oct 2026
+    #loop-readout: \text{19 Oct 2026} | \text{Moving east, 0.54° a day} | \text{Opposite the Sun in 124 days}
+  slider #loop-day = 250
+    OUTPUT (loop-day): 26 Jun 2027
+    #loop-readout: \text{26 Jun 2027} | \text{Moving east, 0.53° a day} | \text{Opposite the Sun 126 days ago}
+  slider #loop-day = 125
+    OUTPUT (loop-day): 21 Feb 2027
+    #loop-readout: \text{21 Feb 2027} | \text{Moving west, 0.40° a day} | \text{Opposite the Sun 1 day ago}
+  slider #loop-day + one key step
+    OUTPUT (loop-day): 22 Feb 2027
+    #loop-readout: \text{22 Feb 2027} | \text{Moving west, 0.40° a day} | \text{Opposite the Sun 2 days ago}
+  button "‹ previous day"
+    OUTPUT (loop-day): 21 Feb 2027
+    #loop-readout: \text{21 Feb 2027} | \text{Moving west, 0.40° a day} | \text{Opposite the Sun 1 day ago}
+  button "next day ›"
+    OUTPUT (loop-day): 22 Feb 2027
+    #loop-readout: \text{22 Feb 2027} | \text{Moving west, 0.40° a day} | \text{Opposite the Sun 2 days ago}
+  hover #loop-strip at 0.3
+    OUTPUT (loop-day): 22 Feb 2027
+    #loop-readout: \text{22 Feb 2027} | \text{Moving west, 0.40° a day} | \text{Opposite the Sun 2 days ago}
+  hover #loop-strip at 0.6
+    OUTPUT (loop-day): 22 Feb 2027
+    #loop-readout: \text{22 Feb 2027} | \text{Moving west, 0.40° a day} | \text{Opposite the Sun 2 days ago}
+  hover #loop-strip at 0.9
+    OUTPUT (loop-day): 22 Feb 2027
+    #loop-readout: \text{22 Feb 2027} | \text{Moving west, 0.40° a day} | \text{Opposite the Sun 2 days ago}
+  hover #loop-strip left
+    OUTPUT (loop-day): 22 Feb 2027
+    #loop-readout: \text{22 Feb 2027} | \text{Moving west, 0.40° a day} | \text{Opposite the Sun 2 days ago}
   dragged 0 spheres
 
 === act1-stage/01-turning-sky/index.html ===

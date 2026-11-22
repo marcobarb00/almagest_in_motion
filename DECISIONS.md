@@ -241,8 +241,25 @@ section.
   it from his year and his apogee, and the page says so. No rhythm of
   §5 and no exercises, as on the epilogue pages. Figure 1 follows the
   date of the visit, the prose quotes 20 November 2026 (the smoke test's
-  date). Decided by Marco on 2026-11-21. → STRUCTURE.md §4 (page 0.1),
-  shared/site-map.js
+  date). Decided by Marco on 2026-11-21; the page was replaced on
+  2026-11-22 (next entry), the title stays until a new one is chosen. →
+  STRUCTURE.md §4 (page 0.1), shared/site-map.js
+- **The intro is rebuilt as three animated scenes (on trial).** Marco
+  found the first version of page 0.1 (2026-11-21) plain and confusing:
+  it set Ptolemy's model with his own numbers, 10° off today, beside the
+  same model refitted, within a degree. On 2026-11-22 he chose instead:
+  (1) a time-lapse of Mars' backward loop among the stars, the loop
+  nearest the visit; (2) Ptolemy's and Copernicus' models side by side,
+  animated together, giving the same loop (page 4.3's exchange of the
+  vectors), told as history (WRITING.md §9); (3) Kepler's eight
+  arcminutes (Fitzpatrick § 1.4): a circle with a bisected equant departs
+  from the ellipse by up to 9.0′ in heliocentric longitude, which the
+  site's own models reproduce. Built one scene at a time, each approved
+  before the next; the title and subtitle are chosen with scene 3. A
+  figure may play by itself when it first comes into view, except for
+  readers who ask for reduced motion; the smoke test and the label-jump
+  check therefore run with reduced motion. → STRUCTURE.md §4 (page
+  0.1), tools/check/smoke.js
 
 ## Look
 

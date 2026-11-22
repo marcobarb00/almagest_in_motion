@@ -597,6 +597,15 @@ const MACHINE_REACH = {
 	copernicus: (1 + PlanetEquant.MARS_FIT.e) / PlanetEquant.MARS_FIT.r + 0.06
 };
 
+/* The signs of the zodiac, from Aries (ecliptic longitude 0° to 30°)
+   to Pisces, in text presentation (U+FE0E), so that no device draws them
+   as coloured emoji, and their font: the symbols' fallback fonts, at 16
+   px (labels on a canvas at 13 px or more, CLAUDE.md). */
+const ZODIAC_SIGNS = ['♈', '♉', '♊', '♋', '♌', '♍', '♎', '♏', '♐', '♑', '♒', '♓'].map(
+	sign => `${sign}\uFE0E`
+);
+const DIAL_SIGN_FONT = '16px "Segoe UI Symbol", "DejaVu Sans", "Noto Sans Symbols", "Apple Symbols", sans-serif';
+
 /* The room (px) round the dial for its labels, and the distance of a
    label's center outside the dial. */
 const DIAL_MARGIN = 26;
@@ -688,8 +697,9 @@ const machineFigure = {
 		return { scale, center, at: point => ({ x: center.x + scale * point[0], y: center.y - scale * point[1] }) };
 	},
 
-	/* The dial round a drawing: a circle, a tick every 30° and, outside
-	   it, a label every 90°; Mars' trail, older further in. */
+	/* The dial round a drawing: a circle, a tick every 30° at the
+	   boundaries of the signs and, outside it, the sign of each 30°, from
+	   Aries at γ; Mars' trail, older further in. */
 	drawDial(owner, center) {
 		const ctx = owner.ctx;
 		const R = owner.R;
@@ -703,8 +713,14 @@ const machineFigure = {
 			});
 		}
 
-		[0, 90, 180, 270].forEach(lon => {
-			centeredLabel(ctx, `${lon}°`, towards(center, lon, R + DIAL_LABEL), COL.muted, owner.labels, 'symbol');
+		ctx.fillStyle = textColor(COL.muted);
+		ctx.font = DIAL_SIGN_FONT;
+		ctx.textAlign = 'center';
+		ctx.textBaseline = 'middle';
+		ZODIAC_SIGNS.forEach((sign, i) => {
+			const place = towards(center, 30 * i + 15, R + DIAL_LABEL);
+
+			ctx.fillText(sign, place.x, place.y);
 		});
 
 		// the trail: a polyline from the oldest direction to now, each
@@ -904,10 +920,13 @@ const LOUPE_GAP = 10;
 const LOUPE_FILL = 0.55;
 
 /* The arcs of the two orbits in the loupe: drawn this many times the
-   loupe's radius on each side of Mars, so that they reach its edge, in
-   this many pieces. */
-const LOUPE_ARC = 1.3;
-const LOUPE_ARC_STEPS = 60;
+   loupe's radius on each side of Mars, in this many pieces. The loupe is
+   centered on the ellipse's Mars, and the circle's lies up to 0.8 of the
+   radius away from it, so a long arc is needed for the green one to
+   cross the whole loupe at every place of the orbit; the clip trims the
+   rest. */
+const LOUPE_ARC = 3;
+const LOUPE_ARC_STEPS = 150;
 
 /* The largest difference in direction (arcminutes) over a revolution
    between a circle with a bisected equant of eccentricity e and the

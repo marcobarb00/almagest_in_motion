@@ -274,6 +274,13 @@ section.
   2026-11-22 against the Stanford Encyclopedia of Philosophy entry
   "Johannes Kepler" (Di Liscia, § 4.4), which quotes it with that page.
   Asked by Marco on 2026-11-22. → act0-intro/01-ptolemy-to-kepler/
+- **Page 0.1 in Italian; its loupe shows the orbits.** The intro got its
+  Italian translation on 2026-11-22 (Marco), `index.it.html`, with the
+  script's words through `tr()`, so the Italian hub's filled link leads
+  to it. The same day Marco found the loupe of Figure 3 not aligned with
+  the path it enlarges: it now draws the arcs of the two orbits near
+  Mars, in the same orientation as outside, with the lines from the Sun
+  dashed across them. → act0-intro/01-ptolemy-to-kepler/, TRANSLATION.md
 
 ## Look
 

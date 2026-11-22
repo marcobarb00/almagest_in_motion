@@ -1592,7 +1592,9 @@ function page01(c) {
 		num(inContext(c, 'LOUPE_GAP')),
 		num(inContext(c, 'LOUPE_FILL')),
 		num(inContext(c, 'SIGHT_BEYOND_ALPHA')),
-		num(inContext(c, 'SUN_MARK_INSET'))
+		num(inContext(c, 'SUN_MARK_INSET')),
+		num(inContext(c, 'LOUPE_ARC')),
+		num(inContext(c, 'LOUPE_ARC_STEPS'))
 	);
 	row(
 		'CIRCLE_E, largestDifference',

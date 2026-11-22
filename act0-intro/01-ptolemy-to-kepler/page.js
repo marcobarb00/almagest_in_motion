@@ -234,8 +234,8 @@ const loopFigure = {
 			y: [this.yCenter - this.strip.halfHeight, this.yCenter + this.strip.halfHeight],
 			xTicks: () => this.longitudeTicks(),
 			yTicks: () => this.latitudeTicks(),
-			xLabel: 'ecliptic longitude',
-			yLabel: 'ecliptic latitude',
+			xLabel: tr('ecliptic longitude', 'longitudine eclittica'),
+			yLabel: tr('ecliptic latitude', 'latitudine eclittica'),
 			aspect: 0.5,
 			minHeight: 180,
 			maxHeight: 520,
@@ -444,7 +444,7 @@ const loopFigure = {
 			const star = this.stars.get(bright.id);
 
 			if (star && this.inside(this.x(star.lon), star.lat)) {
-				p.text(bright.name, this.x(star.lon), star.lat, { align: 'right', dx: -7, dy: -5 });
+				p.text(Stars.label(bright.name), this.x(star.lon), star.lat, { align: 'right', dx: -7, dy: -5 });
 			}
 		});
 	},
@@ -452,7 +452,13 @@ const loopFigure = {
 	/* The ecliptic, named under it at the western end of the strip. */
 	drawEcliptic(p) {
 		p.hline(0, { color: COL.sun, width: 1.5 });
-		p.text('ecliptic', this.strip.halfWidth, 0, { color: COL.sun, align: 'right', baseline: 'top', dx: -6, dy: 4 });
+		p.text(tr('ecliptic', 'eclittica'), this.strip.halfWidth, 0, {
+			color: COL.sun,
+			align: 'right',
+			baseline: 'top',
+			dx: -6,
+			dy: 4
+		});
 	},
 
 	/* The two stations (rings), the trail from the first day to the
@@ -516,21 +522,28 @@ const loopFigure = {
 	/* "Moving east, 0.42° a day", "Standing still", "Moving west, ...". */
 	motionText(motion) {
 		if (Math.abs(motion) < STANDING_STILL) {
-			return 'Standing still';
+			return tr('Standing still', 'Fermo');
 		}
 
-		return `Moving ${motion > 0 ? 'east' : 'west'}, ${Math.abs(motion).toFixed(2)}° a day`;
+		const speed = Math.abs(motion).toFixed(2);
+
+		return motion > 0
+			? tr(`Moving east, ${speed}° a day`, `Verso est, ${speed}° al giorno`)
+			: tr(`Moving west, ${speed}° a day`, `Verso ovest, ${speed}° al giorno`);
 	},
 
 	/* "Opposite the Sun in 23 days", "today", "23 days ago". */
 	oppositionText(days) {
 		if (days === 0) {
-			return 'Opposite the Sun today';
+			return tr('Opposite the Sun today', 'Opposto al Sole oggi');
 		}
 
-		const count = `${Math.abs(days)} day${Math.abs(days) === 1 ? '' : 's'}`;
+		const n = Math.abs(days);
+		const count = n === 1 ? tr('1 day', '1 giorno') : tr(`${n} days`, `${n} giorni`);
 
-		return days > 0 ? `Opposite the Sun in ${count}` : `Opposite the Sun ${count} ago`;
+		return days > 0
+			? tr(`Opposite the Sun in ${count}`, `Opposto al Sole fra ${count}`)
+			: tr(`Opposite the Sun ${count} ago`, `Opposto al Sole ${count} fa`);
 	}
 };
 
@@ -890,6 +903,12 @@ const LOUPE_SIZE = 0.24;
 const LOUPE_GAP = 10;
 const LOUPE_FILL = 0.55;
 
+/* The arcs of the two orbits in the loupe: drawn this many times the
+   loupe's radius on each side of Mars, so that they reach its edge, in
+   this many pieces. */
+const LOUPE_ARC = 1.3;
+const LOUPE_ARC_STEPS = 60;
+
 /* The largest difference in direction (arcminutes) over a revolution
    between a circle with a bisected equant of eccentricity e and the
    ellipse, at the same mean anomaly. */
@@ -960,8 +979,8 @@ const keplerFigure = {
 			y: [-GAP_RANGE, GAP_RANGE],
 			xTicks: () => [0, 100, 200, 300, 400, 500, 600].map(v => ({ value: v, label: String(v) })),
 			yTicks: () => [-12, -8, -4, 0, 4, 8, 12].map(v => ({ value: v, label: `${v}′` })),
-			xLabel: 'days after the aphelion',
-			yLabel: 'circle less ellipse',
+			xLabel: tr('days after the aphelion', "giorni dopo l'afelio"),
+			yLabel: tr('circle less ellipse', 'cerchio meno ellisse'),
 			aspect: 0.8,
 			minHeight: 240,
 			maxHeight: 420,
@@ -979,7 +998,7 @@ const keplerFigure = {
 		wireSlider(
 			slider,
 			() => this.update(),
-			value => `day ${Math.round(Number(value))}`
+			value => tr(`day ${Math.round(Number(value))}`, `giorno ${Math.round(Number(value))}`)
 		);
 		wirePresets(slider.closest('figure'));
 		wirePlayButton(byId('kepler-play'), slider, KEPLER_DAYS_PER_SECOND);
@@ -999,11 +1018,20 @@ const keplerFigure = {
 
 	/* Two lines: the day, and the gap with its sense. */
 	showReadout() {
-		const sense = this.gap >= 0 ? 'ahead of' : 'behind';
+		const sense =
+			this.gap >= 0
+				? tr('ahead of the ellipse', "davanti all'ellisse")
+				: tr('behind the ellipse', "dietro l'ellisse");
 
 		showLines('kepler-readout', [
-			`\\text{Day ${Math.round(this.day)} after the aphelion}`,
-			`\\text{Circle } ${Math.abs(this.gap).toFixed(1)}' \\text{ ${sense} the ellipse}`
+			tr(
+				`\\text{Day ${Math.round(this.day)} after the aphelion}`,
+				`\\text{Giorno ${Math.round(this.day)} dopo l'afelio}`
+			),
+			tr(
+				`\\text{Circle } ${Math.abs(this.gap).toFixed(1)}' \\text{ ${sense}}`,
+				`\\text{Cerchio } ${Math.abs(this.gap).toFixed(1)}' \\text{ ${sense}}`
+			)
 		]);
 	},
 
@@ -1055,7 +1083,7 @@ const keplerFigure = {
 		labelOutside(ctx, '☉', sun, 8, 250, COL.sun, owner.labels);
 		centeredLabel(
 			ctx,
-			'aphelion',
+			tr('aphelion', 'afelio'),
 			{ x: sun.x, y: at({ x: KEPLER_A * (1 + KEPLER_E), y: 0 }).y - 12 },
 			COL.muted,
 			owner.labels,
@@ -1063,7 +1091,7 @@ const keplerFigure = {
 		);
 		centeredLabel(
 			ctx,
-			'perihelion',
+			tr('perihelion', 'perielio'),
 			{ x: sun.x, y: at({ x: -KEPLER_A * (1 - KEPLER_E), y: 0 }).y + 14 },
 			COL.muted,
 			owner.labels,
@@ -1099,7 +1127,33 @@ const keplerFigure = {
 		ctx.fill();
 		ctx.clip();
 
-		// the line from the Sun through each Mars, across the loupe
+		// the two orbits near Mars, enlarged as the region they cross, in
+		// the same orientation as outside the loupe: each arc sampled over
+		// the mean anomalies that reach the loupe's edge
+		const distance = Math.hypot(this.places.ellipse.x, this.places.ellipse.y);
+		const span = (LOUPE_ARC * radius) / zoom / distance / D2R;
+
+		['circle', 'ellipse'].forEach(name => {
+			ctx.strokeStyle = name === 'circle' ? COL.deferent : COL.planet;
+			ctx.lineWidth = 2;
+			ctx.beginPath();
+
+			for (let i = 0; i <= LOUPE_ARC_STEPS; i++) {
+				const M = this.M - span + (2 * span * i) / LOUPE_ARC_STEPS;
+				const point = local(keplerPlaces(M)[name]);
+
+				if (i === 0) {
+					ctx.moveTo(point.x, point.y);
+				} else {
+					ctx.lineTo(point.x, point.y);
+				}
+			}
+
+			ctx.stroke();
+		});
+
+		// the line from the Sun through each Mars, thin and dashed: the
+		// difference in direction is the angle between them
 		['circle', 'ellipse'].forEach(name => {
 			const place = this.places[name];
 			const p = local(place);
@@ -1111,7 +1165,7 @@ const keplerFigure = {
 				ctx,
 				{ x: p.x - 2 * radius * dx, y: p.y - 2 * radius * dy },
 				{ x: p.x + 2 * radius * dx, y: p.y + 2 * radius * dy },
-				{ color: name === 'circle' ? COL.deferent : COL.planet, width: 1.2 }
+				{ color: name === 'circle' ? COL.deferent : COL.planet, width: 1, dash: [4, 3] }
 			);
 		});
 
@@ -1127,7 +1181,7 @@ const keplerFigure = {
 		ctx.font = FONT_TICK;
 		ctx.textAlign = 'center';
 		ctx.textBaseline = 'top';
-		ctx.fillText(`× ${Math.round(magnification / 10) * 10}`, center.x, center.y + radius + 4);
+		canvasText(ctx, `× ${Math.round(magnification / 10) * 10}`, center.x, center.y + radius + 4);
 	},
 
 	/* (b) The gap over one revolution, Kepler's 8′ dashed, and the day of
@@ -1137,7 +1191,12 @@ const keplerFigure = {
 
 		p.frame();
 		[-KEPLER_GAP, KEPLER_GAP].forEach(v => p.hline(v, { color: COL.muted, width: 1, dash: [5, 4] }));
-		p.text("Kepler's 8′", KEPLER_PERIOD, KEPLER_GAP, { color: COL.muted, align: 'right', dx: -4, dy: -4 });
+		p.text(tr("Kepler's 8′", '8′ di Keplero'), KEPLER_PERIOD, KEPLER_GAP, {
+			color: COL.muted,
+			align: 'right',
+			dx: -4,
+			dy: -4
+		});
 		p.curve(
 			this.curve.map(point => point.day),
 			this.curve.map(point => point.gap),

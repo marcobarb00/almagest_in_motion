@@ -82,7 +82,8 @@ const SITE_MAP = (function () {
 				'Why did it take fifteen centuries to predict Mars?',
 				'Perché ci vollero quindici secoli per prevedere Marte?'
 			),
-			path: 'act0-intro/01-ptolemy-to-kepler/index.html'
+			path: 'act0-intro/01-ptolemy-to-kepler/index.html',
+			italian: true
 		},
 		{
 			number: '1.1',

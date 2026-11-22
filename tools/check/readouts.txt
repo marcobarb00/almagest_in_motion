@@ -90,6 +90,95 @@ Regenerate with: node tools/check/smoke.js --update
     #kepler-readout: \text{Day 343 after the aphelion} | \text{Circle } 0.1' \text{ ahead of the ellipse}
   dragged 0 spheres
 
+=== act0-intro/01-ptolemy-to-kepler/index.it.html ===
+  as loaded
+    OUTPUT (loop-day): 19 ott 2026
+    #loop-readout: \text{19 ott 2026} | \text{Verso est, 0{,}54° al giorno} | \text{Opposto al Sole fra 124 giorni}
+    OUTPUT (machine-day): 15 gen 2026
+    #machine-readout: \text{15 gen 2026} | \lambda = 294{,}05^\circ \text{ in (a)} | \lambda = 294{,}05^\circ \text{ in (b)}
+    OUTPUT (kepler-day): giorno 0
+    #kepler-readout: \text{Giorno 0 dopo l'afelio} | \text{Cerchio } 0{,}0' \text{ davanti all'ellisse}
+  opened 0 hints and answers
+  slider #loop-day = 0
+    OUTPUT (loop-day): 19 ott 2026
+    #loop-readout: \text{19 ott 2026} | \text{Verso est, 0{,}54° al giorno} | \text{Opposto al Sole fra 124 giorni}
+  slider #loop-day = 250
+    OUTPUT (loop-day): 26 giu 2027
+    #loop-readout: \text{26 giu 2027} | \text{Verso est, 0{,}53° al giorno} | \text{Opposto al Sole 126 giorni fa}
+  slider #loop-day = 125
+    OUTPUT (loop-day): 21 feb 2027
+    #loop-readout: \text{21 feb 2027} | \text{Verso ovest, 0{,}40° al giorno} | \text{Opposto al Sole 1 giorno fa}
+  slider #loop-day + one key step
+    OUTPUT (loop-day): 21 feb 2027
+    #loop-readout: \text{21 feb 2027} | \text{Verso ovest, 0{,}40° al giorno} | \text{Opposto al Sole 1 giorno fa}
+  slider #machine-day = 0
+    OUTPUT (machine-day): 15 gen 2026
+    #machine-readout: \text{15 gen 2026} | \lambda = 294{,}05^\circ \text{ in (a)} | \lambda = 294{,}05^\circ \text{ in (b)}
+  slider #machine-day = 800
+    OUTPUT (machine-day): 25 mar 2028
+    #machine-readout: \text{25 mar 2028} | \lambda = 4{,}41^\circ \text{ in (a)} | \lambda = 4{,}41^\circ \text{ in (b)}
+  slider #machine-day = 400
+    OUTPUT (machine-day): 19 feb 2027
+    #machine-readout: \text{19 feb 2027} | \lambda = 150{,}63^\circ \text{ in (a)} | \lambda = 150{,}63^\circ \text{ in (b)}
+  slider #machine-day + one key step
+    OUTPUT (machine-day): 19 feb 2027
+    #machine-readout: \text{19 feb 2027} | \lambda = 150{,}63^\circ \text{ in (a)} | \lambda = 150{,}63^\circ \text{ in (b)}
+  slider #kepler-day = 0
+    OUTPUT (kepler-day): giorno 0
+    #kepler-readout: \text{Giorno 0 dopo l'afelio} | \text{Cerchio } 0{,}0' \text{ davanti all'ellisse}
+  slider #kepler-day = 686
+    OUTPUT (kepler-day): giorno 686
+    #kepler-readout: \text{Giorno 686 dopo l'afelio} | \text{Cerchio } 0{,}1' \text{ davanti all'ellisse}
+  slider #kepler-day = 343
+    OUTPUT (kepler-day): giorno 343
+    #kepler-readout: \text{Giorno 343 dopo l'afelio} | \text{Cerchio } 0{,}1' \text{ davanti all'ellisse}
+  slider #kepler-day + one key step
+    OUTPUT (kepler-day): giorno 343
+    #kepler-readout: \text{Giorno 343 dopo l'afelio} | \text{Cerchio } 0{,}1' \text{ davanti all'ellisse}
+  button "‹ giorno precedente"
+    OUTPUT (loop-day): 20 feb 2027
+    #loop-readout: \text{20 feb 2027} | \text{Verso ovest, 0{,}40° al giorno} | \text{Opposto al Sole oggi}
+  button "giorno successivo ›"
+    OUTPUT (loop-day): 21 feb 2027
+    #loop-readout: \text{21 feb 2027} | \text{Verso ovest, 0{,}40° al giorno} | \text{Opposto al Sole 1 giorno fa}
+  button "‹ giorno precedente"
+    OUTPUT (machine-day): 18 feb 2027
+    #machine-readout: \text{18 feb 2027} | \lambda = 151{,}03^\circ \text{ in (a)} | \lambda = 151{,}03^\circ \text{ in (b)}
+  button "giorno successivo ›"
+    OUTPUT (machine-day): 19 feb 2027
+    #machine-readout: \text{19 feb 2027} | \lambda = 150{,}63^\circ \text{ in (a)} | \lambda = 150{,}63^\circ \text{ in (b)}
+  button "‹ giorno precedente"
+    OUTPUT (kepler-day): giorno 342
+    #kepler-readout: \text{Giorno 342 dopo l'afelio} | \text{Cerchio } 0{,}2' \text{ davanti all'ellisse}
+  button "giorno successivo ›"
+    OUTPUT (kepler-day): giorno 343
+    #kepler-readout: \text{Giorno 343 dopo l'afelio} | \text{Cerchio } 0{,}1' \text{ davanti all'ellisse}
+  hover #loop-strip at 0.3
+    OUTPUT (loop-day): 21 feb 2027
+    #loop-readout: \text{21 feb 2027} | \text{Verso ovest, 0{,}40° al giorno} | \text{Opposto al Sole 1 giorno fa}
+  hover #loop-strip at 0.6
+    OUTPUT (loop-day): 21 feb 2027
+    #loop-readout: \text{21 feb 2027} | \text{Verso ovest, 0{,}40° al giorno} | \text{Opposto al Sole 1 giorno fa}
+  hover #loop-strip at 0.9
+    OUTPUT (loop-day): 21 feb 2027
+    #loop-readout: \text{21 feb 2027} | \text{Verso ovest, 0{,}40° al giorno} | \text{Opposto al Sole 1 giorno fa}
+  hover #loop-strip left
+    OUTPUT (loop-day): 21 feb 2027
+    #loop-readout: \text{21 feb 2027} | \text{Verso ovest, 0{,}40° al giorno} | \text{Opposto al Sole 1 giorno fa}
+  hover #kepler-gap at 0.3
+    OUTPUT (kepler-day): giorno 343
+    #kepler-readout: \text{Giorno 343 dopo l'afelio} | \text{Cerchio } 0{,}1' \text{ davanti all'ellisse}
+  hover #kepler-gap at 0.6
+    OUTPUT (kepler-day): giorno 343
+    #kepler-readout: \text{Giorno 343 dopo l'afelio} | \text{Cerchio } 0{,}1' \text{ davanti all'ellisse}
+  hover #kepler-gap at 0.9
+    OUTPUT (kepler-day): giorno 343
+    #kepler-readout: \text{Giorno 343 dopo l'afelio} | \text{Cerchio } 0{,}1' \text{ davanti all'ellisse}
+  hover #kepler-gap left
+    OUTPUT (kepler-day): giorno 343
+    #kepler-readout: \text{Giorno 343 dopo l'afelio} | \text{Cerchio } 0{,}1' \text{ davanti all'ellisse}
+  dragged 0 spheres
+
 === act1-stage/01-turning-sky/index.html ===
   as loaded
     OUTPUT (sky-lat): 41.9°

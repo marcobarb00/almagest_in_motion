@@ -15,7 +15,7 @@ page in English first, then its Italian translation in the same commit.
   the flag of the other language at the top right (components.js §9):
   `<link rel="alternate" hreflang="it" href="index.it.html">` in English,
   `hreflang="en" href="index.html"` in Italian. A page without a
-  translation (the intro, for now) has no such link and no flag.
+  translation has no such link and no flag.
 - The scripts choose their words with `tr('English', 'italiano')`
   (common.js §9). The site map (`shared/site-map.js`) does the same for
   the titles, questions, topics and origins; a page with `italian: true`

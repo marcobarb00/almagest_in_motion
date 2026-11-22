@@ -29,7 +29,7 @@
    where lambda_P is the planet's heliocentric ecliptic longitude and R the
    Earth - Sun distance (au). The planets' inclinations are left out.
 
-   The toolbox adds ellipses for Mercury, Venus, Jupiter and Saturn,
+   The simulator adds ellipses for Mercury, Venus, Jupiter and Saturn,
    fitted the same way (PLANETS_FIT, with Mars' MARS_FIT).
 
    Parameter sets: those of an orbit, { L0 (the mean longitude at the
@@ -93,8 +93,8 @@ const Kepler = (function () {
 		a: 1.523694
 	};
 
-	/* The other four planets, for the toolbox's calculator, fitted by the
-	   method of page 4.5 (tools/numbers/toolbox.js) to their oppositions to
+	/* The other four planets, for the simulator's calculator, fitted by the
+	   method of page 4.5 (tools/numbers/simulator.js) to their oppositions to
 	   the real Sun (Jupiter, Saturn) or inferior conjunctions (Mercury,
 	   Venus) of 1926 - 2025, where the heliocentric ecliptic longitude is
 	   the geocentric one (outer) or the Earth's (inner): L0, n, the

@@ -1,7 +1,7 @@
 /* ==========================================================================
    PREDICTING THE SKY - BUILD shared/vsop87-data.js AND
    shared/vsop87-planets.js (tools/make-vsop87.js)
-   The reference of page 4.5 and of the toolbox. The site's reference
+   The reference of page 4.5 and of the simulator. The site's reference
    planets (Standish's elements, shared/ephemeris.js) are themselves
    Kepler ellipses, so they cannot judge Kepler's model (STRUCTURE.md,
    page 4.5). VSOP87 adds the planets' pulls on one another to the
@@ -9,7 +9,7 @@
    coordinates L, B, R, J2000 ecliptic and equinox) and writes the kept
    terms of the Earth and Mars into shared/vsop87-data.js (page 4.5), and
    those of Mercury, Venus, Jupiter and Saturn into
-   shared/vsop87-planets.js (the toolbox), which adds them to the first.
+   shared/vsop87-planets.js (the simulator), which adds them to the first.
    shared/vsop87.js evaluates both.
 
    Source: P. Bretagnon and G. Francou, "Planetary theories in rectangular
@@ -41,7 +41,7 @@ const EPS = 1e-7;
 
 /* The bodies: the name in the site, the file, Horizons' number and the
    output file (main: vsop87-data.js, page 4.5; planets:
-   vsop87-planets.js, the toolbox). */
+   vsop87-planets.js, the simulator). */
 const BODIES = [
 	{ name: 'earth', file: 'VSOP87B.ear', horizons: 399, out: 'main' },
 	{ name: 'mars', file: 'VSOP87B.mar', horizons: 499, out: 'main' },
@@ -198,7 +198,7 @@ function writeFile(out, file) {
 		);
 	} else {
 		lines.push(
-			'   Mercury, Venus, Jupiter and Saturn (the toolbox), added to the',
+			'   Mercury, Venus, Jupiter and Saturn (the simulator), added to the',
 			'   Earth and Mars of vsop87-data.js, which must be loaded first. */',
 			'',
 			'Object.assign(VSOP87_DATA, {'

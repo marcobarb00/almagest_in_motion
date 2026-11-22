@@ -67,7 +67,7 @@ const READOUTS_FILE = path.join(__dirname, 'readouts.txt');
 /* Folders that hold no pages of the site. */
 const SKIP_FOLDERS = new Set(['.git', '.claude', 'node_modules', 'tools', 'raw']);
 
-/* The moment every page sees as now: the toolbox's calculator and the
+/* The moment every page sees as now: the simulator's calculator and the
    hub's plate of tonight's sky start from the date of the visit, so the
    clock of the browser is fixed, and two runs show the same. */
 const FIXED_NOW = '2026-11-20T21:00:00Z';

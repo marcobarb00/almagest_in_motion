@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ==========================================================================
-     THE TOOLBOX
+     THE SIMULATOR
      Every model of the course gathered to be used, reached only from the
      hub (STRUCTURE.md §4, Epilogue): the positions of the Sun, the Moon
      and the five planets on any date, where to look and when; the largest
@@ -8,14 +8,16 @@
      notation. The ellipses of Mercury, Venus, Jupiter and Saturn are
      fitted here by page 4.5's method, and every planet is judged against
      VSOP87. No rhythm of observation, model, fit, test and residual, and
-     no exercises. Numbers: tools/numbers/toolbox.js.
+     no exercises. Numbers: tools/numbers/simulator.js.
      ========================================================================== -->
 <html lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>The toolbox · Predicting the Sky</title>
+	<title>The simulator · Predicting the Sky</title>
 	<link rel="icon" type="image/svg+xml" href="../shared/favicon.svg">
+	<!-- The Italian translation (components.js draws its flag) -->
+	<link rel="alternate" hreflang="it" href="index.it.html">
 
 	<!-- KaTeX (equation typesetting), pinned version, with auto-render for $...$.
 	     The integrity hashes pin the exact cdnjs files: keep them with the version. -->
@@ -62,7 +64,7 @@
 	<script defer src="page.js"></script>
 </head>
 
-<body data-page="toolbox">
+<body data-page="simulator">
 <div class="page">
 
 	<!-- Page header: title, subtitle and contents, from the site map -->
@@ -459,7 +461,7 @@
 			<li>J. Meeus, <em>Astronomical Algorithms</em> (2nd ed., 1998), ch. 15
 				(rising and setting, the altitudes of the Sun, the Moon and the
 				planets), ch. 47 (the reference Moon).</li>
-			<li>Every number on this page: <code>tools/numbers/toolbox.js</code>.</li>
+			<li>Every number on this page: <code>tools/numbers/simulator.js</code>.</li>
 		</ul>
 	</article>
 </div>

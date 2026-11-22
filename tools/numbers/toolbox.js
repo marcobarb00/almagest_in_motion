@@ -1,7 +1,7 @@
 /* ==========================================================================
-   NUMBERS FOR THE TOOLBOX (tools/numbers/toolbox.js)
+   NUMBERS FOR THE SIMULATOR (tools/numbers/simulator.js)
    Loads the site's shared code in a Node vm context and prints every
-   number the toolbox quotes, in page order: the ellipses of Mercury,
+   number the simulator quotes, in page order: the ellipses of Mercury,
    Venus, Jupiter and Saturn fitted by page 4.5's method, the errors of
    the calculator's models, and the largest error of every model of the
    course (the error ladder) with the bounds of its scale.
@@ -11,7 +11,7 @@
    the site's Standish planets are ellipses themselves (STRUCTURE.md,
    page 4.5, and Epilogue). The Moon: Meeus ch. 47, the site's reference.
 
-   Run from the repository root:  node tools/numbers/toolbox.js
+   Run from the repository root:  node tools/numbers/simulator.js
    (a few minutes: the fits search a century of conjunctions)
 
    TABLE OF CONTENTS

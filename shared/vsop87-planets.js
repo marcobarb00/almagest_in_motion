@@ -4,7 +4,7 @@
    VSOP87_DATA[body][variable][power] = [[A, B, C], ...], the variables
    L, B (rad) and R (au), each term A cos(B + C t) t^power, t in Julian
    millennia from J2000 (TDB). Terms with A < 1e-7 are left out.
-   Mercury, Venus, Jupiter and Saturn (the toolbox), added to the
+   Mercury, Venus, Jupiter and Saturn (the simulator), added to the
    Earth and Mars of vsop87-data.js, which must be loaded first. */
 
 Object.assign(VSOP87_DATA, {

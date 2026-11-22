@@ -1580,6 +1580,20 @@ function page01(c) {
 		num(inContext(c, 'DIAL_MARGIN')),
 		num(inContext(c, 'DIAL_LABEL'))
 	);
+	row(
+		'Figure 3',
+		num(inContext(c, 'KEPLER_E'), 6),
+		num(inContext(c, 'KEPLER_A'), 6),
+		num(inContext(c, 'KEPLER_PERIOD'), 6),
+		num(inContext(c, 'KEPLER_DAYS_PER_SECOND')),
+		num(inContext(c, 'GAP_RANGE')),
+		num(inContext(c, 'KEPLER_GAP')),
+		num(inContext(c, 'LOUPE_SIZE')),
+		num(inContext(c, 'LOUPE_GAP')),
+		num(inContext(c, 'LOUPE_FILL')),
+		num(inContext(c, 'SIGHT_BEYOND_ALPHA'))
+	);
+	row('keplerGap', [45, 135, 225, 315].map(M => num(c.keplerGap(M), 6)).join(' '));
 	row('machineLongitude 2027-02-19', num(inContext(c, 'machineLongitude')(c.Time.julianDay(2027, 2, 19)), 6));
 }
 

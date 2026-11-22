@@ -1,21 +1,23 @@
 // @ts-check
 /* ==========================================================================
    PAGE 0.1 · THE INTRO - SCRIPT (page.js)
-   Sample of the first two scenes: the backward loop of Mars, animated
-   among the stars; Ptolemy's and Copernicus' models of Mars, animated
-   together. The third (Kepler's eight arcminutes) comes after approval.
+   Three animated scenes: the backward loop of Mars among the stars;
+   Ptolemy's and Copernicus' models of Mars, animated together; Kepler's
+   eight arcminutes, the gap between a circle with an equant and the
+   ellipse.
    Shared code: common.js, time.js, ephemeris.js, stars.js,
    plate-stars.js, plate.js (for its figures of the constellations),
    models/mean-sun.js, models/precession.js, models/planet-epicycle.js,
-   models/planet-equant.js, models/planet-arrangement.js, plot2d.js,
-   components.js. Every number quoted in the prose comes from
+   models/planet-equant.js, models/planet-arrangement.js,
+   models/kepler.js, plot2d.js, components.js. Every number quoted in the prose comes from
    tools/numbers/0.1-mars-tonight.js.
 
    TABLE OF CONTENTS
 	 1. Figure 1: the loop and its dates
 	 2. Figure 1: the strip
 	 3. Figure 2: Ptolemy's and Copernicus' models, animated together
-	 4. Page start
+	 4. Figure 3: Kepler's eight arcminutes
+	 5. Page start
    ========================================================================== */
 
 /* ==========================================================================
@@ -543,7 +545,9 @@ const loopFigure = {
    Earth's circle (violet, as the epicycle it comes from) and Mars'
    (green, as the deferent). Seen from the north ecliptic pole, γ to the
    right. In both, the line of sight from O through P runs to a dial of
-   ecliptic longitude round the drawing, and the dial carries Mars'
+   ecliptic longitude round the drawing (in (b), centered on the Sun, a
+   parallel through the Sun marks the direction on the dial, which
+   stands for the distant stars), and the dial carries Mars'
    direction over the last TRAIL_DAYS, older further in, so that the
    backward run draws a hook. Each drawing has its own scale; each
    read-out line computes the direction from its own drawing.
@@ -584,6 +588,9 @@ const MACHINE_REACH = {
    label's center outside the dial. */
 const DIAL_MARGIN = 26;
 const DIAL_LABEL = 14;
+
+/* The line of sight beyond Mars is drawn this faint. */
+const SIGHT_BEYOND_ALPHA = 0.45;
 
 /* The drawing fills this fraction of the dial's radius. */
 const MACHINE_FILL = 0.8;
@@ -705,8 +712,8 @@ const machineFigure = {
 		ctx.globalAlpha = 1;
 	},
 
-	/* The line of sight from O through P to the dial, and Mars with its
-	   halo. */
+	/* The line of sight from O through P, solid to P and fainter beyond it
+	   to the dial, and Mars with its halo. */
 	drawSight(owner, O, P, lambda) {
 		const ctx = owner.ctx;
 		const end = towards(O, lambda, 2 * owner.R);
@@ -715,7 +722,9 @@ const machineFigure = {
 		ctx.beginPath();
 		ctx.arc(owner.cx, owner.cy, owner.R, 0, TAU);
 		ctx.clip();
-		segment(ctx, O, end, { color: COL.planet, width: 1.5 });
+		segment(ctx, O, P, { color: COL.planet, width: 1.5 });
+		ctx.globalAlpha = SIGHT_BEYOND_ALPHA;
+		segment(ctx, P, end, { color: COL.planet, width: 1.5 });
 		ctx.restore();
 
 		const glow = ctx.createRadialGradient(P.x, P.y, 0, P.x, P.y, HALO_RADIUS);
@@ -812,6 +821,11 @@ const machineFigure = {
 		segment(ctx, S, P, { color: COL.deferent, width: 1.6 });
 		segment(ctx, O, S, { color: COL.sun, width: 1.6, dash: [5, 4] });
 
+		// the parallel to the line of sight through the Sun, dashed, to the
+		// dial: the dial stands for the stars, so far away that parallel
+		// lines meet them at the same place, and it is centered on the Sun
+		segment(ctx, S, towards(S, now.lambda, owner.R), { color: COL.planet, width: 1.3, dash: [6, 4] });
+
 		this.drawSight(owner, O, P, now.lambda);
 		drawDot(ctx, S.x, S.y, 6, COL.sun);
 		drawDot(ctx, O.x, O.y, 6, COL.earth);
@@ -826,11 +840,271 @@ const machineFigure = {
 };
 
 /* ==========================================================================
-   4. PAGE START
+   4. FIGURE 3: KEPLER'S EIGHT ARCMINUTES
+   Mars about the Sun, in the frame of its apsidal line, on the ellipse of
+   page 4.5 (Kepler.MARS_FIT: e, a, the period) and on a circle with a
+   bisected equant of the same e and a: the center C at a e from the Sun
+   towards the aphelion, the equant at 2 a e, Mars moving uniformly as
+   seen from the equant (PlanetEquant.zodiacal). Both start at the
+   aphelion together and keep the same mean anomaly. (a) The orbit, the
+   aphelion up, and a loupe in the top right corner that enlarges the
+   region round the ellipse's Mars, with the line from the Sun through
+   each Mars; (b) the gap, the circle's heliocentric longitude less the
+   ellipse's, in arcminutes, over one revolution: within ±9.0′, largest
+   45° of mean anomaly before and after the perihelion
+   (tools/numbers/0.1-mars-tonight.js), so the axis is ±12′. The day
+   slider runs over one revolution from the aphelion, and Play advances
+   it; the animation starts by itself the first time the figure comes
+   into view, unless the reader asks for reduced motion.
+   ========================================================================== */
+
+/* Mars' parameters: the eccentricity, the semi-major axis (au) and the
+   period from aphelion to aphelion (days). */
+const KEPLER_E = Kepler.MARS_FIT.e;
+const KEPLER_A = Kepler.MARS_FIT.a;
+const KEPLER_PERIOD = 360 / (Kepler.MARS_FIT.n - Kepler.MARS_FIT.apogeeRate);
+
+/* The animation runs at this many days a second: one revolution in about
+   23 seconds. */
+const KEPLER_DAYS_PER_SECOND = 30;
+
+/* The axis of (b) (arcminutes), and Kepler's 8′, marked on it. */
+const GAP_RANGE = 12;
+const KEPLER_GAP = 8;
+
+/* The loupe: its radius as a fraction of the drawing's width, and the
+   gap (arcminutes) that spans GAP_FILL of its radius. */
+const LOUPE_SIZE = 0.24;
+const LOUPE_GAP = 10;
+const LOUPE_FILL = 0.55;
+
+/* The places of the two Marses at a mean anomaly M (deg, from the
+   aphelion), in the frame of the apsidal line, x towards the aphelion,
+   au: { circle, ellipse }, each { x, y, lon (deg, from the aphelion) }. */
+function keplerPlaces(M) {
+	const z = PlanetEquant.zodiacal(M, KEPLER_E, 2 * KEPLER_E);
+	const k = Kepler.atAnomaly(M, KEPLER_E);
+	const place = (lon, r) => ({ x: r * cos(lon), y: r * sin(lon), lon });
+
+	return {
+		circle: place(M + z.q, KEPLER_A * z.distance),
+		ellipse: place(M + k.q, KEPLER_A * k.distance)
+	};
+}
+
+/* The gap (arcminutes) at a mean anomaly M: the circle's heliocentric
+   longitude less the ellipse's. */
+function keplerGap(M) {
+	const places = keplerPlaces(M);
+
+	return norm180(places.circle.lon - places.ellipse.lon) * 60;
+}
+
+const keplerFigure = {
+	init() {
+		this.orbit = { labels: new LabelPlacer(), draw: () => this.drawOrbit() };
+		squareCanvas(this.orbit, byId('kepler-orbit'), 420, 8);
+
+		this.plot = new Plot2D(byId('kepler-gap'), {
+			x: [0, KEPLER_PERIOD],
+			y: [-GAP_RANGE, GAP_RANGE],
+			xTicks: () => [0, 100, 200, 300, 400, 500, 600].map(v => ({ value: v, label: String(v) })),
+			yTicks: () => [-12, -8, -4, 0, 4, 8, 12].map(v => ({ value: v, label: `${v}′` })),
+			xLabel: 'days after the aphelion',
+			yLabel: 'circle less ellipse',
+			aspect: 0.8,
+			minHeight: 240,
+			maxHeight: 420,
+			onDraw: () => this.drawGap()
+		});
+		this.curve = [];
+
+		for (let day = 0; day <= KEPLER_PERIOD; day += 2) {
+			this.curve.push({ day, gap: keplerGap((360 * day) / KEPLER_PERIOD) });
+		}
+
+		const slider = /** @type {HTMLInputElement} */ (byId('kepler-day'));
+
+		slider.max = String(Math.floor(KEPLER_PERIOD));
+		wireSlider(
+			slider,
+			() => this.update(),
+			value => `day ${Math.round(Number(value))}`
+		);
+		wirePresets(slider.closest('figure'));
+		wirePlayButton(byId('kepler-play'), slider, KEPLER_DAYS_PER_SECOND);
+		autoplayOnView(slider.closest('figure'), byId('kepler-play'));
+		this.update();
+	},
+
+	update() {
+		this.day = readNumber('kepler-day');
+		this.M = (360 * this.day) / KEPLER_PERIOD;
+		this.places = keplerPlaces(this.M);
+		this.gap = keplerGap(this.M);
+		this.showReadout();
+		this.orbit.draw();
+		this.plot.redraw();
+	},
+
+	/* Two lines: the day, and the gap with its sense. */
+	showReadout() {
+		const sense = this.gap >= 0 ? 'ahead of' : 'behind';
+
+		showLines('kepler-readout', [
+			`\\text{Day ${Math.round(this.day)} after the aphelion}`,
+			`\\text{Circle } ${Math.abs(this.gap).toFixed(1)}' \\text{ ${sense} the ellipse}`
+		]);
+	},
+
+	/* (a) The orbit, the aphelion up, the Sun at the center of the
+	   drawing; the loupe in the top right corner. */
+	drawOrbit() {
+		const owner = this.orbit;
+		const ctx = owner.ctx;
+
+		if (!ctx || !this.places) {
+			return;
+		}
+
+		ctx.clearRect(0, 0, owner.width, owner.width);
+		owner.labels.begin({ x0: 0, y0: 0, x1: owner.width, y1: owner.width });
+
+		// the farthest point, the aphelion a (1 + e), fills the drawing;
+		// the Sun a little below the center, so that the orbit is centered
+		const scale = (0.86 * owner.R) / KEPLER_A;
+		const sun = { x: owner.cx, y: owner.cy + scale * KEPLER_A * KEPLER_E };
+		const at = point => ({ x: sun.x - scale * point.y, y: sun.y - scale * point.x });
+		const ellipse = at(this.places.ellipse);
+		const circlePlace = at(this.places.circle);
+
+		// the two orbits, which coincide at this scale: the circle about C,
+		// and the ellipse traced from its points
+		circle(ctx, at({ x: KEPLER_A * KEPLER_E, y: 0 }), scale * KEPLER_A, { color: COL.deferent, width: 2.4 });
+		ctx.strokeStyle = COL.planet;
+		ctx.lineWidth = 1.2;
+		ctx.beginPath();
+
+		for (let M = 0; M <= 360; M += 2) {
+			const point = at(keplerPlaces(M).ellipse);
+
+			if (M === 0) {
+				ctx.moveTo(point.x, point.y);
+			} else {
+				ctx.lineTo(point.x, point.y);
+			}
+		}
+
+		ctx.stroke();
+
+		// the line from the Sun to Mars, the Sun and the two Marses
+		segment(ctx, sun, ellipse, { color: COL.muted, width: 1 });
+		drawDot(ctx, sun.x, sun.y, 7, COL.sun);
+		drawDot(ctx, circlePlace.x, circlePlace.y, 5, COL.deferent);
+		drawDot(ctx, ellipse.x, ellipse.y, 5, COL.planet);
+		labelOutside(ctx, '☉', sun, 8, 250, COL.sun, owner.labels);
+		centeredLabel(
+			ctx,
+			'aphelion',
+			{ x: sun.x, y: at({ x: KEPLER_A * (1 + KEPLER_E), y: 0 }).y - 12 },
+			COL.muted,
+			owner.labels,
+			'name'
+		);
+		centeredLabel(
+			ctx,
+			'perihelion',
+			{ x: sun.x, y: at({ x: -KEPLER_A * (1 - KEPLER_E), y: 0 }).y + 14 },
+			COL.muted,
+			owner.labels,
+			'name'
+		);
+
+		this.drawLoupe(owner, sun, scale, ellipse);
+	},
+
+	/* The loupe: a circle in the top right corner, joined to the
+	   ellipse's Mars, showing the region round it enlarged, with the line
+	   from the Sun through each Mars. */
+	drawLoupe(owner, sun, scale, ellipse) {
+		const ctx = owner.ctx;
+		const radius = LOUPE_SIZE * owner.width;
+		const center = { x: owner.width - radius - 4, y: radius + 4 };
+		const distance = Math.hypot(this.places.ellipse.x, this.places.ellipse.y);
+		const zoom = (LOUPE_FILL * radius) / (distance * ((LOUPE_GAP / 60) * D2R));
+		const magnification = zoom / scale;
+		const local = point => ({
+			x: center.x - zoom * (point.y - this.places.ellipse.y),
+			y: center.y - zoom * (point.x - this.places.ellipse.x)
+		});
+
+		// the joining line, under the loupe
+		segment(ctx, ellipse, center, { color: COL.muted, width: 1, dash: [3, 3] });
+
+		ctx.save();
+		ctx.beginPath();
+		ctx.arc(center.x, center.y, radius, 0, TAU);
+		ctx.fillStyle = COL.card;
+		ctx.fill();
+		ctx.clip();
+
+		// the line from the Sun through each Mars, across the loupe
+		['circle', 'ellipse'].forEach(name => {
+			const place = this.places[name];
+			const p = local(place);
+			const lon = place.lon;
+			const dx = -sin(lon);
+			const dy = -cos(lon);
+
+			segment(
+				ctx,
+				{ x: p.x - 2 * radius * dx, y: p.y - 2 * radius * dy },
+				{ x: p.x + 2 * radius * dx, y: p.y + 2 * radius * dy },
+				{ color: name === 'circle' ? COL.deferent : COL.planet, width: 1.2 }
+			);
+		});
+
+		const c = local(this.places.circle);
+		const e = local(this.places.ellipse);
+
+		drawDot(ctx, c.x, c.y, 6, COL.deferent);
+		drawDot(ctx, e.x, e.y, 6, COL.planet);
+		ctx.restore();
+
+		circle(ctx, center, radius, { color: COL.ink, width: 1.5 });
+		ctx.fillStyle = textColor(COL.muted);
+		ctx.font = FONT_TICK;
+		ctx.textAlign = 'center';
+		ctx.textBaseline = 'top';
+		ctx.fillText(`× ${Math.round(magnification / 10) * 10}`, center.x, center.y + radius + 4);
+	},
+
+	/* (b) The gap over one revolution, Kepler's 8′ dashed, and the day of
+	   the slider. */
+	drawGap() {
+		const p = this.plot;
+
+		p.frame();
+		[-KEPLER_GAP, KEPLER_GAP].forEach(v => p.hline(v, { color: COL.muted, width: 1, dash: [5, 4] }));
+		p.text("Kepler's 8′", KEPLER_PERIOD, KEPLER_GAP, { color: COL.muted, align: 'right', dx: -4, dy: -4 });
+		p.curve(
+			this.curve.map(point => point.day),
+			this.curve.map(point => point.gap),
+			{ color: COL.ink, width: 2 }
+		);
+
+		if (this.gap !== undefined) {
+			p.marker(this.day, this.gap, { color: COL.planet, radius: 5.5 });
+		}
+	}
+};
+
+/* ==========================================================================
+   5. PAGE START
    Shared components first (they typeset the prose), then the figures.
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
 	Site.initPage();
-	startFigures([loopFigure, machineFigure]);
+	startFigures([loopFigure, machineFigure, keplerFigure]);
 });

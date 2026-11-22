@@ -4,7 +4,7 @@
      Planned in three animated scenes (DECISIONS.md, 2026-11-22): the
      backward loop of Mars, a time-lapse among the stars; Ptolemy's and
      Copernicus' models side by side, giving the same loop; Kepler's eight
-     arcminutes. This sample has the first two scenes. No rhythm of
+     arcminutes. No rhythm of
      observation, model, fit, test and residual, and no exercises
      (STRUCTURE.md §4, Act 0). Numbers: tools/numbers/0.1-mars-tonight.js.
      ========================================================================== -->
@@ -45,6 +45,7 @@
 	<script defer src="../../shared/models/planet-epicycle.js"></script>
 	<script defer src="../../shared/models/planet-equant.js"></script>
 	<script defer src="../../shared/models/planet-arrangement.js"></script>
+	<script defer src="../../shared/models/kepler.js"></script>
 	<script defer src="../../shared/plot2d.js"></script>
 	<script defer src="../../shared/site-map.js"></script>
 	<script defer src="../../shared/components.js"></script>
@@ -130,7 +131,8 @@
 			<p>
 				Ptolemy explained the loop with an epicycle. In his model Mars goes
 				round a small circle, the epicycle, whose center K goes round the
-				Earth on a larger circle, the deferent. When Mars is on the side of
+				Earth on a larger circle, the deferent, at a speed that is uniform
+				as seen from a point off the Earth, the equant. When Mars is on the side of
 				the epicycle nearest the Earth, its motion round the small circle
 				is westward and outruns the eastward motion of K, so Mars seems to go
 				back. The radius from K to Mars always points the way the Sun lies
@@ -157,9 +159,11 @@
 		</div>
 
 		<p>
-			Figure 2 runs the two models together, with the parameters fitted to
-			modern observations on page 4.2: Ptolemy's with the Earth O at the
-			center, Copernicus' with the Sun ☉ at the center, and Mars P in both.
+			Figure 2 tests whether the two explanations predict different skies.
+			It runs Ptolemy's model of Mars, with the parameters fitted to modern
+			observations on page 4.2, twice: (a) as Ptolemy set it, with the Earth
+			O at rest, and (b) in Copernicus' arrangement, with the Sun ☉ at rest.
+			Mars is P in both.
 		</p>
 
 		<!-- Figure 2: the two models, animated together -->
@@ -171,7 +175,7 @@
 						<canvas id="ptolemy-machine"></canvas>
 					</div>
 					<div>
-						<p class="panel-title">(b) Copernicus: the Sun at rest</p>
+						<p class="panel-title">(b) Copernicus' arrangement: the Sun at rest</p>
 						<canvas id="copernicus-machine"></canvas>
 					</div>
 				</div>
@@ -194,9 +198,9 @@
 				<div class="readout" id="machine-readout" data-lines="3"></div>
 			</div>
 			<figcaption>
-				Watch the line from the Earth through Mars in both drawings, and the
-				red trail on each dial when Mars goes back. Notice that in (a) the
-				radius from K to Mars always points the way of the Sun.
+				Compare the two values of λ in the read-out as the models run, and
+				watch the red trail on each dial when Mars goes back. Notice that in
+				(a) the radius from K to Mars always points the way of the Sun.
 			</figcaption>
 			<div class="keys">
 				<div>
@@ -205,11 +209,9 @@
 						<dt>dial</dt>
 						<dd>ecliptic longitude, from γ (0°) anticlockwise, as seen from the north</dd>
 						<dt class="c-planet">trail</dt>
-						<dd>Mars' direction over the last 300 days, older further in</dd>
+						<dd>the last 300 days of Mars' direction, older further in</dd>
 						<dt class="c-epicycle">violet</dt>
 						<dd>Ptolemy's epicycle in (a), the Earth's circle in (b)</dd>
-						<dt class="c-sun">dashed</dt>
-						<dd>the direction of the Sun from the Earth</dd>
 					</dl>
 				</div>
 				<div>
@@ -223,12 +225,22 @@
 		</figure>
 
 		<p>
-			The two read-outs never differ. Setting Ptolemy's model with the Sun
-			at rest exchanges two sides of a parallelogram: his epicycle becomes
-			the Earth's circle about the Sun, his deferent becomes Mars' circle,
-			and every direction from the Earth stays as it was (page 4.3). No
-			observation of where Mars stands among the stars can tell the two
-			arrangements apart.
+			Each dial stands for the sphere of the stars, which is so far away
+			that two parallel lines, one from the Earth and one from the Sun,
+			meet it at the same star. In (a) the dial is centered on the Earth,
+			so the line of sight itself points to Mars' place on it. In (b) it is
+			centered on the Sun, and drawn so close that the line of sight from O
+			reaches it elsewhere; the dashed line through ☉, parallel to it,
+			marks the place where the line of sight would meet the distant stars.
+		</p>
+
+		<p>
+			Setting Ptolemy's model with the Sun at rest exchanges two sides of a
+			parallelogram: his epicycle becomes the Earth's circle about the Sun,
+			his deferent becomes Mars' circle, and every direction from the Earth
+			stays as it was (page 4.3). This is why the two read-outs always
+			agree. Directions seen from the Earth cannot decide which body is at
+			rest.
 		</p>
 
 		<p>
@@ -237,27 +249,143 @@
 			the Earth's own circle seen from the planet, and
 			its size gives the planet's distance from the Sun, Mars at 1.52 times
 			the Earth's. The predicted directions did not change, and Copernicus'
-			own replacement for the equant made Mars slightly worse (page 4.3).
+			own replacement for the equant made the largest error in Mars'
+			ecliptic longitude slightly larger (page 4.3).
 		</p>
 
 		<p>
-			Which body to take as at rest was argued for a century after
-			Copernicus. Tycho kept the Earth at rest with Copernicus' arrangement
-			of the planets, which gives the same directions again; the phases of
-			Venus, which Galileo reported in 1610, and the parallax of the stars,
-			which Bessel published in 1838, bear on the arrangement (page 4.4).
+			Which body to take as at rest was argued with physics for a century
+			after Copernicus. Tycho's system, with the Earth at rest and the
+			planets going round the Sun, gives the same directions again. The
+			arrangement can be tested, though: the phases of Venus, which Galileo
+			reported in 1610, showed that Venus goes round the Sun, which rules out
+			Ptolemy's arrangement of Venus but not Tycho's (page 4.4).
 		</p>
+
+		<!-- ========================= KEPLER'S EIGHT ARCMINUTES ========================= -->
+		<h2 id="kepler">Kepler's eight arcminutes</h2>
+
+		<div class="row">
+			<p>
+				In 1600 Kepler joined Tycho Brahe in Bohemia, and Tycho set him to
+				work on Mars. Tycho had observed the planets for thirty-eight years
+				with instruments of unprecedented accuracy, and after his death in
+				1601 his observations passed to Kepler (Voelkel ch. 3; Fitzpatrick
+				§ 1.4).
+			</p>
+			<aside>
+				<div class="note" data-origin="kepler"></div>
+			</aside>
+		</div>
+
+		<p>
+			Kepler took the Sun as at rest, with Copernicus, and gave Mars back
+			Ptolemy's equant, on a circle about the Sun. With the eccentricity
+			bisected, as the distances of Mars required, the circle's positions of
+			Mars differed from Tycho's observations by up to about 8′, a quarter of
+			the Sun's apparent diameter (Fitzpatrick § 1.4).
+		</p>
+
+		<p>
+			Figure 3 measures the flaw of that circle against the ellipse Kepler
+			found later, with the same period, eccentricity and apsides, over one
+			revolution of Mars. Seen from the Sun, the two directions differ by up
+			to 9′. Kepler's 8′ was measured from the Earth, against Tycho's
+			observations, so the two numbers need not agree, but they measure the
+			same flaw.
+		</p>
+
+		<!-- Figure 3: the circle with the equant against the ellipse -->
+		<figure class="fig">
+			<div class="frame">
+				<div class="panels">
+					<div>
+						<p class="panel-title">(a) Mars' orbit about the Sun</p>
+						<canvas id="kepler-orbit"></canvas>
+					</div>
+					<div>
+						<p class="panel-title">(b) The difference, seen from the Sun</p>
+						<canvas id="kepler-gap"></canvas>
+					</div>
+				</div>
+				<div class="loop-controls">
+					<div class="ctl stepper">
+						<label for="kepler-day">day</label>
+						<input id="kepler-day" type="range" min="0" max="687" step="0.01" value="0">
+						<output></output>
+						<span class="stepper-buttons">
+							<button type="button" class="stepper-btn" data-target="kepler-day" data-step="-1"
+								aria-label="previous day">‹ previous day</button>
+							<button type="button" class="stepper-btn" data-target="kepler-day" data-step="1"
+								aria-label="next day">next day ›</button>
+						</span>
+					</div>
+					<div class="presets">
+						<button type="button" class="play" id="kepler-play">Play</button>
+					</div>
+				</div>
+				<div class="readout" id="kepler-readout" data-lines="2"></div>
+			</div>
+			<figcaption>
+				Watch the two lines from the Sun in the loupe draw apart and come
+				back together as Mars goes round. Notice where the curve in (b)
+				passes Kepler's 8′, on either side of the perihelion.
+			</figcaption>
+			<div class="keys">
+				<div>
+					<p class="key-title">In the figure</p>
+					<dl class="key">
+						<dt class="c-deferent">green</dt>
+						<dd>the circle with the bisected equant</dd>
+						<dt class="c-planet">red</dt>
+						<dd>Kepler's ellipse, the Sun at a focus</dd>
+						<dt>loupe</dt>
+						<dd>the region round Mars, enlarged</dd>
+					</dl>
+				</div>
+			</div>
+		</figure>
+
+		<p>
+			Ptolemy's observations could not have shown so small a difference, and
+			with observations a little less accurate, or an orbit a little less
+			eccentric, Kepler might have kept the circle (Fitzpatrick § 1.4). He
+			trusted Tycho's, and looked for another shape. Around Easter 1605 he
+			found the ellipse, with the Sun at one focus, and he published it with
+			the law of areas in the <em>Astronomia Nova</em> in 1609 (Voelkel
+			ch. 3). The ellipse is still the first approximation used today for
+			the planets (page 4.5).
+		</p>
+
+		<p>
+			We rebuild each of these models from the observations, as its author
+			did, and test it against the modern sky. Every position on this page
+			was measured against the sky that turns each day about the poles, and
+			Ptolemy's first argument in the <em>Almagest</em> is that the heavens
+			move like a sphere (I 3), so the next page starts there.
+		</p>
+
+		<div class="start">
+			<a class="begin" href="../../act1-stage/01-turning-sky/index.html">Begin with 1.1, The turning sky <span aria-hidden="true">›</span></a>
+		</div>
 
 		<!-- =============================== SOURCES =============================== -->
 		<h2 id="sources">Sources</h2>
 
 		<ul class="sources">
-			<li>Ptolemy, <em>Almagest</em> (transl. G. J. Toomer, 1984): X 6 (the
+			<li>Ptolemy, <em>Almagest</em> (transl. G. J. Toomer, 1984): I 3 (the
+				heavens move like a sphere); X 6 (the
 				radius of the epicycle parallel to the line from the Earth to the
 				mean Sun).</li>
 			<li>N. Copernicus, <em>De Revolutionibus</em> (transl. E. Rosen): I 10
 				(the order of the spheres, the Earth between Venus and Mars); V 3
 				(the loops from the Earth's motion).</li>
+			<li>R. Fitzpatrick, <em>A Modern Almagest</em>, § 1.4 (Kepler's
+				circle with an equant, its error of about 8′, a quarter of the
+				Sun's apparent size).</li>
+			<li>J. R. Voelkel, <em>Johannes Kepler and the New Astronomy</em> (1999),
+				ch. 3 (Kepler with Tycho, Tycho's observations, the ellipse) and the
+				chronology (1600, 1601, 1605, 1609).</li>
 			<li>E. M. Standish, <em>Keplerian Elements for Approximate Positions of the
 				Major Planets</em> (JPL): the positions of Mars and the Sun.</li>
 			<li>SIMBAD (CDS, Strasbourg) and the Extended Hipparcos Compilation

@@ -14,6 +14,7 @@
 	 4. Figure 1: the speed of the animation and the strip
 	 5. After Figure 1: the loops' march along the zodiac
 	 6. Figure 2: Ptolemy's and Copernicus' models of Mars
+	 7. Figure 3: Kepler's eight arcminutes
    ========================================================================== */
 
 'use strict';
@@ -32,9 +33,10 @@ const shared = loadFiles([
 	'shared/models/precession.js',
 	'shared/models/planet-epicycle.js',
 	'shared/models/planet-equant.js',
-	'shared/models/planet-arrangement.js'
+	'shared/models/planet-arrangement.js',
+	'shared/models/kepler.js'
 ]);
-const { norm180, norm360, atan2d, Time, Ephem, PlanetEquant, PlanetArrangement } = shared;
+const { norm180, norm360, atan2d, Time, Ephem, PlanetEquant, PlanetArrangement, Kepler } = shared;
 
 /* ==========================================================================
    2. HELPERS: THE OPPOSITIONS AND STATIONS OF MARS
@@ -232,4 +234,36 @@ title("Figure 2: the two descriptions of page 4.2's Mars");
 	);
 	console.log(`the two drawings' directions of Mars, 2010 - 2030: largest difference ${largest.toExponential(1)}°`);
 	console.log('the dial trail: 300 days (TRAIL_DAYS); one synodic period of the animation in 780 / 30 = 26 s');
+}
+
+/* ==========================================================================
+   7. FIGURE 3: KEPLER'S EIGHT ARCMINUTES
+   A circle with a bisected equant against Kepler's ellipse of page 4.5
+   (Kepler.MARS_FIT), with the same e and a, at the same mean anomaly M
+   (from the aphelion), seen from the Sun. Fitzpatrick § 1.4 gives Kepler's
+   discrepancy as about 8′, a quarter of the Sun's apparent size; the
+   dates (1600, 1601, 1605, 1609) and the thirty-eight years are
+   Voelkel's (ch. 3 and the chronology).
+   ========================================================================== */
+
+title('Figure 3: the circle with a bisected equant against the ellipse');
+{
+	const p = Kepler.MARS_FIT;
+	const gap = M => norm180(PlanetEquant.zodiacal(M, p.e, 2 * p.e).q - Kepler.atAnomaly(M, p.e).q) * 60;
+	const values = [];
+
+	for (let M = 0; M <= 360; M += 0.25) {
+		values.push([M, gap(M)]);
+	}
+
+	const extremes = values.filter(
+		(v, i) => i > 0 && i < values.length - 1 && (v[1] - values[i - 1][1]) * (values[i + 1][1] - v[1]) < 0
+	);
+	const period = 360 / (p.n - p.apogeeRate);
+
+	console.log(`e ${p.e}, a ${p.a} au; from aphelion to aphelion ${f(period, 1)} days`);
+	console.log(`the gap's extremes: ${extremes.map(([M, g]) => `M ${M}°: ${f(g, 2)}′`).join(', ')}`);
+	console.log(
+		`largest ${f(Math.max(...values.map(v => Math.abs(v[1]))), 2)}′ (the axis is ±12′); one revolution in ${f(period / 30, 0)} s at 30 days a second`
+	);
 }

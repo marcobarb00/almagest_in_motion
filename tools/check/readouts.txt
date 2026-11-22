@@ -7,6 +7,8 @@ Regenerate with: node tools/check/smoke.js --update
     #loop-readout: \text{19 Oct 2026} | \text{Moving east, 0.54° a day} | \text{Opposite the Sun in 124 days}
     OUTPUT (machine-day): 15 Jan 2026
     #machine-readout: \text{15 Jan 2026} | \lambda = 294.05^\circ \text{ in (a)} | \lambda = 294.05^\circ \text{ in (b)}
+    OUTPUT (kepler-day): day 0
+    #kepler-readout: \text{Day 0 after the aphelion} | \text{Circle } 0.0' \text{ ahead of the ellipse}
   opened 0 hints and answers
   slider #loop-day = 0
     OUTPUT (loop-day): 19 Oct 2026
@@ -32,6 +34,18 @@ Regenerate with: node tools/check/smoke.js --update
   slider #machine-day + one key step
     OUTPUT (machine-day): 19 Feb 2027
     #machine-readout: \text{19 Feb 2027} | \lambda = 150.63^\circ \text{ in (a)} | \lambda = 150.63^\circ \text{ in (b)}
+  slider #kepler-day = 0
+    OUTPUT (kepler-day): day 0
+    #kepler-readout: \text{Day 0 after the aphelion} | \text{Circle } 0.0' \text{ ahead of the ellipse}
+  slider #kepler-day = 686
+    OUTPUT (kepler-day): day 686
+    #kepler-readout: \text{Day 686 after the aphelion} | \text{Circle } 0.1' \text{ ahead of the ellipse}
+  slider #kepler-day = 343
+    OUTPUT (kepler-day): day 343
+    #kepler-readout: \text{Day 343 after the aphelion} | \text{Circle } 0.1' \text{ ahead of the ellipse}
+  slider #kepler-day + one key step
+    OUTPUT (kepler-day): day 343
+    #kepler-readout: \text{Day 343 after the aphelion} | \text{Circle } 0.1' \text{ ahead of the ellipse}
   button "‹ previous day"
     OUTPUT (loop-day): 20 Feb 2027
     #loop-readout: \text{20 Feb 2027} | \text{Moving west, 0.40° a day} | \text{Opposite the Sun today}
@@ -44,6 +58,12 @@ Regenerate with: node tools/check/smoke.js --update
   button "next day ›"
     OUTPUT (machine-day): 19 Feb 2027
     #machine-readout: \text{19 Feb 2027} | \lambda = 150.63^\circ \text{ in (a)} | \lambda = 150.63^\circ \text{ in (b)}
+  button "‹ previous day"
+    OUTPUT (kepler-day): day 342
+    #kepler-readout: \text{Day 342 after the aphelion} | \text{Circle } 0.2' \text{ ahead of the ellipse}
+  button "next day ›"
+    OUTPUT (kepler-day): day 343
+    #kepler-readout: \text{Day 343 after the aphelion} | \text{Circle } 0.1' \text{ ahead of the ellipse}
   hover #loop-strip at 0.3
     OUTPUT (loop-day): 21 Feb 2027
     #loop-readout: \text{21 Feb 2027} | \text{Moving west, 0.40° a day} | \text{Opposite the Sun 1 day ago}
@@ -56,6 +76,18 @@ Regenerate with: node tools/check/smoke.js --update
   hover #loop-strip left
     OUTPUT (loop-day): 21 Feb 2027
     #loop-readout: \text{21 Feb 2027} | \text{Moving west, 0.40° a day} | \text{Opposite the Sun 1 day ago}
+  hover #kepler-gap at 0.3
+    OUTPUT (kepler-day): day 343
+    #kepler-readout: \text{Day 343 after the aphelion} | \text{Circle } 0.1' \text{ ahead of the ellipse}
+  hover #kepler-gap at 0.6
+    OUTPUT (kepler-day): day 343
+    #kepler-readout: \text{Day 343 after the aphelion} | \text{Circle } 0.1' \text{ ahead of the ellipse}
+  hover #kepler-gap at 0.9
+    OUTPUT (kepler-day): day 343
+    #kepler-readout: \text{Day 343 after the aphelion} | \text{Circle } 0.1' \text{ ahead of the ellipse}
+  hover #kepler-gap left
+    OUTPUT (kepler-day): day 343
+    #kepler-readout: \text{Day 343 after the aphelion} | \text{Circle } 0.1' \text{ ahead of the ellipse}
   dragged 0 spheres
 
 === act1-stage/01-turning-sky/index.html ===

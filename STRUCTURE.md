@@ -77,11 +77,15 @@ next page.
      (why loops come at opposition, the order and distances of the
      planets) and what did not (the predicted directions), as history
      (WRITING.md §9); Tycho and the phases of Venus in a line (page 4.4).
-  3. **Kepler's eight arcminutes**: a zoom onto Mars where a circle with
-     a bisected equant departs most from the ellipse, 9.0′ in
-     heliocentric longitude (Fitzpatrick § 1.4 gives about 8′, a quarter
-     of the Sun's apparent size), beside the Sun's disc; then the
-     handover to page 1.1.
+  3. **Kepler's eight arcminutes** (built as a sample): Kepler with
+     Tycho's observations (Voelkel ch. 3), the circle with a bisected
+     equant about the Sun missing them by about 8′ (Fitzpatrick § 1.4);
+     the figure animates that circle and page 4.5's ellipse together over
+     one revolution, (a) the orbit with a loupe that enlarges the region
+     round Mars, (b) the gap seen from the Sun, within ±9.0′; the ellipse
+     found in 1605, published in 1609; then the handover to page 1.1 and
+     a "Begin" link. In scene 2 a dashed parallel through the Sun marks
+     the line of sight's place on the dial, which stands for the stars.
 - **Note:** this page uses the Act IV machinery, so it is **built last**.
   The first version (2026-11-21, "Ptolemy's Mars tonight") is in the
   history of the repository.

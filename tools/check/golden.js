@@ -1591,7 +1591,13 @@ function page01(c) {
 		num(inContext(c, 'LOUPE_SIZE')),
 		num(inContext(c, 'LOUPE_GAP')),
 		num(inContext(c, 'LOUPE_FILL')),
-		num(inContext(c, 'SIGHT_BEYOND_ALPHA'))
+		num(inContext(c, 'SIGHT_BEYOND_ALPHA')),
+		num(inContext(c, 'SUN_MARK_INSET'))
+	);
+	row(
+		'CIRCLE_E, largestDifference',
+		num(inContext(c, 'CIRCLE_E'), 9),
+		num(c.largestDifference(inContext(c, 'CIRCLE_E')), 6)
 	);
 	row('keplerGap', [45, 135, 225, 315].map(M => num(c.keplerGap(M), 6)).join(' '));
 	row('machineLongitude 2027-02-19', num(inContext(c, 'machineLongitude')(c.Time.julianDay(2027, 2, 19)), 6));

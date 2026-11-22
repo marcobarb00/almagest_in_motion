@@ -589,6 +589,9 @@ const MACHINE_REACH = {
 const DIAL_MARGIN = 26;
 const DIAL_LABEL = 14;
 
+/* In (a), the mean Sun's mark stands this far (px) inside the dial. */
+const SUN_MARK_INSET = 40;
+
 /* The line of sight beyond Mars is drawn this faint. */
 const SIGHT_BEYOND_ALPHA = 0.45;
 
@@ -647,8 +650,8 @@ const machineFigure = {
 		return trail;
 	},
 
-	/* Two lines: the direction of P from O, computed in each drawing on
-	   its own, and the date. */
+	/* Three lines: the date, and the direction of P from O computed in
+	   each drawing on its own. */
 	showReadout() {
 		const { geostatic: g, heliostatic: h } = this.state.now;
 		const direction = points => norm360(atan2d(points.P[1] - points.O[1], points.P[0] - points.O[0]));
@@ -753,7 +756,6 @@ const machineFigure = {
 		const O = at(g.O);
 		const K = at(g.K);
 		const P = at(g.P);
-		const S = at(g.S);
 
 		this.drawDial(owner, center);
 
@@ -773,23 +775,27 @@ const machineFigure = {
 		ctx.stroke();
 		ctx.globalAlpha = 1;
 
-		// the deferent and the epicycle, the sides OK and KP, the
-		// direction of the Sun (dashed) to the corner of the parallelogram
+		// the deferent and the epicycle, the sides OK and KP, and the
+		// direction of the mean Sun from O (dashed) out to the dial: Ptolemy
+		// gives the Sun no place in his model of Mars, only this direction,
+		// to which KP stays parallel (Almagest X 6)
+		const sunEnd = towards(O, now.sun, owner.R);
+
 		circle(ctx, at(g.C), scale, { color: COL.deferent, width: 2 });
 		circle(ctx, K, PlanetEquant.MARS_FIT.r * scale, { color: COL.epicycle, width: 2 });
 		segment(ctx, O, K, { color: COL.deferent, width: 1.6 });
 		segment(ctx, K, P, { color: COL.epicycle, width: 2 });
-		segment(ctx, O, S, { color: COL.sun, width: 1.6, dash: [5, 4] });
+		segment(ctx, O, sunEnd, { color: COL.sun, width: 1.6, dash: [5, 4] });
 
 		this.drawSight(owner, O, P, now.lambda);
 		drawDot(ctx, K.x, K.y, 3.5, COL.epicycle);
-		drawDot(ctx, S.x, S.y, 6, COL.sun);
 		drawDot(ctx, O.x, O.y, 6, COL.earth);
 
-		// O below the Earth, fixed; ☉ outward from O; K outward from the
-		// deferent's center; P off its line of sight
+		// O below the Earth, fixed; ☉ inside the dial at the end of the
+		// mean Sun's direction; K outward from the deferent's center; P off
+		// its line of sight
 		labelOutside(ctx, 'O', O, 7, 250, COL.earth, owner.labels);
-		labelOutside(ctx, '☉', S, 6, screenDirection(O, S), COL.sun, owner.labels);
+		centeredLabel(ctx, '☉', towards(O, now.sun, owner.R - SUN_MARK_INSET), COL.sun, owner.labels);
 		labelOutside(ctx, 'K', K, 5, screenDirection(at(g.C), K), COL.epicycle, owner.labels);
 		labelOutside(ctx, 'P', P, 7, now.lambda + SIGHT_NAME_TURN, COL.planet, owner.labels);
 	},
@@ -843,15 +849,16 @@ const machineFigure = {
    4. FIGURE 3: KEPLER'S EIGHT ARCMINUTES
    Mars about the Sun, in the frame of its apsidal line, on the ellipse of
    page 4.5 (Kepler.MARS_FIT: e, a, the period) and on a circle with a
-   bisected equant of the same e and a: the center C at a e from the Sun
-   towards the aphelion, the equant at 2 a e, Mars moving uniformly as
+   bisected equant of the same a and its own eccentricity e', fitted to
+   the ellipse (CIRCLE_E): the center C at a e' from the Sun
+   towards the aphelion, the equant at 2 a e', Mars moving uniformly as
    seen from the equant (PlanetEquant.zodiacal). Both start at the
    aphelion together and keep the same mean anomaly. (a) The orbit, the
    aphelion up, and a loupe in the top right corner that enlarges the
    region round the ellipse's Mars, with the line from the Sun through
    each Mars; (b) the gap, the circle's heliocentric longitude less the
-   ellipse's, in arcminutes, over one revolution: within ±9.0′, largest
-   45° of mean anomaly before and after the perihelion
+   ellipse's, in arcminutes, over one revolution: within ±7.5′, largest
+   at the four octants
    (tools/numbers/0.1-mars-tonight.js), so the axis is ±12′. The day
    slider runs over one revolution from the aphelion, and Play advances
    it; the animation starts by itself the first time the figure comes
@@ -861,6 +868,11 @@ const machineFigure = {
 /* Mars' parameters: the eccentricity, the semi-major axis (au) and the
    period from aphelion to aphelion (days). */
 const KEPLER_E = Kepler.MARS_FIT.e;
+
+/* The circle's eccentricity: fitted, as Kepler fitted his circle to the
+   observations, here to the ellipse it stands beside, so that the largest
+   difference in direction over a revolution is as small as it can be
+   (circleEccentricity, below). */
 const KEPLER_A = Kepler.MARS_FIT.a;
 const KEPLER_PERIOD = 360 / (Kepler.MARS_FIT.n - Kepler.MARS_FIT.apogeeRate);
 
@@ -878,11 +890,49 @@ const LOUPE_SIZE = 0.24;
 const LOUPE_GAP = 10;
 const LOUPE_FILL = 0.55;
 
+/* The largest difference in direction (arcminutes) over a revolution
+   between a circle with a bisected equant of eccentricity e and the
+   ellipse, at the same mean anomaly. */
+function largestDifference(e) {
+	let largest = 0;
+
+	for (let M = 0; M < 360; M += 1) {
+		const q = PlanetEquant.zodiacal(M, e, 2 * e).q - Kepler.atAnomaly(M, KEPLER_E).q;
+
+		largest = Math.max(largest, Math.abs(norm180(q)) * 60);
+	}
+
+	return largest;
+}
+
+/* The eccentricity that makes that largest difference smallest, by a
+   golden-section search between 0.8 and 1.2 times the ellipse's. */
+function circleEccentricity() {
+	const g = (Math.sqrt(5) - 1) / 2;
+	let a = 0.8 * KEPLER_E;
+	let b = 1.2 * KEPLER_E;
+
+	for (let i = 0; i < 40; i++) {
+		const c = b - g * (b - a);
+		const d = a + g * (b - a);
+
+		if (largestDifference(c) < largestDifference(d)) {
+			b = d;
+		} else {
+			a = c;
+		}
+	}
+
+	return (a + b) / 2;
+}
+
+const CIRCLE_E = circleEccentricity();
+
 /* The places of the two Marses at a mean anomaly M (deg, from the
    aphelion), in the frame of the apsidal line, x towards the aphelion,
    au: { circle, ellipse }, each { x, y, lon (deg, from the aphelion) }. */
 function keplerPlaces(M) {
-	const z = PlanetEquant.zodiacal(M, KEPLER_E, 2 * KEPLER_E);
+	const z = PlanetEquant.zodiacal(M, CIRCLE_E, 2 * CIRCLE_E);
 	const k = Kepler.atAnomaly(M, KEPLER_E);
 	const place = (lon, r) => ({ x: r * cos(lon), y: r * sin(lon), lon });
 
@@ -980,7 +1030,7 @@ const keplerFigure = {
 
 		// the two orbits, which coincide at this scale: the circle about C,
 		// and the ellipse traced from its points
-		circle(ctx, at({ x: KEPLER_A * KEPLER_E, y: 0 }), scale * KEPLER_A, { color: COL.deferent, width: 2.4 });
+		circle(ctx, at({ x: KEPLER_A * CIRCLE_E, y: 0 }), scale * KEPLER_A, { color: COL.deferent, width: 2.4 });
 		ctx.strokeStyle = COL.planet;
 		ctx.lineWidth = 1.2;
 		ctx.beginPath();
@@ -1030,8 +1080,9 @@ const keplerFigure = {
 		const ctx = owner.ctx;
 		const radius = LOUPE_SIZE * owner.width;
 		const center = { x: owner.width - radius - 4, y: radius + 4 };
-		const distance = Math.hypot(this.places.ellipse.x, this.places.ellipse.y);
-		const zoom = (LOUPE_FILL * radius) / (distance * ((LOUPE_GAP / 60) * D2R));
+		// a fixed enlargement, set at the mean distance a, so that it never
+		// changes while the slider moves
+		const zoom = (LOUPE_FILL * radius) / (KEPLER_A * ((LOUPE_GAP / 60) * D2R));
 		const magnification = zoom / scale;
 		const local = point => ({
 			x: center.x - zoom * (point.y - this.places.ellipse.y),

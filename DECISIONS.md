@@ -252,12 +252,15 @@ section.
   nearest the visit; (2) Ptolemy's and Copernicus' models side by side,
   animated together, giving the same loop (page 4.3's exchange of the
   vectors), told as history (WRITING.md §9); (3) Kepler's eight
-  arcminutes (Fitzpatrick § 1.4): a circle with a bisected equant departs
-  from the ellipse by up to 9.0′ in heliocentric longitude, which the
-  site's own models reproduce. Built one scene at a time, each approved
+  arcminutes (Fitzpatrick § 1.4): a circle with a bisected equant, its
+  eccentricity fitted to the ellipse, departs from it by up to 7.5′ in
+  heliocentric longitude, at the octants (9.0′ with the ellipse's own
+  eccentricity; corrected after the math review of 2026-11-22). Built one scene at a time, each approved
   before the next. Titled "From Ptolemy to Kepler", with "Why did it
   take fifteen centuries to predict Mars?" as the subtitle (Marco,
-  2026-11-22); the folder keeps its slug, `01-mars-tonight`. A
+  2026-11-22); the folder keeps its slug, `01-mars-tonight`. Published
+  (ready) on 2026-11-22 at Marco's request, so the hub's filled link now
+  leads to it. A
   figure may play by itself when it first comes into view, except for
   readers who ask for reduced motion; the smoke test and the label-jump
   check therefore run with reduced motion. → STRUCTURE.md §4 (page

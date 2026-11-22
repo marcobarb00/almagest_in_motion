@@ -66,7 +66,7 @@ next page.
      of the zodiac, autoplaying when it comes into view, with a date
      slider, Play and a three-line read-out (the date, the daily motion,
      the days to or from opposition). The loop comes at opposition, each
-     about 50° further east, 37 loops in 79 years.
+     about 49° further east, 37 loops in 79 years.
   2. **Ptolemy and Copernicus side by side** (built as a sample): page
      4.2's Mars in the two descriptions of page 4.3, animated
      together over about one synodic period, the Earth at rest and the
@@ -82,7 +82,8 @@ next page.
      equant about the Sun missing them by about 8′ (Fitzpatrick § 1.4);
      the figure animates that circle and page 4.5's ellipse together over
      one revolution, (a) the orbit with a loupe that enlarges the region
-     round Mars, (b) the gap seen from the Sun, within ±9.0′; the ellipse
+     round Mars, (b) the difference seen from the Sun, within ±7.5′ with
+     the circle's eccentricity fitted to the ellipse; the ellipse
      found in 1605, published in 1609; then the handover to page 1.1 and
      a "Begin" link. In scene 2 a dashed parallel through the Sun marks
      the line of sight's place on the dial, which stands for the stars.

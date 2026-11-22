@@ -2978,8 +2978,9 @@ The stars of the blue plates at 2026.0 (as plate.js places them)
   oppositionText                 "Opposite the Sun in 23 days" "Opposite the Sun in 1 day" "Opposite the Sun today" "Opposite the Sun 12 days ago"
   fixed ranges                   {"wide":{"halfWidth":20,"halfHeight":10},"narrow":{"halfWidth":14,"halfHeight":7}}  520.000000000  40.000000000  1.000000000  12.000000000  0.020000000  22.000000000  4.800000000  3.000000000  6.000000000  2461365.375000000
   Figure 2                       400.000000000  800.000000000  30.000000000  300.000000000  2.000000000  26.000000000  780.000000000  3.000000000  {"ptolemy":1.818499,"copernicus":1.7323690409251857}  0.800000000  26.000000000  14.000000000
-  Figure 3                       0.093409  1.523694  686.980760  30.000000000  12.000000000  8.000000000  0.240000000  10.000000000  0.550000000  0.450000000
-  keplerGap                      -6.314709 8.962463 -8.962463 6.314709
+  Figure 3                       0.093409  1.523694  686.980760  30.000000000  12.000000000  8.000000000  0.240000000  10.000000000  0.550000000  0.450000000  40.000000000
+  CIRCLE_E, largestDifference    0.093680940  7.494610
+  keplerGap                      -7.467375 7.466136 -7.466136 7.467375
   machineLongitude 2027-02-19    150.889405
 
 === 9. tools/numbers/0.1-mars-tonight.js ===
@@ -3019,10 +3020,11 @@ the epicycle r = 0.6580 of the deferent; Mars' distance from the Sun 1 / r = 1.5
 the two drawings' directions of Mars, 2010 - 2030: largest difference 1.1e-13°
 the dial trail: 300 days (TRAIL_DAYS); one synodic period of the animation in 780 / 30 = 26 s
 
-=== Figure 3: the circle with a bisected equant against the ellipse ===
-e 0.093409, a 1.523694 au; from aphelion to aphelion 687.0 days
-the gap's extremes: M 45°: -6.31′, M 135.25°: 8.96′, M 224.75°: -8.96′, M 315°: 6.31′
-largest 8.96′ (the axis is ±12′); one revolution in 23 s at 30 days a second
+=== Figure 3: a circle with a bisected equant against the ellipse ===
+the ellipse: e 0.093409, a 1.523694 au; from aphelion to aphelion 687.0 days
+with the ellipse's e, the circle differs by up to 8.96′: M 45°: -6.31′, M 135.25°: 8.96′, M 224.75°: -8.96′, M 315°: 6.31′
+the circle's e fitted: 0.093681; it differs by up to 7.50′: M 47.5°: -7.50′, M 137.5°: 7.50′, M 222.5°: -7.50′, M 312.5°: 7.50′
+the axis is ±12′, Kepler's 8′ marked; one revolution in 23 s at 30 days a second
 
 === 9. tools/numbers/1.1-turning-sky.js ===
 

@@ -246,24 +246,56 @@ title("Figure 2: the two descriptions of page 4.2's Mars");
    Voelkel's (ch. 3 and the chronology).
    ========================================================================== */
 
-title('Figure 3: the circle with a bisected equant against the ellipse');
+title('Figure 3: a circle with a bisected equant against the ellipse');
 {
 	const p = Kepler.MARS_FIT;
-	const gap = M => norm180(PlanetEquant.zodiacal(M, p.e, 2 * p.e).q - Kepler.atAnomaly(M, p.e).q) * 60;
-	const values = [];
+	const difference = (e, M) => norm180(PlanetEquant.zodiacal(M, e, 2 * e).q - Kepler.atAnomaly(M, p.e).q) * 60;
+	const largest = e => {
+		let worst = 0;
 
-	for (let M = 0; M <= 360; M += 0.25) {
-		values.push([M, gap(M)]);
+		for (let M = 0; M < 360; M += 0.25) {
+			worst = Math.max(worst, Math.abs(difference(e, M)));
+		}
+
+		return worst;
+	};
+
+	// the circle's eccentricity fitted to the ellipse: the smallest
+	// largest difference, by a golden-section search
+	const g = (Math.sqrt(5) - 1) / 2;
+	let a = 0.8 * p.e;
+	let b = 1.2 * p.e;
+
+	for (let i = 0; i < 60; i++) {
+		const c = b - g * (b - a);
+		const d = a + g * (b - a);
+
+		if (largest(c) < largest(d)) {
+			b = d;
+		} else {
+			a = c;
+		}
 	}
 
-	const extremes = values.filter(
-		(v, i) => i > 0 && i < values.length - 1 && (v[1] - values[i - 1][1]) * (values[i + 1][1] - v[1]) < 0
-	);
-	const period = 360 / (p.n - p.apogeeRate);
+	const fitted = (a + b) / 2;
+	const extremes = e => {
+		const values = [];
 
-	console.log(`e ${p.e}, a ${p.a} au; from aphelion to aphelion ${f(period, 1)} days`);
-	console.log(`the gap's extremes: ${extremes.map(([M, g]) => `M ${M}°: ${f(g, 2)}′`).join(', ')}`);
+		for (let M = 0; M <= 360; M += 0.25) {
+			values.push([M, difference(e, M)]);
+		}
+
+		return values.filter(
+			(v, i) => i > 0 && i < values.length - 1 && (v[1] - values[i - 1][1]) * (values[i + 1][1] - v[1]) < 0
+		);
+	};
+	const period = 360 / (p.n - p.apogeeRate);
+	const show = list => list.map(([M, v]) => `M ${M}°: ${f(v, 2)}′`).join(', ');
+
+	console.log(`the ellipse: e ${p.e}, a ${p.a} au; from aphelion to aphelion ${f(period, 1)} days`);
+	console.log(`with the ellipse's e, the circle differs by up to ${f(largest(p.e), 2)}′: ${show(extremes(p.e))}`);
 	console.log(
-		`largest ${f(Math.max(...values.map(v => Math.abs(v[1]))), 2)}′ (the axis is ±12′); one revolution in ${f(period / 30, 0)} s at 30 days a second`
+		`the circle's e fitted: ${f(fitted, 6)}; it differs by up to ${f(largest(fitted), 2)}′: ${show(extremes(fitted))}`
 	);
+	console.log(`the axis is ±12′, Kepler's 8′ marked; one revolution in ${f(period / 30, 0)} s at 30 days a second`);
 }

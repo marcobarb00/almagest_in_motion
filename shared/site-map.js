@@ -59,8 +59,8 @@ const SITE_MAP = (function () {
 			number: '0.1',
 			act: 0,
 			ready: false,
-			title: "Ptolemy's Mars tonight",
-			question: 'How good was a model built from circles?',
+			title: 'From Ptolemy to Kepler',
+			question: 'Why did it take fifteen centuries to predict Mars?',
 			path: 'act0-intro/01-mars-tonight/index.html'
 		},
 		{

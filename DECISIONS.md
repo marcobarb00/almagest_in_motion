@@ -26,7 +26,7 @@ section.
   → STRUCTURE.md §4
 - **Act I comes first even though it is the least exciting.** The
   foundations (the turning sky, frames, clocks) are needed to state any
-  prediction. Act 0, the intro ("Ptolemy's Mars tonight"), is built last,
+  prediction. Act 0, the intro ("From Ptolemy to Kepler"), is built last,
   because it needs the Act IV models. → STRUCTURE.md §4, §12
 - **The story ends with Kepler.** Newton, perturbations and modern
   ephemerides are in a short epilogue, "Beyond Kepler", with pointers to
@@ -242,7 +242,7 @@ section.
   §5 and no exercises, as on the epilogue pages. Figure 1 follows the
   date of the visit, the prose quotes 20 November 2026 (the smoke test's
   date). Decided by Marco on 2026-11-21; the page was replaced on
-  2026-11-22 (next entry), the title stays until a new one is chosen. →
+  2026-11-22 (next entry), and retitled then. →
   STRUCTURE.md §4 (page 0.1), shared/site-map.js
 - **The intro is rebuilt as three animated scenes (on trial).** Marco
   found the first version of page 0.1 (2026-11-21) plain and confusing:
@@ -255,7 +255,9 @@ section.
   arcminutes (Fitzpatrick § 1.4): a circle with a bisected equant departs
   from the ellipse by up to 9.0′ in heliocentric longitude, which the
   site's own models reproduce. Built one scene at a time, each approved
-  before the next; the title and subtitle are chosen with scene 3. A
+  before the next. Titled "From Ptolemy to Kepler", with "Why did it
+  take fifteen centuries to predict Mars?" as the subtitle (Marco,
+  2026-11-22); the folder keeps its slug, `01-mars-tonight`. A
   figure may play by itself when it first comes into view, except for
   readers who ask for reduced motion; the smoke test and the label-jump
   check therefore run with reduced motion. → STRUCTURE.md §4 (page

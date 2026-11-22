@@ -55,9 +55,9 @@ next page.
 
 ### Act 0: Intro
 
-#### 0.1 · The intro (title to be chosen)
+#### 0.1 · From Ptolemy to Kepler
 
-- **Question:** to be chosen with the title (DECISIONS.md, 2026-11-22).
+- **Question:** why did it take fifteen centuries to predict Mars?
 - **Idea:** a hook in three animated scenes, built one at a time, each
   approved before the next. No rhythm of §5, no step labels, no
   exercises.

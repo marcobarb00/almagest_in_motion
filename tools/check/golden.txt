@@ -2977,6 +2977,8 @@ The stars of the blue plates at 2026.0 (as plate.js places them)
   motionText                     "Moving east, 0.42° a day" "Moving west, 0.35° a day" "Standing still"
   oppositionText                 "Opposite the Sun in 23 days" "Opposite the Sun in 1 day" "Opposite the Sun today" "Opposite the Sun 12 days ago"
   fixed ranges                   {"wide":{"halfWidth":20,"halfHeight":10},"narrow":{"halfWidth":14,"halfHeight":7}}  520.000000000  40.000000000  1.000000000  12.000000000  0.020000000  22.000000000  4.800000000  3.000000000  6.000000000  2461365.375000000
+  Figure 2                       400.000000000  800.000000000  30.000000000  300.000000000  2.000000000  26.000000000  780.000000000  3.000000000  {"ptolemy":1.818499,"copernicus":1.7323690409251857}  0.800000000  26.000000000  14.000000000
+  machineLongitude 2027-02-19    150.889405
 
 === 9. tools/numbers/0.1-mars-tonight.js ===
 
@@ -3009,6 +3011,11 @@ its ecliptic latitude stays within 3.1° of the strip's middle, which is at most
 from one opposition to the next, Mars' ecliptic longitude: 34, 39, 53, 76, 65, 44, 36, 34, 36, 46, 68, 74, 51, 38, 34°
 on average 48.5° further east
 37 mean synodic periods: 78.98 years (from the oppositions above); 79.00 years (mean motions)
+
+=== Figure 2: the two descriptions of page 4.2's Mars ===
+the epicycle r = 0.6580 of the deferent; Mars' distance from the Sun 1 / r = 1.52 au
+the two drawings' directions of Mars, 2010 - 2030: largest difference 1.1e-13°
+the dial trail: 300 days (TRAIL_DAYS); one synodic period of the animation in 780 / 30 = 26 s
 
 === 9. tools/numbers/1.1-turning-sky.js ===
 

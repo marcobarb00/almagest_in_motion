@@ -1565,6 +1565,22 @@ function page01(c) {
 		num(inContext(c, 'NAME_GAP')),
 		num(inContext(c, 'EXAMPLE_UT'))
 	);
+	row(
+		'Figure 2',
+		num(inContext(c, 'MACHINE_BEFORE')),
+		num(inContext(c, 'MACHINE_SPAN')),
+		num(inContext(c, 'MACHINE_DAYS_PER_SECOND')),
+		num(inContext(c, 'TRAIL_DAYS')),
+		num(inContext(c, 'TRAIL_STEP')),
+		num(inContext(c, 'TRAIL_DEPTH')),
+		num(inContext(c, 'PATH_DAYS')),
+		num(inContext(c, 'PATH_STEP')),
+		JSON.stringify(inContext(c, 'MACHINE_REACH')),
+		num(inContext(c, 'MACHINE_FILL')),
+		num(inContext(c, 'DIAL_MARGIN')),
+		num(inContext(c, 'DIAL_LABEL'))
+	);
+	row('machineLongitude 2027-02-19', num(inContext(c, 'machineLongitude')(c.Time.julianDay(2027, 2, 19)), 6));
 }
 
 function page22(c) {

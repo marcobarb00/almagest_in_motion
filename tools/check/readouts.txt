@@ -5,6 +5,8 @@ Regenerate with: node tools/check/smoke.js --update
   as loaded
     OUTPUT (loop-day): 19 Oct 2026
     #loop-readout: \text{19 Oct 2026} | \text{Moving east, 0.54° a day} | \text{Opposite the Sun in 124 days}
+    OUTPUT (machine-day): 15 Jan 2026
+    #machine-readout: \text{15 Jan 2026} | \lambda = 294.05^\circ \text{ in (a)} | \lambda = 294.05^\circ \text{ in (b)}
   opened 0 hints and answers
   slider #loop-day = 0
     OUTPUT (loop-day): 19 Oct 2026
@@ -16,26 +18,44 @@ Regenerate with: node tools/check/smoke.js --update
     OUTPUT (loop-day): 21 Feb 2027
     #loop-readout: \text{21 Feb 2027} | \text{Moving west, 0.40° a day} | \text{Opposite the Sun 1 day ago}
   slider #loop-day + one key step
-    OUTPUT (loop-day): 22 Feb 2027
-    #loop-readout: \text{22 Feb 2027} | \text{Moving west, 0.40° a day} | \text{Opposite the Sun 2 days ago}
-  button "‹ previous day"
     OUTPUT (loop-day): 21 Feb 2027
     #loop-readout: \text{21 Feb 2027} | \text{Moving west, 0.40° a day} | \text{Opposite the Sun 1 day ago}
+  slider #machine-day = 0
+    OUTPUT (machine-day): 15 Jan 2026
+    #machine-readout: \text{15 Jan 2026} | \lambda = 294.05^\circ \text{ in (a)} | \lambda = 294.05^\circ \text{ in (b)}
+  slider #machine-day = 800
+    OUTPUT (machine-day): 25 Mar 2028
+    #machine-readout: \text{25 Mar 2028} | \lambda = 4.41^\circ \text{ in (a)} | \lambda = 4.41^\circ \text{ in (b)}
+  slider #machine-day = 400
+    OUTPUT (machine-day): 19 Feb 2027
+    #machine-readout: \text{19 Feb 2027} | \lambda = 150.63^\circ \text{ in (a)} | \lambda = 150.63^\circ \text{ in (b)}
+  slider #machine-day + one key step
+    OUTPUT (machine-day): 19 Feb 2027
+    #machine-readout: \text{19 Feb 2027} | \lambda = 150.63^\circ \text{ in (a)} | \lambda = 150.63^\circ \text{ in (b)}
+  button "‹ previous day"
+    OUTPUT (loop-day): 20 Feb 2027
+    #loop-readout: \text{20 Feb 2027} | \text{Moving west, 0.40° a day} | \text{Opposite the Sun today}
   button "next day ›"
-    OUTPUT (loop-day): 22 Feb 2027
-    #loop-readout: \text{22 Feb 2027} | \text{Moving west, 0.40° a day} | \text{Opposite the Sun 2 days ago}
+    OUTPUT (loop-day): 21 Feb 2027
+    #loop-readout: \text{21 Feb 2027} | \text{Moving west, 0.40° a day} | \text{Opposite the Sun 1 day ago}
+  button "‹ previous day"
+    OUTPUT (machine-day): 18 Feb 2027
+    #machine-readout: \text{18 Feb 2027} | \lambda = 151.03^\circ \text{ in (a)} | \lambda = 151.03^\circ \text{ in (b)}
+  button "next day ›"
+    OUTPUT (machine-day): 19 Feb 2027
+    #machine-readout: \text{19 Feb 2027} | \lambda = 150.63^\circ \text{ in (a)} | \lambda = 150.63^\circ \text{ in (b)}
   hover #loop-strip at 0.3
-    OUTPUT (loop-day): 22 Feb 2027
-    #loop-readout: \text{22 Feb 2027} | \text{Moving west, 0.40° a day} | \text{Opposite the Sun 2 days ago}
+    OUTPUT (loop-day): 21 Feb 2027
+    #loop-readout: \text{21 Feb 2027} | \text{Moving west, 0.40° a day} | \text{Opposite the Sun 1 day ago}
   hover #loop-strip at 0.6
-    OUTPUT (loop-day): 22 Feb 2027
-    #loop-readout: \text{22 Feb 2027} | \text{Moving west, 0.40° a day} | \text{Opposite the Sun 2 days ago}
+    OUTPUT (loop-day): 21 Feb 2027
+    #loop-readout: \text{21 Feb 2027} | \text{Moving west, 0.40° a day} | \text{Opposite the Sun 1 day ago}
   hover #loop-strip at 0.9
-    OUTPUT (loop-day): 22 Feb 2027
-    #loop-readout: \text{22 Feb 2027} | \text{Moving west, 0.40° a day} | \text{Opposite the Sun 2 days ago}
+    OUTPUT (loop-day): 21 Feb 2027
+    #loop-readout: \text{21 Feb 2027} | \text{Moving west, 0.40° a day} | \text{Opposite the Sun 1 day ago}
   hover #loop-strip left
-    OUTPUT (loop-day): 22 Feb 2027
-    #loop-readout: \text{22 Feb 2027} | \text{Moving west, 0.40° a day} | \text{Opposite the Sun 2 days ago}
+    OUTPUT (loop-day): 21 Feb 2027
+    #loop-readout: \text{21 Feb 2027} | \text{Moving west, 0.40° a day} | \text{Opposite the Sun 1 day ago}
   dragged 0 spheres
 
 === act1-stage/01-turning-sky/index.html ===

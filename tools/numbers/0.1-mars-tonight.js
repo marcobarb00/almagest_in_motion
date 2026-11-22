@@ -13,6 +13,7 @@
 	 3. Lead: the loops of 2026 - 2060
 	 4. Figure 1: the speed of the animation and the strip
 	 5. After Figure 1: the loops' march along the zodiac
+	 6. Figure 2: Ptolemy's and Copernicus' models of Mars
    ========================================================================== */
 
 'use strict';
@@ -23,8 +24,17 @@ const { loadFiles } = require('../check/load.js');
    1. LOADING THE SHARED CODE
    ========================================================================== */
 
-const shared = loadFiles(['shared/common.js', 'shared/time.js', 'shared/ephemeris.js']);
-const { norm180, Time, Ephem } = shared;
+const shared = loadFiles([
+	'shared/common.js',
+	'shared/time.js',
+	'shared/ephemeris.js',
+	'shared/models/mean-sun.js',
+	'shared/models/precession.js',
+	'shared/models/planet-epicycle.js',
+	'shared/models/planet-equant.js',
+	'shared/models/planet-arrangement.js'
+]);
+const { norm180, norm360, atan2d, Time, Ephem, PlanetEquant, PlanetArrangement } = shared;
 
 /* ==========================================================================
    2. HELPERS: THE OPPOSITIONS AND STATIONS OF MARS
@@ -180,7 +190,7 @@ title('Figure 1: the animation and the strip');
    5. AFTER FIGURE 1: THE LOOPS' MARCH ALONG THE ZODIAC
    ========================================================================== */
 
-title("After Figure 1: each loop further east; 37 loops in 79 years");
+title('After Figure 1: each loop further east; 37 loops in 79 years');
 {
 	const shifts = OPPOSITIONS.slice(1).map((jd, i) =>
 		norm180(Ephem.longitude('mars', jd) - Ephem.longitude('mars', OPPOSITIONS[i]))
@@ -196,4 +206,30 @@ title("After Figure 1: each loop further east; 37 loops in 79 years");
 	console.log(
 		`37 mean synodic periods: ${f((37 * mean(OPPOSITIONS.slice(1).map((jd, i) => jd - OPPOSITIONS[i]))) / 365.25, 2)} years (from the oppositions above); ${f((37 * synodic) / 365.25, 2)} years (mean motions)`
 	);
+}
+
+/* ==========================================================================
+   6. FIGURE 2: PTOLEMY'S AND COPERNICUS' MODELS OF MARS
+   Page 4.2's equant (PlanetEquant.MARS_FIT) in the two descriptions of
+   page 4.3. The dates (1543, 1610, 1838) are the sources' (De
+   Revolutionibus; page 4.4).
+   ========================================================================== */
+
+title("Figure 2: the two descriptions of page 4.2's Mars");
+{
+	const p = PlanetEquant.MARS_FIT;
+	let largest = 0;
+
+	for (let jd = JD(2010, 1, 1); jd < JD(2031, 1, 1); jd += 1) {
+		const m = PlanetArrangement.moment('mars', jd);
+		const direction = points => norm360(atan2d(points.P[1] - points.O[1], points.P[0] - points.O[0]));
+
+		largest = Math.max(largest, Math.abs(norm180(direction(m.geostatic) - direction(m.heliostatic))));
+	}
+
+	console.log(
+		`the epicycle r = ${f(p.r, 4)} of the deferent; Mars' distance from the Sun 1 / r = ${f(1 / p.r, 2)} au`
+	);
+	console.log(`the two drawings' directions of Mars, 2010 - 2030: largest difference ${largest.toExponential(1)}°`);
+	console.log('the dial trail: 300 days (TRAIL_DAYS); one synodic period of the animation in 780 / 30 = 26 s');
 }

@@ -1,18 +1,21 @@
 // @ts-check
 /* ==========================================================================
    PAGE 0.1 · THE INTRO - SCRIPT (page.js)
-   Sample of the first scene: the backward loop of Mars, animated among
-   the stars. The other two scenes (Ptolemy's and Copernicus' models side
-   by side; Kepler's eight arcminutes) come after approval.
+   Sample of the first two scenes: the backward loop of Mars, animated
+   among the stars; Ptolemy's and Copernicus' models of Mars, animated
+   together. The third (Kepler's eight arcminutes) comes after approval.
    Shared code: common.js, time.js, ephemeris.js, stars.js,
    plate-stars.js, plate.js (for its figures of the constellations),
-   plot2d.js, components.js. Every number quoted in the prose comes from
+   models/mean-sun.js, models/precession.js, models/planet-epicycle.js,
+   models/planet-equant.js, models/planet-arrangement.js, plot2d.js,
+   components.js. Every number quoted in the prose comes from
    tools/numbers/0.1-mars-tonight.js.
 
    TABLE OF CONTENTS
 	 1. Figure 1: the loop and its dates
 	 2. Figure 1: the strip
-	 3. Page start
+	 3. Figure 2: Ptolemy's and Copernicus' models, animated together
+	 4. Page start
    ========================================================================== */
 
 /* ==========================================================================
@@ -147,6 +150,24 @@ function stations(days) {
 	return found;
 }
 
+/* Press a figure's Play button the first time the figure comes into
+   view, unless the reader asks for reduced motion (Figures 1 and 2). */
+function autoplayOnView(figure, button) {
+	const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	let started = false;
+
+	if (reduced) {
+		return;
+	}
+
+	whenOffScreen(figure, onScreen => {
+		if (onScreen && !started) {
+			started = true;
+			button.click();
+		}
+	});
+}
+
 /* ==========================================================================
    2. FIGURE 1: THE STRIP
    A strip of the zodiac in ink on parchment, east to the left as seen
@@ -226,26 +247,8 @@ const loopFigure = {
 		);
 		wirePresets(slider.closest('figure'));
 		this.player = wirePlayButton(byId('loop-play'), slider, LOOP_DAYS_PER_SECOND);
-		this.autoplay(slider.closest('figure'));
+		autoplayOnView(slider.closest('figure'), byId('loop-play'));
 		this.update();
-	},
-
-	/* Press Play the first time the figure comes into view, unless the
-	   reader asks for reduced motion. */
-	autoplay(figure) {
-		const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-		let started = false;
-
-		if (reduced) {
-			return;
-		}
-
-		whenOffScreen(figure, onScreen => {
-			if (onScreen && !started) {
-				started = true;
-				byId('loop-play').click();
-			}
-		});
 	},
 
 	/* The middle of Mars' ecliptic latitudes over the loop, to 1°: the
@@ -530,11 +533,304 @@ const loopFigure = {
 };
 
 /* ==========================================================================
-   3. PAGE START
+   3. FIGURE 2: PTOLEMY'S AND COPERNICUS' MODELS, ANIMATED TOGETHER
+   Mars of page 4.2's equant (PlanetEquant.MARS_FIT) in the two
+   descriptions of page 4.3 (PlanetArrangement.moment): (a) Ptolemy's,
+   the Earth O at rest at the center, the deferent (green, centered at C)
+   and the epicycle (violet, centered at K), the point of the Sun at the
+   corner of the parallelogram O K P sun, the path of P over the last
+   synodic period; (b) Copernicus', the Sun at rest at the center, the
+   Earth's circle (violet, as the epicycle it comes from) and Mars'
+   (green, as the deferent). Seen from the north ecliptic pole, γ to the
+   right. In both, the line of sight from O through P runs to a dial of
+   ecliptic longitude round the drawing, and the dial carries Mars'
+   direction over the last TRAIL_DAYS, older further in, so that the
+   backward run draws a hook. Each drawing has its own scale; each
+   read-out line computes the direction from its own drawing.
+   The date slider runs over about one synodic period around the
+   opposition of Figure 1, and Play advances it; the animation starts by
+   itself the first time the figure comes into view, unless the reader
+   asks for reduced motion.
+   ========================================================================== */
+
+/* The days of the slider: from this many days before the opposition of
+   Figure 1, over MACHINE_SPAN days. */
+const MACHINE_BEFORE = 400;
+const MACHINE_SPAN = 800;
+
+/* The animation runs at this many days a second: one synodic period of
+   Mars (780 days) in about 26 seconds. */
+const MACHINE_DAYS_PER_SECOND = 30;
+
+/* The dial's trail: its length (days), its step (days), and how far in
+   (px) the oldest point is drawn. */
+const TRAIL_DAYS = 300;
+const TRAIL_STEP = 2;
+const TRAIL_DEPTH = 26;
+
+/* The path of P in (a): over one synodic period, every PATH_STEP days. */
+const PATH_DAYS = 780;
+const PATH_STEP = 3;
+
+/* The farthest point of each drawing from its center, in its own units
+   (deferent radius in (a), au in (b)), with a little room: Ptolemy's
+   OP reaches 1 + OC + r, Mars' distance from the Sun a (1 + OC). */
+const MACHINE_REACH = {
+	ptolemy: 1 + PlanetEquant.MARS_FIT.e + PlanetEquant.MARS_FIT.r + 0.06,
+	copernicus: (1 + PlanetEquant.MARS_FIT.e) / PlanetEquant.MARS_FIT.r + 0.06
+};
+
+/* The room (px) round the dial for its labels, and the distance of a
+   label's center outside the dial. */
+const DIAL_MARGIN = 26;
+const DIAL_LABEL = 14;
+
+/* The drawing fills this fraction of the dial's radius. */
+const MACHINE_FILL = 0.8;
+
+/* Ptolemy's and Copernicus' Mars: JD(TT) -> ecliptic longitude (deg),
+   the same function, since the two give the same direction. */
+const machineLongitude = PlanetArrangement.make('mars');
+
+const machineFigure = {
+	init() {
+		this.ptolemy = { labels: new LabelPlacer(), draw: () => this.drawPtolemy() };
+		this.copernicus = { labels: new LabelPlacer(), draw: () => this.drawCopernicus() };
+		squareCanvas(this.ptolemy, byId('ptolemy-machine'), 420, DIAL_MARGIN);
+		squareCanvas(this.copernicus, byId('copernicus-machine'), 420, DIAL_MARGIN);
+
+		this.start = Time.utFromTt(loopFigure.loop.opposition) - MACHINE_BEFORE;
+
+		const slider = /** @type {HTMLInputElement} */ (byId('machine-day'));
+
+		slider.max = String(MACHINE_SPAN);
+		slider.value = '0';
+		wireSlider(
+			slider,
+			() => this.update(),
+			value => Time.formatDate(this.start + Math.round(Number(value)))
+		);
+		wirePresets(slider.closest('figure'));
+		wirePlayButton(byId('machine-play'), slider, MACHINE_DAYS_PER_SECOND);
+		autoplayOnView(slider.closest('figure'), byId('machine-play'));
+		this.update();
+	},
+
+	update() {
+		const jdUT = this.start + readNumber('machine-day');
+		const jdTT = Time.ttFromUt(jdUT);
+
+		this.state = { jdUT, jdTT, now: PlanetArrangement.moment('mars', jdTT) };
+		this.trail = this.dialTrail(jdTT);
+		this.showReadout();
+		this.ptolemy.draw();
+		this.copernicus.draw();
+	},
+
+	/* Mars' direction over the last TRAIL_DAYS: [{ lon, age (0 to 1) }]. */
+	dialTrail(jdTT) {
+		const trail = [];
+
+		for (let days = TRAIL_DAYS; days >= 0; days -= TRAIL_STEP) {
+			trail.push({ lon: machineLongitude(jdTT - days), age: days / TRAIL_DAYS });
+		}
+
+		trail.push({ lon: this.state ? this.state.now.lambda : machineLongitude(jdTT), age: 0 });
+
+		return trail;
+	},
+
+	/* Two lines: the direction of P from O, computed in each drawing on
+	   its own, and the date. */
+	showReadout() {
+		const { geostatic: g, heliostatic: h } = this.state.now;
+		const direction = points => norm360(atan2d(points.P[1] - points.O[1], points.P[0] - points.O[0]));
+
+		showLines('machine-readout', [
+			`\\text{${Time.formatDate(this.state.jdUT)}}`,
+			`\\lambda = ${direction(g).toFixed(2)}^\\circ \\text{ in (a)}`,
+			`\\lambda = ${direction(h).toFixed(2)}^\\circ \\text{ in (b)}`
+		]);
+	},
+
+	/* Start a drawing: clear it, and return its scale (px per unit) and
+	   the function from its units to the canvas. */
+	begin(owner, reach) {
+		const scale = (MACHINE_FILL * owner.R) / reach;
+		const center = { x: owner.cx, y: owner.cy };
+
+		owner.ctx.clearRect(0, 0, owner.width, owner.width);
+		owner.labels.begin({ x0: 0, y0: 0, x1: owner.width, y1: owner.width });
+
+		return { scale, center, at: point => ({ x: center.x + scale * point[0], y: center.y - scale * point[1] }) };
+	},
+
+	/* The dial round a drawing: a circle, a tick every 30° and, outside
+	   it, a label every 90°; Mars' trail, older further in. */
+	drawDial(owner, center) {
+		const ctx = owner.ctx;
+		const R = owner.R;
+
+		circle(ctx, center, R, { color: COL.muted, width: 1 });
+
+		for (let lon = 0; lon < 360; lon += 30) {
+			segment(ctx, towards(center, lon, R), towards(center, lon, R - (lon % 90 === 0 ? 9 : 5)), {
+				color: COL.muted,
+				width: 1
+			});
+		}
+
+		[0, 90, 180, 270].forEach(lon => {
+			centeredLabel(ctx, `${lon}°`, towards(center, lon, R + DIAL_LABEL), COL.muted, owner.labels, 'symbol');
+		});
+
+		// the trail: a polyline from the oldest direction to now, each
+		// piece fainter with age
+		for (let i = 1; i < this.trail.length; i++) {
+			const a = this.trail[i - 1];
+			const b = this.trail[i];
+
+			ctx.globalAlpha = 0.25 + 0.75 * (1 - b.age);
+			segment(
+				ctx,
+				towards(center, a.lon, R - 4 - TRAIL_DEPTH * a.age),
+				towards(center, b.lon, R - 4 - TRAIL_DEPTH * b.age),
+				{
+					color: COL.planet,
+					width: 2.2
+				}
+			);
+		}
+
+		ctx.globalAlpha = 1;
+	},
+
+	/* The line of sight from O through P to the dial, and Mars with its
+	   halo. */
+	drawSight(owner, O, P, lambda) {
+		const ctx = owner.ctx;
+		const end = towards(O, lambda, 2 * owner.R);
+
+		ctx.save();
+		ctx.beginPath();
+		ctx.arc(owner.cx, owner.cy, owner.R, 0, TAU);
+		ctx.clip();
+		segment(ctx, O, end, { color: COL.planet, width: 1.5 });
+		ctx.restore();
+
+		const glow = ctx.createRadialGradient(P.x, P.y, 0, P.x, P.y, HALO_RADIUS);
+
+		glow.addColorStop(0, withAlpha(COL.planet, 0.35));
+		glow.addColorStop(1, withAlpha(COL.planet, 0));
+		ctx.fillStyle = glow;
+		ctx.beginPath();
+		ctx.arc(P.x, P.y, HALO_RADIUS, 0, TAU);
+		ctx.fill();
+		drawDot(ctx, P.x, P.y, 6.5, COL.planet);
+	},
+
+	/* (a) Ptolemy's model about the Earth O. */
+	drawPtolemy() {
+		const owner = this.ptolemy;
+		const ctx = owner.ctx;
+
+		if (!ctx || !this.state) {
+			return;
+		}
+
+		const { now, jdTT } = this.state;
+		const g = now.geostatic;
+		const { scale, center, at } = this.begin(owner, MACHINE_REACH.ptolemy);
+		const O = at(g.O);
+		const K = at(g.K);
+		const P = at(g.P);
+		const S = at(g.S);
+
+		this.drawDial(owner, center);
+
+		// the path of P relative to the Earth over the last synodic period
+		const path = [];
+
+		for (let days = PATH_DAYS; days >= 0; days -= PATH_STEP) {
+			path.push(at(PlanetArrangement.moment('mars', jdTT - days).geostatic.P));
+		}
+
+		ctx.globalAlpha = 0.35;
+		ctx.strokeStyle = COL.planet;
+		ctx.lineWidth = 1;
+		ctx.beginPath();
+		path.forEach((point, i) => (i === 0 ? ctx.moveTo(point.x, point.y) : ctx.lineTo(point.x, point.y)));
+		ctx.lineTo(P.x, P.y);
+		ctx.stroke();
+		ctx.globalAlpha = 1;
+
+		// the deferent and the epicycle, the sides OK and KP, the
+		// direction of the Sun (dashed) to the corner of the parallelogram
+		circle(ctx, at(g.C), scale, { color: COL.deferent, width: 2 });
+		circle(ctx, K, PlanetEquant.MARS_FIT.r * scale, { color: COL.epicycle, width: 2 });
+		segment(ctx, O, K, { color: COL.deferent, width: 1.6 });
+		segment(ctx, K, P, { color: COL.epicycle, width: 2 });
+		segment(ctx, O, S, { color: COL.sun, width: 1.6, dash: [5, 4] });
+
+		this.drawSight(owner, O, P, now.lambda);
+		drawDot(ctx, K.x, K.y, 3.5, COL.epicycle);
+		drawDot(ctx, S.x, S.y, 6, COL.sun);
+		drawDot(ctx, O.x, O.y, 6, COL.earth);
+
+		// O below the Earth, fixed; ☉ outward from O; K outward from the
+		// deferent's center; P off its line of sight
+		labelOutside(ctx, 'O', O, 7, 250, COL.earth, owner.labels);
+		labelOutside(ctx, '☉', S, 6, screenDirection(O, S), COL.sun, owner.labels);
+		labelOutside(ctx, 'K', K, 5, screenDirection(at(g.C), K), COL.epicycle, owner.labels);
+		labelOutside(ctx, 'P', P, 7, now.lambda + SIGHT_NAME_TURN, COL.planet, owner.labels);
+	},
+
+	/* (b) Copernicus' arrangement about the Sun. */
+	drawCopernicus() {
+		const owner = this.copernicus;
+		const ctx = owner.ctx;
+
+		if (!ctx || !this.state) {
+			return;
+		}
+
+		const { now } = this.state;
+		const h = now.heliostatic;
+		const { scale, center, at } = this.begin(owner, MACHINE_REACH.copernicus);
+		const S = at(h.S);
+		const O = at(h.O);
+		const P = at(h.P);
+		const C = at(h.C);
+
+		this.drawDial(owner, center);
+
+		// the Earth's circle (violet, as Ptolemy's epicycle) and Mars'
+		// (green, as his deferent); the sides sun O and sun P; the
+		// direction of the Sun from the Earth (dashed)
+		circle(ctx, S, scale, { color: COL.epicycle, width: 2 });
+		circle(ctx, C, now.scale * scale, { color: COL.deferent, width: 2 });
+		segment(ctx, S, P, { color: COL.deferent, width: 1.6 });
+		segment(ctx, O, S, { color: COL.sun, width: 1.6, dash: [5, 4] });
+
+		this.drawSight(owner, O, P, now.lambda);
+		drawDot(ctx, S.x, S.y, 6, COL.sun);
+		drawDot(ctx, O.x, O.y, 6, COL.earth);
+
+		// ☉ below the Sun, fixed; O and P a quarter turn from the line to
+		// the Sun, on opposite sides, clear of the line of sight, which
+		// near opposition runs out from the Sun through both
+		labelOutside(ctx, '☉', S, 7, 250, COL.sun, owner.labels);
+		labelOutside(ctx, 'O', O, 7, screenDirection(S, O) - 90, COL.earth, owner.labels);
+		labelOutside(ctx, 'P', P, 7, screenDirection(S, P) + 90, COL.planet, owner.labels);
+	}
+};
+
+/* ==========================================================================
+   4. PAGE START
    Shared components first (they typeset the prose), then the figures.
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
 	Site.initPage();
-	startFigures([loopFigure]);
+	startFigures([loopFigure, machineFigure]);
 });

@@ -67,9 +67,13 @@ next page.
      slider, Play and a three-line read-out (the date, the daily motion,
      the days to or from opposition). The loop comes at opposition, each
      about 50° further east, 37 loops in 79 years.
-  2. **Ptolemy and Copernicus side by side**: the two models animated
-     together, Earth at rest and Sun at rest, painting the same loop on
-     one strip of sky (page 4.3's exchange of the vectors). What changed
+  2. **Ptolemy and Copernicus side by side** (built as a sample): page
+     4.2's Mars in the two descriptions of page 4.3, animated
+     together over about one synodic period, the Earth at rest and the
+     Sun at rest, each line of sight running to a dial of ecliptic
+     longitude that carries Mars' direction over the last 300 days, older
+     further in; a three-line read-out gives the date and the direction
+     computed in each drawing, always equal. What changed
      (why loops come at opposition, the order and distances of the
      planets) and what did not (the predicted directions), as history
      (WRITING.md §9); Tycho and the phases of Venus in a line (page 4.4).

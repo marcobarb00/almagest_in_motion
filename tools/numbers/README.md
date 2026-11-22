@@ -22,7 +22,7 @@ shared code in Node, and prints the numbers quoted on the page.
 | `4.4-phases-parallax.js` | 4.4 · Phases and parallax |
 | `4.5-kepler.js` | 4.5 · Kepler |
 | `beyond-kepler.js` | Epilogue · Beyond Kepler |
-| `toolbox.js` | The toolbox |
+| `simulator.js` | The simulator |
 
 Run from the repository root, e.g.
 

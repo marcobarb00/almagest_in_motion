@@ -6,7 +6,7 @@
 # heliocentric vectors of the six bodies (DE441, J2000 ecliptic, every 300
 # days from 1900 to 2150), against which tools/make-vsop87.js checks the
 # truncated series it writes into shared/vsop87-data.js (page 4.5) and
-# shared/vsop87-planets.js (the toolbox).
+# shared/vsop87-planets.js (the simulator).
 # Run from the repository root: sh tools/numbers/data/fetch-vsop87.sh
 # Fetched on 2026-11-19 (the Earth and Mars) and 2026-11-20 (the others).
 set -e

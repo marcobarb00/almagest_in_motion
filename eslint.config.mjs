@@ -122,7 +122,7 @@ export default [
 			'templates/**/*.js',
 			'shared/tests.js',
 			'beyond-kepler/**/*.js',
-			'toolbox/**/*.js',
+			'simulator/**/*.js',
 			'design/**/*.js',
 			'hub.js'
 		],

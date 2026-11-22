@@ -95,7 +95,7 @@ const PAGE_FILES = [
 	'act4-planets/03-new-center/index.html',
 	'act4-planets/04-phases-parallax/index.html',
 	'act4-planets/05-kepler/index.html',
-	'toolbox/index.html',
+	'simulator/index.html',
 	'beyond-kepler/index.html',
 	'act0-intro/01-ptolemy-to-kepler/index.html'
 ];
@@ -1471,11 +1471,11 @@ function page45(c) {
 	);
 }
 
-function toolbox(c) {
+function simulator(c) {
 	const { Time, Ephem, Kepler } = c;
 	const vsop = { theory: 'vsop87' };
 
-	title('8o. THE TOOLBOX (toolbox/page.js; Kepler.PLANETS_FIT; vsop87-planets.js)');
+	title('8o. THE SIMULATOR (simulator/page.js; Kepler.PLANETS_FIT; vsop87-planets.js)');
 	['mercury', 'venus', 'jupiter', 'saturn'].forEach(name => {
 		row(`PLANETS_FIT.${name}`, JSON.stringify(Kepler.PLANETS_FIT[name]));
 	});
@@ -1689,7 +1689,7 @@ function buildTable() {
 	page43(pages[11]);
 	page44(pages[12]);
 	page45(pages[13]);
-	toolbox(pages[14]);
+	simulator(pages[14]);
 	beyondKepler(pages[15]);
 	page01(pages[16]);
 	numbersSection();

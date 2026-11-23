@@ -89,7 +89,7 @@ const ERROR_NARROWEST_COLUMNS = 200;
    the dashed pointer line never goes unexplained (CLAUDE.md). */
 const ERROR_READOUT_HINT = tr(
 	"Point at the plot to read each curve's error on a date (dashed line).",
-	"Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata)."
+	"Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata)."
 );
 
 /* "Eccentric (kept)": the name of a ghost the reader kept. */
@@ -628,7 +628,7 @@ class ErrorCurve {
 				'Over long spans, where one pixel covers more than ' +
 					`${this.resolution} days, each curve is drawn as a band, from its smallest to its largest error within ${window}.`,
 				'Sugli intervalli lunghi, dove un pixel copre più di ' +
-					`${this.resolution} giorni, ogni curva è disegnata come una banda, dal suo errore minimo al massimo entro ${window}.`
+					`${this.resolution} giorni, ogni curva è disegnata come una banda, dall'errore minimo a quello massimo entro ${window}.`
 			)
 		);
 	}

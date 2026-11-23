@@ -20,7 +20,7 @@ const SITE_MAP = (function () {
 			title: tr('Intro', 'Introduzione'),
 			blurb: tr(
 				"Ptolemy's Mars against tonight's sky: how can circles do this well, and why are they still wrong?",
-				'Il Marte di Tolomeo contro il cielo di stanotte: come possono dei cerchi riuscire così bene, e perché sbagliano comunque?'
+				'Il Marte di Tolomeo a confronto con il cielo di stanotte: come fanno dei cerchi a funzionare così bene, e perché sbagliano comunque?'
 			)
 		},
 		{
@@ -63,7 +63,7 @@ const SITE_MAP = (function () {
 			id: 5,
 			name: tr('Epilogue', 'Epilogo'),
 			title: tr('Beyond Kepler', 'Oltre Keplero'),
-			blurb: tr('Where the story goes next.', 'Dove va la storia dopo Keplero.')
+			blurb: tr('Where the story goes next.', 'Come prosegue la storia dopo Keplero.')
 		}
 	];
 
@@ -80,7 +80,7 @@ const SITE_MAP = (function () {
 			title: tr('From Ptolemy to Kepler', 'Da Tolomeo a Keplero'),
 			question: tr(
 				'Why did it take fifteen centuries to predict Mars?',
-				'Perché ci vollero quindici secoli per prevedere Marte?'
+				'Perché ci vollero quindici secoli per prevedere la posizione di Marte?'
 			),
 			path: 'act0-intro/01-ptolemy-to-kepler/index.html',
 			italian: true
@@ -89,7 +89,7 @@ const SITE_MAP = (function () {
 			number: '1.1',
 			act: 1,
 			ready: true,
-			title: tr('The turning sky', 'Il cielo che ruota'),
+			title: tr('The turning sky', 'La rotazione del cielo'),
 			question: tr('What moves, and around what?', 'Che cosa si muove, e attorno a che cosa?'),
 			path: 'act1-stage/01-turning-sky/index.html',
 			italian: true
@@ -234,7 +234,7 @@ const SITE_MAP = (function () {
 			act: 5,
 			ready: false,
 			title: tr('Beyond Kepler', 'Oltre Keplero'),
-			question: tr('Where does the story go next?', 'Dove va la storia dopo Keplero?'),
+			question: tr('Where does the story go next?', 'Come prosegue la storia dopo Keplero?'),
 			path: 'beyond-kepler/index.html',
 			italian: true
 		}
@@ -337,7 +337,7 @@ const SITE_MAP = (function () {
 			title: tr('aberration', 'aberrazione'),
 			sentence: tr(
 				"the Earth's yearly motion relative to the solar system's center of mass tilts the incoming starlight by about 20″",
-				'il moto annuo della Terra rispetto al centro di massa del sistema solare inclina la luce delle stelle in arrivo di circa 20″'
+				'il moto annuo della Terra rispetto al centro di massa del sistema solare sposta di circa 20″ la direzione da cui arriva la luce delle stelle'
 			),
 			path: null,
 			ready: false
@@ -421,10 +421,10 @@ const SITE_MAP = (function () {
 			ready: false
 		},
 		deltaT: {
-			title: tr('the slowing Earth (ΔT)', 'la Terra che rallenta (ΔT)'),
+			title: tr('the slowing Earth (ΔT)', 'il rallentamento della Terra (ΔT)'),
 			sentence: tr(
 				"tides lengthen the day, so clocks and the Earth's rotation drift apart by hours over millennia",
-				'le maree allungano il giorno, così gli orologi e la rotazione della Terra si scostano di ore nel corso dei millenni'
+				'le maree allungano il giorno, e nel corso dei millenni gli orologi e la rotazione della Terra si discostano di ore'
 			),
 			path: null,
 			ready: false
@@ -436,11 +436,11 @@ const SITE_MAP = (function () {
 	   and what stood around the story. */
 	const TOPIC_GROUPS = [
 		{
-			title: tr('Left out of the course', 'Lasciati fuori dal corso'),
+			title: tr('Left out of the course', 'Rimasti fuori dal corso'),
 			topics: ['nutation', 'aberration', 'parallax', 'latitudes', 'deltaT']
 		},
 		{
-			title: tr('Where the story went', 'Dove è andata la storia'),
+			title: tr('Where the story went', 'Come è proseguita la storia'),
 			topics: ['newton', 'perturbations', 'moon']
 		},
 		{

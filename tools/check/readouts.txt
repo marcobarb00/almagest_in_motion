@@ -1685,7 +1685,7 @@ Regenerate with: node tools/check/smoke.js --update
     OUTPUT (fit-spring): 94,50 d
     OUTPUT (fit-summer): 92,50 d
     #fit-readout: a_1 = 93{,}14^\circ,\quad a_2 = 91{,}17^\circ | h = 0{,}0172,\ k = 0{,}0377,\quad e = 0{,}0414 | \lambda_A = 65{,}4^\circ,\quad |q|_\text{max} = 2{,}37^\circ | \text{autunno } 88{,}12\,\text{d},\quad \text{inverno } 90{,}12\,\text{d}
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   opened 6 hints and answers
   slider #eoc-day = 0
     OUTPUT (eoc-day): 1 gen
@@ -1764,11 +1764,11 @@ Regenerate with: node tools/check/smoke.js --update
     OUTPUT (fit-summer): 91,31 d
     #fit-readout: a_1 = 90{,}00^\circ,\quad a_2 = 90{,}00^\circ | h = 0{,}0000,\ k = 0{,}0000,\quad e = 0{,}0000 | \text{nessun apogeo (C sulla Terra)},\quad |q|_\text{max} = 0{,}00^\circ | \text{autunno } 91{,}31\,\text{d},\quad \text{inverno } 91{,}31\,\text{d}
   button "1 anno"
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   button "100 anni"
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   button "1000 anni"
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   hover #motion-plot at 0.3
   hover #motion-plot at 0.6
   hover #motion-plot at 0.9
@@ -1808,7 +1808,7 @@ Regenerate with: node tools/check/smoke.js --update
   hover #error-2026-plot at 0.9
     .errorcurve-readout: 1 feb 2435 · eccentrico: +12,6′
   hover #error-2026-plot left
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   dragged 0 spheres
 
 === act2-sun/02-equation-of-time/index.html ===
@@ -2006,7 +2006,7 @@ Regenerate with: node tools/check/smoke.js --update
     #parts-readout: \text{2025:}\quad E \text{ da } {-14{,}22} \text{ a } {+16{,}52}\,\text{min} | \text{ampiezze: } -q\ \ 7{,}67,\quad \lambda - \alpha\ \ 9{,}86\,\text{min}
     OUTPUT (ana-day): 3 nov
     #analemma-readout: \text{3 nov:}\quad E = +16\,\text{min}\ 31\,\text{s} | H = {+4{,}13}^\circ,\quad \delta = {-15{,}2}^\circ
-    #test-readout: \text{2025: modello} - \text{reale da } {-4{,}8} \text{ a } {+6{,}4}\,\text{s} | \text{Punta un grafico per leggere una data.}
+    #test-readout: \text{2025: modello} - \text{reale da } {-4{,}8} \text{ a } {+6{,}4}\,\text{s} | \text{Passa sopra un grafico per leggere una data.}
     OUTPUT (cent-year): 2026
     #centuries-readout: \text{minimo } {-14{,}20}\,\text{min a } \lambda = 323^\circ | \text{massimo } {+16{,}46}\,\text{min a } \lambda = 221^\circ | \text{escursione } 30{,}66\,\text{min} = 7{,}66\ \text{gradi di tempo}
   opened 7 hints and answers
@@ -2162,7 +2162,7 @@ Regenerate with: node tools/check/smoke.js --update
   hover #test-both at 0.9
     #test-readout: \text{3 dic:}\quad \text{modello } +10\,\text{min}\ 13\,\text{s},\quad \text{reale } +10\,\text{min}\ 07\,\text{s} | \text{modello} - \text{reale} = {+6{,}1}\,\text{s}
   hover #test-both left
-    #test-readout: \text{2025: modello} - \text{reale da } {-4{,}8} \text{ a } {+6{,}4}\,\text{s} | \text{Punta un grafico per leggere una data.}
+    #test-readout: \text{2025: modello} - \text{reale da } {-4{,}8} \text{ a } {+6{,}4}\,\text{s} | \text{Passa sopra un grafico per leggere una data.}
   hover #test-error at 0.3
     #test-readout: \text{16 mar:}\quad \text{modello } -8\,\text{min}\ 35\,\text{s},\quad \text{reale } -8\,\text{min}\ 34\,\text{s} | \text{modello} - \text{reale} = {-1{,}2}\,\text{s}
   hover #test-error at 0.6
@@ -2170,7 +2170,7 @@ Regenerate with: node tools/check/smoke.js --update
   hover #test-error at 0.9
     #test-readout: \text{3 dic:}\quad \text{modello } +10\,\text{min}\ 13\,\text{s},\quad \text{reale } +10\,\text{min}\ 07\,\text{s} | \text{modello} - \text{reale} = {+6{,}1}\,\text{s}
   hover #test-error left
-    #test-readout: \text{2025: modello} - \text{reale da } {-4{,}8} \text{ a } {+6{,}4}\,\text{s} | \text{Punta un grafico per leggere una data.}
+    #test-readout: \text{2025: modello} - \text{reale da } {-4{,}8} \text{ a } {+6{,}4}\,\text{s} | \text{Passa sopra un grafico per leggere una data.}
   hover #centuries-plot at 0.3
     OUTPUT (cent-year): 3000
     #centuries-readout: \text{minimo } {-12{,}15}\,\text{min a } \lambda = 324^\circ | \text{massimo } {+16{,}97}\,\text{min a } \lambda = 224^\circ | \text{escursione } 29{,}13\,\text{min} = 7{,}28\ \text{gradi di tempo}
@@ -2277,8 +2277,8 @@ Regenerate with: node tools/check/smoke.js --update
   as loaded
     OUTPUT (model-year): 2026
     #model-readout: \text{2026: spostamento } +0{,}00^\circ | \text{Spica: } \lambda = 204{,}20^\circ,\ \delta = -11{,}30^\circ | \text{più vicina a P: Polaris, } 0{,}6^\circ
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   opened 6 hints and answers
   slider #model-year = -11000
     OUTPUT (model-year): 11·001 a.C.
@@ -2305,20 +2305,20 @@ Regenerate with: node tools/check/smoke.js --update
     OUTPUT (model-year): 13·790 d.C.
     #model-readout: \text{13}{\cdotp}\text{790 d.C.: spostamento } +164{,}31^\circ | \text{Spica: } \lambda = 8{,}51^\circ,\ \delta = +1{,}49^\circ | \text{più vicina a P: Vega, } 4{,}8^\circ
   button "2000 anni"
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   button "6000 anni"
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   button "100 anni"
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   button "1000 anni"
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   button "2000 anni"
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   hover #stars-ecliptic at 0.3
   hover #stars-ecliptic at 0.6
   hover #stars-ecliptic at 0.9
@@ -2333,28 +2333,28 @@ Regenerate with: node tools/check/smoke.js --update
   hover #records-plot left
   hover #error-spica-plot at 0.3
     .errorcurve-readout: 19 feb 569 · precessione uniforme: −4,7′
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   hover #error-spica-plot at 0.6
     .errorcurve-readout: 31 lug 2523 · precessione uniforme: −0,2′
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   hover #error-spica-plot at 0.9
     .errorcurve-readout: 9 gen 4478 · precessione uniforme: −9,7′
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   hover #error-spica-plot left
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   hover #error-sun-plot at 0.3
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
     .errorcurve-readout: 10 set 1540 · apogeo fisso: +4,4′ · apogeo in moto: +0,9′
   hover #error-sun-plot at 0.6
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
     .errorcurve-readout: 7 mar 2192 · apogeo fisso: +3,3′ · apogeo in moto: +0,6′
   hover #error-sun-plot at 0.9
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
     .errorcurve-readout: 3 set 2843 · apogeo fisso: −19,4′ · apogeo in moto: −1,5′
   hover #error-sun-plot left
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   hover #ptolemy-plot at 0.3
   hover #ptolemy-plot at 0.6
   hover #ptolemy-plot at 0.9
@@ -2507,7 +2507,7 @@ Regenerate with: node tools/check/smoke.js --update
     OUTPUT (eq-day): 1 gen 2026
     #equivalence-readout: \text{1 gen 2026:}\quad \bar\lambda = 67{,}97^\circ,\quad M = 191{,}72^\circ | \lambda_A = \bar\lambda - M = 236{,}25^\circ | \text{epiciclo: } \lambda = 72{,}90^\circ | \text{eccentrico: } \lambda = 72{,}90^\circ
     #eclipses-readout: a_{12} = 148{,}97^\circ,\quad a_{23} = 161{,}57^\circ | d_{12} = +8{,}88^\circ,\quad d_{23} = -9{,}38^\circ | \text{primo ordine: } r/R = 0{,}08378,\ M_2 = 270{,}8^\circ | \text{esatto: } r/R = 0{,}08440,\ M_2 = 275{,}0^\circ | \text{il cielo di riferimento, 2025 – 2026}
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   opened 6 hints and answers
   slider #epi-day = 0
     OUTPUT (epi-day): 1 gen, 00 h
@@ -2594,11 +2594,11 @@ Regenerate with: node tools/check/smoke.js --update
   button "Copernico, 1511"
     #eclipses-readout: a_{12} = 250{,}60^\circ,\quad a_{23} = 306{,}72^\circ | d_{12} = -5{,}00^\circ,\quad d_{23} = +2{,}98^\circ | \text{primo ordine: } r/R = 0{,}08561,\ M_2 = 73{,}9^\circ | \text{esatto: } r/R = 0{,}08605,\ M_2 = 74{,}5^\circ | \text{Copernico: } 0{,}08604,\ M_2 = 74^\circ 27'
   button "2 mesi"
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   button "1 anno"
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   button "100 anni"
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   hover #motion-plot at 0.3
   hover #motion-plot at 0.6
   hover #motion-plot at 0.9
@@ -2634,7 +2634,7 @@ Regenerate with: node tools/check/smoke.js --update
   hover #error-ours-plot at 0.9
     .errorcurve-readout: 11 mag 2067 · Luna uniforme: −292,2′ · epiciclo: −1,8′
   hover #error-ours-plot left
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   dragged 0 spheres
 
 === act3-moon/02-evection/index.html ===
@@ -2701,7 +2701,7 @@ Regenerate with: node tools/check/smoke.js --update
   as loaded
     OUTPUT (crank-day): 1 gen, 00 h
     #crank-readout: \text{1 gen, 00 h:}\quad \bar\lambda = 67{,}97^\circ,\quad D = 147{,}31^\circ | \rho = \text{OK} = 0{,}881,\quad M = 191{,}72^\circ | q = +1{,}23^\circ,\quad \arcsin(e/\rho) = 5{,}50^\circ
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   opened 6 hints and answers
   slider #crank-day = 0
     OUTPUT (crank-day): 1 gen, 00 h
@@ -2722,11 +2722,11 @@ Regenerate with: node tools/check/smoke.js --update
     OUTPUT (crank-day): 31 gen, 01 h
     #crank-readout: \text{31 gen, 01 h:}\quad \bar\lambda = 103{,}92^\circ,\quad D = 153{,}64^\circ | \rho = \text{OK} = 0{,}918,\quad M = 224{,}33^\circ | q = +3{,}93^\circ,\quad \arcsin(e/\rho) = 5{,}27^\circ
   button "2 mesi"
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   button "1 anno"
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   button "100 anni"
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   hover #equation-plot at 0.3
   hover #equation-plot at 0.6
   hover #equation-plot at 0.9
@@ -2750,7 +2750,7 @@ Regenerate with: node tools/check/smoke.js --update
   hover #error-ours-plot at 0.9
     .errorcurve-readout: 11 mag 2067 · epiciclo: −1,8′ · sola manovella: +19,6′ · modello completo: +18,3′
   hover #error-ours-plot left
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   hover #diameter-plot at 0.3
   hover #diameter-plot at 0.6
   hover #diameter-plot at 0.9
@@ -2884,7 +2884,7 @@ Regenerate with: node tools/check/smoke.js --update
     OUTPUT (limits-node): −10,3°
     OUTPUT (limits-distance): 385·000 km
     #limits-readout: \text{Luna nuova: } \beta = -53{,}5',\ \gamma = −0{,}94 | \text{eclissi di Sole: anulare} | \text{Luna piena: } \beta = +53{,}5' | \text{eclissi di Luna: parziale, magnitudine 0{,}12} | s = 15{,}5',\ \pi = 57{,}0',\ u = 41{,}7'
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   opened 8 hints and answers
   slider #orbit-day = 0
     OUTPUT (orbit-day): 1 gen 2026
@@ -2958,11 +2958,11 @@ Regenerate with: node tools/check/smoke.js --update
     OUTPUT (limits-distance): 406·700 km
     #limits-readout: \text{Luna nuova: } \beta = +0{,}5',\ \gamma = +0{,}01 | \text{eclissi di Sole: anulare} | \text{Luna piena: } \beta = -0{,}5' | \text{eclissi di Luna: totale, magnitudine 1{,}80} | s = 14{,}7',\ \pi = 53{,}9',\ u = 38{,}6'
   button "2 mesi"
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   button "1 anno"
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   button "100 anni"
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   hover #calendar-plot at 0.3
   hover #calendar-plot at 0.6
   hover #calendar-plot at 0.9
@@ -2994,7 +2994,7 @@ Regenerate with: node tools/check/smoke.js --update
   hover #error-latitude-plot at 0.9
     .errorcurve-readout: 11 mag 2067 · adattata: −5,3′
   hover #error-latitude-plot left
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   dragged 1 spheres
 
 === act4-planets/01-going-backwards/index.html ===
@@ -3158,7 +3158,7 @@ Regenerate with: node tools/check/smoke.js --update
     OUTPUT (epi-day): 27 ott 2024
     OUTPUT (epi-r): 0,658
     #epicycle-readout: \text{27 ott 2024:}\quad \bar\lambda = 66{,}8^\circ,\quad \mu = 149{,}1^\circ | \eta = +37{,}8^\circ,\quad \lambda = \bar\lambda + \eta = 104{,}6^\circ | \text{moto giornaliero } +0{,}325^\circ \text{ (avanti)} | \text{stazioni in } \mu = 163{,}2^\circ; 196{,}8^\circ;\ \text{indietro di } 16{,}2^\circ
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   opened 6 hints and answers
   slider #motion-loop = 0
     OUTPUT (motion-loop): 24 dic 2007
@@ -3246,11 +3246,11 @@ Regenerate with: node tools/check/smoke.js --update
     OUTPUT (epi-r): 0,000
     #epicycle-readout: \text{11 mar 2026:}\quad \bar\lambda = 329{,}0^\circ,\quad \mu = 20{,}0^\circ | \eta = +0{,}0^\circ,\quad \lambda = \bar\lambda + \eta = 329{,}0^\circ | \text{moto giornaliero } +0{,}524^\circ \text{ (avanti)} | \text{senza cappio: } r \le n/(n + n_\mu) = 0{,}532
   button "4 anni"
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   button "16 anni"
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   button "200 anni"
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   hover #motion-plot at 0.3
     OUTPUT (motion-loop): 31 lug 2025
     #motion-readout: \text{torna indietro di } 11{,}3^\circ \text{ in } 24 \text{ giorni} | \text{centrato sulla longitudine eclittica } 129{,}0^\circ
@@ -3294,7 +3294,7 @@ Regenerate with: node tools/check/smoke.js --update
   hover #error-mars-plot at 0.9
     .errorcurve-readout: 19 set 2099 · pianeta uniforme: −29,12° · epiciclo: −21,04°
   hover #error-mars-plot left
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   hover #arcs-plot at 0.3
   hover #arcs-plot at 0.6
   hover #arcs-plot at 0.9
@@ -3476,7 +3476,7 @@ Regenerate with: node tools/check/smoke.js --update
     #planet-readout: \text{28 giu 2018:}\quad \bar\lambda = 294{,}2^\circ,\quad M = 142{,}8^\circ | q = -16{,}18^\circ,\quad \rho = \text{OK} = 0{,}868 | \mu = 161{,}9^\circ,\quad \eta = +6{,}05^\circ | \lambda = \bar\lambda + q + \eta = 284{,}0^\circ
     OUTPUT (fit-oc): 0,098
     #fit-readout: \text{OC} = 0{,}098 = 0{,}49\,\text{OQ},\quad \text{OQ} = 0{,}201 | \text{scarto quadratico medio: cappi } 0{,}5^\circ,\quad \text{opposizioni } 8'
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   opened 6 hints and answers
   slider #jobs-oc = 0
     OUTPUT (jobs-oc): 0,000
@@ -3548,11 +3548,11 @@ Regenerate with: node tools/check/smoke.js --update
     OUTPUT (fit-oc): 0,201
     #fit-readout: \text{OC} = 0{,}201 = 1{,}00\,\text{OQ},\quad \text{OQ} = 0{,}201 | \text{scarto quadratico medio: cappi } 10{,}2^\circ,\quad \text{opposizioni } 18'
   button "4 anni"
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   button "16 anni"
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   button "200 anni"
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   hover #observed-oppositions at 0.3
   hover #observed-oppositions at 0.6
   hover #observed-oppositions at 0.9
@@ -3620,7 +3620,7 @@ Regenerate with: node tools/check/smoke.js --update
   hover #error-mars-plot at 0.9
     .errorcurve-readout: 19 set 2099 · l'epiciclo della pagina 4.1: −21,04° · equante: −0,15°
   hover #error-mars-plot left
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   hover #test-arcs at 0.3
   hover #test-arcs at 0.6
   hover #test-arcs at 0.9
@@ -3713,7 +3713,7 @@ Regenerate with: node tools/check/smoke.js --update
     OUTPUT (arrangement-day): 6 dic 2014
     #arrangement-readout: \text{6 dic 2014:}\quad \lambda - \bar\lambda_\odot = 46{,}48^\circ | \lambda = 301{,}19^\circ \text{ in (a)},\quad 301{,}19^\circ \text{ in (b)}
     OUTPUT (epicyclet-anomaly): 60°
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   opened 6 hints and answers
   slider #arrangement-day = 0
     OUTPUT (arrangement-day): 1 gen 2010
@@ -3766,15 +3766,15 @@ Regenerate with: node tools/check/smoke.js --update
   hover #error-mars-plot at 0.9
     .errorcurve-readout: 20 ago 2019 · l'equante della pagina 4.2: −0,05° · epiciclo minore di Copernico: −0,05°
   hover #error-mars-plot left
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   hover #error-difference at 0.3
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   hover #error-difference at 0.6
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   hover #error-difference at 0.9
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   hover #error-difference left
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   hover #distance-plot at 0.3
   hover #distance-plot at 0.6
   hover #distance-plot at 0.9
@@ -4044,8 +4044,8 @@ Regenerate with: node tools/check/smoke.js --update
   as loaded
     OUTPUT (ellipse-day): 57 giorni
     #ellipse-readout: M = 29{,}9^\circ | E = 18{,}8^\circ | \angle\text{AQP} = 36{,}6^\circ | \angle\text{A}{\odot}\text{P} = M + q = 9{,}5^\circ | r = 1{,}568\,a
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   opened 6 hints and answers
   slider #ellipse-day = 0
     OUTPUT (ellipse-day): 0 giorni
@@ -4072,17 +4072,17 @@ Regenerate with: node tools/check/smoke.js --update
     OUTPUT (ellipse-day): 344 giorni
     #ellipse-readout: M = 180{,}1^\circ | E = 180{,}2^\circ | \angle\text{AQP} = 180{,}1^\circ | \angle\text{A}{\odot}\text{P} = M + q = 180{,}2^\circ | r = 0{,}907\,a
   button "4 anni"
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   button "16 anni"
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   button "200 anni"
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   button "1 anno"
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   button "100 anni"
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   button "1000 anni"
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   hover #sun-plot at 0.3
   hover #sun-plot at 0.6
   hover #sun-plot at 0.9
@@ -4098,7 +4098,7 @@ Regenerate with: node tools/check/smoke.js --update
   hover #error-mars-plot at 0.9
     .errorcurve-readout: 19 set 2099 · l'equante della pagina 4.2: −12,3′ · ellissi: +0,1′
   hover #error-mars-plot left
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   hover #error-sun-plot at 0.3
     .errorcurve-readout: 2 ago 1783 · l'eccentrico della pagina 2.1: +0,9′ · ellisse: +0,1′
   hover #error-sun-plot at 0.6
@@ -4106,7 +4106,7 @@ Regenerate with: node tools/check/smoke.js --update
   hover #error-sun-plot at 0.9
     .errorcurve-readout: 1 feb 2435 · l'eccentrico della pagina 2.1: −0,8′ · ellisse: −0,7′
   hover #error-sun-plot left
-    .errorcurve-readout: Punta il grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
+    .errorcurve-readout: Passa sul grafico per leggere l'errore di ogni curva in una data (linea tratteggiata).
   hover #summary-sun at 0.3
   hover #summary-sun at 0.6
   hover #summary-sun at 0.9

@@ -206,7 +206,7 @@ const observedFigure = {
 		this.oppositions = longitudePlot(
 			byId('observed-oppositions'),
 			EQUATION_RANGE,
-			tr('ahead of the mean place (°)', 'avanti rispetto al posto medio (°)'),
+			tr('ahead of the mean place (°)', 'avanti rispetto alla posizione media (°)'),
 			() => this.drawOppositions(),
 			STACKED_PLOT
 		);
@@ -1003,7 +1003,7 @@ const fitFigure = {
 		this.directions = longitudePlot(
 			byId('fit-directions'),
 			EQUATION_RANGE,
-			tr('ahead of the mean place (°)', 'avanti rispetto al posto medio (°)'),
+			tr('ahead of the mean place (°)', 'avanti rispetto alla posizione media (°)'),
 			() => this.drawDirections()
 		);
 		this.arcs = longitudePlot(byId('fit-arcs'), FIT_ARC_RANGE, tr('arc (°)', 'arco (°)'), () => this.drawArcs());

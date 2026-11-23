@@ -692,7 +692,10 @@ const testFigure = {
 					`\\text{${YEAR}: model} - \\text{real from } ${texSigned(Math.min(...this.error), 1)} \\text{ to } ${texSigned(Math.max(...this.error), 1)}\\,\\text{s}`,
 					`\\text{${YEAR}: modello} - \\text{reale da } ${texSigned(Math.min(...this.error), 1)} \\text{ a } ${texSigned(Math.max(...this.error), 1)}\\,\\text{s}`
 				),
-				tr('\\text{Point at either plot to read a date.}', '\\text{Punta un grafico per leggere una data.}')
+				tr(
+					'\\text{Point at either plot to read a date.}',
+					'\\text{Passa sopra un grafico per leggere una data.}'
+				)
 			]);
 			return;
 		}

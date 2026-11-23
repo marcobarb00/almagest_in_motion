@@ -564,7 +564,7 @@ const PARAMETER_ROWS = [
 		],
 		fitted: tr(
 			'the new Moons of 1926–2025; the eclipses of September 2025, March and August 2026',
-			'le lune nuove del 1926–2025; le eclissi di settembre 2025, marzo e agosto 2026'
+			'le Lune nuove del 1926–2025; le eclissi di settembre 2025, marzo e agosto 2026'
 		)
 	},
 	{
@@ -583,7 +583,7 @@ const PARAMETER_ROWS = [
 		],
 		fitted: tr(
 			'the ecliptic latitudes at the new and full Moons of 1926–2025 and of 2025–2026',
-			'le latitudini eclittiche alle lune nuove e piene del 1926–2025 e del 2025–2026'
+			'le latitudini eclittiche alle Lune nuove e piene del 1926–2025 e del 2025–2026'
 		)
 	},
 	{

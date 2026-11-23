@@ -10,7 +10,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>1.1 · Il cielo che ruota · Prevedere il cielo</title>
+	<title>1.1 · La rotazione del cielo · Prevedere il cielo</title>
 	<link rel="icon" type="image/svg+xml" href="../../shared/favicon.svg">
 	<!-- The English original (components.js draws its flag) -->
 	<link rel="alternate" hreflang="en" href="index.html">
@@ -87,11 +87,11 @@
 			<figcaption>
 				<span class="fig-label">Foto.</span>
 				Il cielo settentrionale sul Bengala del Nord, in Bangladesh, in 108
-				esposizioni sovrapposte. Nota che ogni stella traccia un arco e che
+				esposizioni sovrapposte. Osserva che ogni stella traccia un arco e che
 				tutti gli archi hanno un solo centro, il polo celeste, vicino al quale
 				Polaris, il punto luminoso, si muove appena. Gli archi lontani dal polo
 				sono lunghi e quelli vicini corti, eppure sottendono tutti lo stesso
-				angolo. Le deboli strisce diritte sono satelliti.
+				angolo. Le deboli strisce diritte sono tracce di satelliti.
 				<span class="credit">Youniverse Multiverse, 2022,
 					<a href="https://commons.wikimedia.org/wiki/File:Star_stack_Star_trail.jpg">Wikimedia Commons</a>,
 					CC0 (pubblico dominio).</span>
@@ -101,30 +101,30 @@
 		<p>
 			Tolomeo descrive la stessa osservazione: «la rivoluzione delle stelle
 			sempre visibili, che si osservava essere circolare e svolgersi sempre
-			attorno a un solo centro, lo stesso [per tutte]» (<em>Almagest</em> I 3).
-			Quel centro è il <strong>polo celeste</strong>. Oggi Polaris si trova a 0,63°
-			da esso, abbastanza vicino da segnare il polo a occhio nudo, ed è per
-			questo che la chiamiamo stella polare.
+			attorno a un solo centro, lo stesso [per tutte]» (<em>Almagesto</em> I 3).
+			Quel centro è il <strong>polo celeste</strong>. Oggi Polaris si trova a
+			0,63° da esso, abbastanza vicino da segnare il polo a occhio nudo, ed è
+			per questo che la chiamiamo stella polare.
 		</p>
 
 		<p>
 			Una stella torna nello stesso punto dopo 23 h 56 min 4 s di tempo
-			dell&#8217;orologio, circa 4 minuti meno di un giorno, una differenza che
-			spiega la pagina 1.3.
+			dell&#8217;orologio, circa 4 minuti meno di un giorno; la pagina 1.3
+			spiega da dove viene questa differenza.
 		</p>
 
 		<p>
-			Il polo sta sopra il punto nord dell&#8217;orizzonte, a un&#8217;altezza pari
-			alla latitudine geografica $\varphi$ dell&#8217;osservatore, per esempio
-			41,9° a Roma e 51,5° a Londra.
+			Il polo si trova sopra il punto nord dell&#8217;orizzonte, a
+			un&#8217;altezza pari alla latitudine geografica $\varphi$
+			dell&#8217;osservatore, per esempio 41,9° a Roma e 51,5° a Londra.
 		</p>
 
 		<p>
 			Poiché l&#8217;altezza del polo dipende dalla latitudine geografica, ne
 			dipende anche la parte di cielo che possiamo vedere. Come dice Tolomeo,
-			più si viaggia verso nord, «più stelle meridionali scompaiono e più
-			stelle settentrionali appaiono» (<em>Almagest</em> I 4). Canopo, la
-			seconda stella più luminosa, si vede da Rodi ma mai da Roma.
+			più si viaggia verso nord, «più stelle meridionali scompaiono e più stelle
+			settentrionali appaiono» (<em>Almagesto</em> I 4). Canopo, la seconda
+			stella più luminosa, si vede da Rodi ma mai da Roma.
 		</p>
 
 		<!-- Figure 1: the sky around the pole, a blue plate (STYLE.md §7) -->
@@ -156,7 +156,7 @@
 						<dt>griglia</dt>
 						<dd>declinazione ogni 10° da +30° a +80°, ascensione retta ogni 2 ore</dd>
 						<dt>stelle</dt>
-						<dd>tutte le stelle più luminose della magnitudine 4,6; più grandi se più luminose</dd>
+						<dd>tutte le stelle fino alla magnitudine 4,6; più grandi se più luminose</dd>
 						<dt>puntinato</dt>
 						<dd>la Via Lattea, disegnata come una fascia attorno all&#8217;equatore galattico</dd>
 					</dl>
@@ -200,10 +200,10 @@
 				</div>
 			</div>
 			<figcaption>
-				Premi Avvia e guarda il cielo ruotare attorno a P mentre il terreno
-				resta fermo. Poi muovi la latitudine geografica e guarda P salire fino
-				a un&#8217;altezza pari a φ, e il cerchio di Tolomeo delle stelle che non
-				tramontano mai crescere con essa. Trascina la sfera per ruotare la
+				Premi Avvia e guarda il cielo ruotare attorno a P mentre il terreno resta
+				fermo. Poi cambia la latitudine geografica e guarda P salire fino a
+				un&#8217;altezza pari a φ, e allargarsi con essa il cerchio di Tolomeo
+				delle stelle che non tramontano mai. Trascina la sfera per ruotare la
 				vista.
 			</figcaption>
 			<div class="keys">
@@ -211,7 +211,7 @@
 					<p class="key-title">Nella figura</p>
 					<dl class="key">
 						<dt class="c-muted">punteggiato</dt>
-						<dd>il meridiano, per N, lo zenit Z e S</dd>
+						<dd>il meridiano, che passa per N, lo zenit Z e S</dd>
 						<dt class="c-earth">blu</dt>
 						<dd>l&#8217;equatore celeste</dd>
 						<dt class="c-planet">rosso</dt>
@@ -231,7 +231,7 @@
 		</figure>
 
 		<!-- =============================== 2. MODEL =============================== -->
-		<h2 id="model"><span class="step">2 · Modello</span>Una sfera celeste che ruota</h2>
+		<h2 id="model"><span class="step">2 · Modello</span>La sfera celeste in rotazione</h2>
 
 		<h3>Direzioni, non distanze</h3>
 
@@ -239,11 +239,10 @@
 			<p>
 				Viste da qualunque punto della Terra, le stelle mantengono le stesse
 				grandezze e le stesse distanze reciproche, quindi rispetto al cielo la
-				Terra è un punto. Tolomeo trae la stessa conclusione
-				dall&#8217;orizzonte: «i piani tracciati attraverso le linee di vista
-				dell&#8217;osservatore […] che chiamiamo &#8220;orizzonti&#8221;, dividono
-				sempre in due parti uguali l&#8217;intera sfera celeste»
-				(<em>Almagest</em> I 6).
+				Terra è un punto. Tolomeo trae la stessa conclusione dall&#8217;orizzonte:
+				«i piani tracciati attraverso le linee di vista dell&#8217;osservatore […]
+				che chiamiamo &#8220;orizzonti&#8221;, dividono sempre in due parti uguali
+				l&#8217;intera sfera celeste» (<em>Almagesto</em> I 6).
 			</p>
 			<aside>
 				<div class="note" data-origin="greek"></div>
@@ -257,7 +256,7 @@
 			velocità costante, attorno a un asse.
 		</p>
 
-		<h3>Il cielo che ruota</h3>
+		<h3>La rotazione del cielo</h3>
 
 		<div class="row">
 			<p>
@@ -274,8 +273,8 @@
 		$$R_z(\theta) = \begin{pmatrix} \cos\theta & -\sin\theta & 0 \\ \sin\theta & \cos\theta & 0 \\ 0 & 0 & 1 \end{pmatrix}.$$
 
 		<p>
-			Con $\theta > 0$, $R_z(\theta)$ porta l&#8217;asse $x$ verso l&#8217;asse $y$,
-			dal meridiano verso est, il che, visto dall&#8217;esterno della sfera, sopra
+			Con $\theta > 0$, $R_z(\theta)$ porta l&#8217;asse $x$ verso l&#8217;asse
+			$y$, dal meridiano verso est: vista dall&#8217;esterno della sfera, sopra
 			P, è una rotazione in senso antiorario.
 		</p>
 
@@ -313,18 +312,19 @@
 		</p>
 
 		<p>
-			Puntiamo $x$ a sud perché, per un osservatore dell&#8217;emisfero nord,
-			l&#8217;equatore incrocia il meridiano a sud dello zenit, quindi anche
-			l&#8217;asse $x$ del sistema del cielo punta a sud. Con i due assi $x$ dalla
-			stessa parte e l&#8217;asse est in comune, i due sistemi differiscono per
-			una sola inclinazione. Un asse $x$ rivolto a nord costringerebbe $y$ a
-			puntare a ovest, perché il sistema resti destrorso, e i segni meno
-			comparirebbero ovunque. Anche Meeus (cap. 13) conta l&#8217;azimut da sud.
+			Orientiamo $x$ verso sud perché, per un osservatore dell&#8217;emisfero
+			nord, l&#8217;equatore incrocia il meridiano a sud dello zenit, quindi
+			anche l&#8217;asse $x$ del sistema del cielo punta a sud. Con i due assi
+			$x$ dalla stessa parte e l&#8217;asse est in comune, i due sistemi
+			differiscono per una sola inclinazione. Un asse $x$ rivolto a nord
+			costringerebbe $y$ a puntare a ovest, perché il sistema resti destrorso, e
+			i segni meno comparirebbero ovunque. Anche Meeus (cap. 13) conta
+			l&#8217;azimut da sud.
 		</p>
 
 		<p>
 			Il sistema del cielo è allora il sistema orizzontale inclinato attorno
-			all&#8217;asse est–ovest, $y$, da una rotazione
+			all&#8217;asse est–ovest, $y$, con una rotazione
 		</p>
 
 		$$R_y(\theta) = \begin{pmatrix} \cos\theta & 0 & \sin\theta \\ 0 & 1 & 0 \\ -\sin\theta & 0 & \cos\theta \end{pmatrix}, \qquad R_y(\theta) \begin{pmatrix} 0 \\ 0 \\ 1 \end{pmatrix} = \begin{pmatrix} \sin\theta \\ 0 \\ \cos\theta \end{pmatrix}.$$
@@ -365,7 +365,7 @@
 		</p>
 
 		<p>
-			Per due versori il prodotto scalare è il coseno dell&#8217;angolo fra
+			Per due versori il prodotto scalare è il coseno dell&#8217;angolo fra di
 			essi, quindi $\hat{\mathbf z} \cdot \mathbf s = \cos(90^\circ - a) =
 			\sin a$. Nel sistema orizzontale $\hat{\mathbf z} = (0, 0, 1)$, e il
 			prodotto scalare estrae semplicemente la componente $z$ di
@@ -373,11 +373,12 @@
 		</p>
 
 		<p>
-			La stella è più semplice nel sistema del cielo, quindi spostiamo lì lo
-			zenit. Una rotazione conserva i prodotti scalari, $(0,0,1)^T \cdot
-			(R\,\mathbf s) = (R^T (0,0,1)^T) \cdot \mathbf s$, e il vettore $R^T(0,
-			0, 1)^T$ è la terza riga di $R_y(\varphi - 90^\circ)$, cioè lo zenit
-			visto dal sistema del cielo, $\hat{\mathbf z} = (\cos\varphi, 0,
+			Le coordinate della stella sono più semplici nel sistema del cielo, quindi
+			è lo zenit che portiamo in quel sistema. Una rotazione conserva i prodotti
+			scalari, $(0,0,1)^T \cdot (R\,\mathbf s) = (R^T (0,0,1)^T) \cdot \mathbf
+			s$, e il vettore $R^T(0, 0, 1)^T$ è la terza riga di $R_y(\varphi -
+			90^\circ)$, cioè lo zenit visto dal sistema del cielo, $\hat{\mathbf z} =
+			(\cos\varphi, 0,
 			\sin\varphi)$. Quindi
 		</p>
 
@@ -390,7 +391,7 @@
 			Figura 2, discende da questa formula.
 		</p>
 
-		<h3>Una Terra che ruota dà le stesse altezze</h3>
+		<h3>Una Terra in rotazione dà le stesse altezze</h3>
 
 		<p>
 			Supponiamo invece che le stelle stiano ferme e che la Terra ruoti
@@ -405,12 +406,12 @@
 		<div class="row">
 			<p>
 				L&#8217;altezza è la stessa in ogni istante, quindi nessuna osservazione
-				del solo cielo può distinguere le due descrizioni. Tolomeo lo
-				ammette, «forse non c&#8217;è nulla nei fenomeni celesti che contrasti
-				con quell&#8217;ipotesi», e respinge la Terra che ruota per ragioni
-				fisiche: una Terra che compie un giro al giorno supererebbe le nuvole
-				e tutto ciò che viene lanciato in aria, che resterebbe indietro verso
-				ovest (<em>Almagest</em> I 7).
+				del solo cielo può distinguere le due descrizioni. Tolomeo lo ammette,
+				«forse non c&#8217;è nulla nei fenomeni celesti che contrasti con
+				quell&#8217;ipotesi», e respinge la rotazione della Terra per ragioni
+				fisiche: una Terra che compie un giro al giorno si lascerebbe indietro,
+				verso ovest, le nuvole e tutto ciò che viene lanciato in aria
+				(<em>Almagesto</em> I 7).
 			</p>
 			<aside>
 				<div class="note" data-origin="greek"></div>
@@ -419,14 +420,13 @@
 
 		<div class="row">
 			<p>
-				Copernico, che attribuisce la Terra che ruota a Eraclide, Ecfanto e
-				Iceta, enuncia la stessa equivalenza e assume che sia la Terra a
-				ruotare: «se si attribuisce un qualche moto alla terra, in tutte le
-				cose al di fuori di essa apparirà lo stesso moto, ma in direzione
-				opposta» (<em>De Revolutionibus</em> I 5). Contro le nuvole di
-				Tolomeo sostiene che l&#8217;aria vicina alla Terra ruota con essa
-				(I 8), una risposta che Tolomeo aveva già considerato e respinto
-				(I 7).
+				Copernico, che attribuisce l&#8217;idea della rotazione terrestre a
+				Eraclide, Ecfanto e Iceta, enuncia la stessa equivalenza e assume che sia
+				la Terra a ruotare: «se si attribuisce un qualche moto alla terra, in
+				tutte le cose al di fuori di essa apparirà lo stesso moto, ma in direzione
+				opposta» (<em>De Revolutionibus</em> I 5). Contro le nuvole di Tolomeo
+				sostiene che l&#8217;aria vicina alla Terra ruota con essa (I 8), una
+				risposta che Tolomeo aveva già considerato e respinto (I 7).
 			</p>
 			<aside>
 				<div class="note" data-origin="copernicus"></div>
@@ -436,15 +436,14 @@
 		<div class="row">
 			<p>
 				Le leggi del moto di Newton assumono la forma più semplice nei sistemi
-				inerziali, che non ruotano con la Terra. Nel 1851 il pendolo di
-				Foucault diede una dimostrazione diretta, sulla Terra stessa, della
-				rotazione terrestre rispetto a tali sistemi, rispondendo al tipo di
-				obiezione contro una Terra in rotazione che Tolomeo aveva sollevato.
-				La meccanica newtoniana fa così della Terra che ruota e del cielo
-				quasi fermo la descrizione più semplice. La rotazione diurna
-				apparente del cielo resta una descrizione corretta delle
-				osservazioni, a patto di tener conto degli effetti dovuti all&#8217;uso di
-				un sistema di riferimento rotante.
+				inerziali, che non ruotano con la Terra. Nel 1851 il pendolo di Foucault
+				diede una dimostrazione diretta, sulla Terra stessa, della rotazione
+				terrestre rispetto a tali sistemi, rispondendo al tipo di obiezione contro
+				una Terra in rotazione che Tolomeo aveva sollevato. Con la meccanica
+				newtoniana, una Terra in rotazione sotto un cielo quasi fermo diventa così
+				la descrizione più semplice. La rotazione diurna apparente del cielo resta
+				una descrizione corretta delle osservazioni, a patto di tener conto degli
+				effetti dovuti all&#8217;uso di un sistema di riferimento rotante.
 			</p>
 			<aside>
 				<div class="note" data-origin="modern"></div>
@@ -453,11 +452,11 @@
 
 		<div class="row">
 			<p>
-				Descriviamo comunque il cielo dalla Terra, perché è lì che si misura
-				ogni altezza e ogni tempo di questo sito, e in un sistema solidale con
-				il terreno è il cielo a ruotare. Copernico mantenne le stesse parole:
-				«uso la terminologia consueta, che può essere accettata da tutti»
-				(<em>De Revolutionibus</em>, prefazione al Libro II).
+				Descriviamo comunque il cielo dalla Terra, perché è lì che si misura ogni
+				altezza e ogni tempo di questo sito, e in un sistema solidale con il
+				terreno è il cielo a ruotare. Copernico usò lo stesso linguaggio: «uso la
+				terminologia consueta, che può essere accettata da tutti» (<em>De
+				Revolutionibus</em>, prefazione al Libro II).
 			</p>
 			<aside>
 				<div class="note" data-origin="copernicus"></div>
@@ -491,9 +490,9 @@
 				</div>
 			</div>
 			<figcaption>
-				Qui le stelle sono tenute ferme ed è la Terra a ruotare. Dai alla
-				figura il tempo e la latitudine geografica della Figura 2 e nota che
-				l&#8217;altezza risulta la stessa.
+				Qui le stelle sono tenute ferme ed è la Terra a ruotare. Imposta il tempo
+				e la latitudine geografica della Figura 2 e osserva che l&#8217;altezza è
+				la stessa.
 			</figcaption>
 			<div class="keys">
 				<div>
@@ -513,8 +512,8 @@
 		<h3>Culminazioni, sorgere e tramonto</h3>
 
 		<p>
-			Una stella è più alta in $H = 0$, dove $\sin a = \cos(\varphi - \delta)$,
-			e più bassa in $H = 180^\circ$, dove $\sin a = -\cos(\varphi + \delta)$:
+			Una stella raggiunge l&#8217;altezza massima in $H = 0$, dove $\sin a =
+			\cos(\varphi - \delta)$, e quella minima in $H = 180^\circ$, dove $\sin a = -\cos(\varphi + \delta)$:
 		</p>
 
 		$$a_\text{max} = 90^\circ - |\varphi - \delta|, \qquad a_\text{min} = |\varphi + \delta| - 90^\circ.$$
@@ -529,11 +528,10 @@
 
 		<div class="row">
 			<p>
-				È la regola di Tolomeo, enunciata con un cerchio: il cerchio «che ha
-				come polo il polo nord dell&#8217;equatore, e come raggio
-				l&#8217;elevazione del polo, è sempre visibile, e tutte le stelle
-				all&#8217;interno di quel cerchio sono sempre visibili»
-				(<em>Almagest</em> II 6).
+				È la regola di Tolomeo, enunciata con un cerchio: il cerchio «che ha come
+				polo il polo nord dell&#8217;equatore, e come raggio l&#8217;elevazione
+				del polo, è sempre visibile, e tutte le stelle all&#8217;interno di quel
+				cerchio sono sempre visibili» (<em>Almagesto</em> II 6).
 			</p>
 			<aside>
 				<div class="note" data-origin="ptolemy"></div>
@@ -549,10 +547,11 @@
 		</p>
 
 		<p>
-			Mentre il cielo ruota, una tale stella resta alla stessa distanza da P,
-			quindi non raggiunge mai l&#8217;orizzonte. L&#8217;immagine speculare del
-			cerchio, attorno al polo sud, contiene le stelle che non sorgono mai, e
-			nella Figura 2 sono disegnati entrambi i cerchi, tratteggiati e viola.
+			Mentre il cielo ruota, una stella di questo tipo resta alla stessa
+			distanza da P, quindi non raggiunge mai l&#8217;orizzonte.
+			L&#8217;immagine speculare del cerchio, attorno al polo sud, contiene le
+			stelle che non sorgono mai, e nella Figura 2 sono disegnati entrambi i
+			cerchi, tratteggiati e viola.
 		</p>
 
 		<p>
@@ -573,7 +572,7 @@
 			Sull&#8217;equatore stesso $\delta = 0$, quindi $H_0 = 90^\circ$ e $f =
 			\tfrac12$ a ogni latitudine geografica. Per questo Tolomeo chiama
 			l&#8217;equatore «il solo [di tali cerchi paralleli] che sia sempre diviso
-			in due parti uguali dall&#8217;orizzonte» (<em>Almagest</em> I 8), e per
+			in due parti uguali dall&#8217;orizzonte» (<em>Almagesto</em> I 8), e per
 			questo il Sole, quando vi si trova, dà giorno e notte uguali.
 		</p>
 
@@ -618,9 +617,9 @@
 				<div class="readout" id="day-readout" data-lines="4"></div>
 			</div>
 			<figcaption>
-				Scegli una declinazione e una latitudine geografica, e nota come la
+				Scegli una declinazione e una latitudine geografica, e osserva che la
 				parte ombreggiata del giro in (a), il tempo che la stella passa sopra
-				l&#8217;orizzonte, riempie l&#8217;intero giro quando il punto in (b) entra
+				l&#8217;orizzonte, occupa l&#8217;intero giro quando il punto in (b) entra
 				nella regione delle stelle che non tramontano mai.
 			</figcaption>
 			<div class="keys">
@@ -638,26 +637,26 @@
 		<h2 id="fit"><span class="step">3 · Adattamento</span>Misurare l&#8217;asse e le stelle</h2>
 
 		<p>
-			Per usare la sfera che ruota in un dato luogo dobbiamo misurarla lì, e
+			Per usare la sfera in rotazione in un dato luogo dobbiamo misurarla lì, e
 			ogni misura di cui ha bisogno si fa sul meridiano. Una stella attraversa
-			quella linea fissa in un istante preciso, che un orologio può
-			cronometrare, e in quel momento è alla sua altezza massima o minima,
-			dove l&#8217;altezza smette per un attimo di cambiare e si può leggere. I
+			quella linea fissa in un istante preciso, che si può misurare con un
+			orologio, e in quel momento è alla sua altezza massima o minima, dove
+			l&#8217;altezza smette per un attimo di cambiare e si può leggere. I
 			passaggi danno la velocità della rotazione, la latitudine geografica
-			$\varphi$, che è l&#8217;altezza del polo, e la declinazione $\delta$ di ogni
-			stella.
+			$\varphi$, che è l&#8217;altezza del polo, e la declinazione $\delta$ di
+			ogni stella.
 		</p>
 
 		<div class="row">
 			<p>
-				<strong>La velocità.</strong> Cronometriamo la stessa stella mentre
-				attraversa il meridiano in due notti, distanti il più possibile,
-				perché l&#8217;errore di ogni misura di tempo viene allora diviso per il
-				numero di giri fra le due. Vega attraversò il meridiano di Greenwich
-				alle 1:58:14 UT del 1º giugno 1925 e alle 1:58:33 UT del 1º giugno
-				2025, 36·625 giri dopo. Un giro dura quindi 23 h 56 min 4,10 s di
-				tempo dell&#8217;orologio, e il cielo ruota di 15,041° all&#8217;ora. Altre
-				stelle luminose danno un giro più lungo al massimo di 0,005 s, una
+				<strong>La velocità.</strong> Misuriamo l&#8217;istante in cui la stessa
+				stella attraversa il meridiano in due notti il più possibile lontane fra
+				loro: l&#8217;errore di ogni misura di tempo viene così diviso per il
+				numero di giri compiuti nel frattempo. Vega attraversò il meridiano di
+				Greenwich alle 1:58:14 UT del 1º giugno 1925 e alle 1:58:33 UT del 1º
+				giugno 2025, 36·625 giri dopo. Un giro dura quindi 23 h 56 min 4,10 s di
+				tempo dell&#8217;orologio, e il cielo ruota di 15,041° all&#8217;ora.
+				Altre stelle luminose danno un giro più lungo al massimo di 0,005 s, una
 				differenza dovuta alla precessione (pagina 2.3).
 			</p>
 			<aside>
@@ -682,13 +681,14 @@
 		$$h_\uparrow = 90^\circ + \varphi - \delta, \quad h_\downarrow = \varphi + \delta - 90^\circ \quad\Longrightarrow\quad \varphi = \frac{h_\uparrow + h_\downarrow}{2}, \quad 90^\circ - \delta = \frac{h_\uparrow - h_\downarrow}{2}.$$
 
 		<p>
-			Proviamo con Kochab vista da Alessandria, dove il cielo reale la mostra
-			a 47,166° e 15,309° sopra il punto nord. L&#8217;adattamento dà $\varphi =
+			Proviamo con Kochab vista da Alessandria, dove il cielo reale la mostra a
+			47,166° e 15,309° sopra il punto nord. L&#8217;adattamento dà $\varphi =
 			31{,}238^\circ$ e $\delta = 74{,}071^\circ$, 2,3′ e 1,3′ troppo grandi.
-			L&#8217;atmosfera solleva entrambi i passaggi, il che rende troppo grande la
-			loro media, e quindi $\varphi$; solleva di più quello basso, il che
-			riduce la loro differenza e rende $\delta$ troppo grande. Questo effetto
-			è la rifrazione, l&#8217;argomento della Verifica.
+			L&#8217;atmosfera fa apparire più alti entrambi i passaggi, e la loro
+			media, quindi $\varphi$, risulta troppo grande; il passaggio basso è
+			sollevato di più, così la loro differenza si riduce e $\delta$ risulta
+			troppo grande. Questo effetto è la rifrazione, di cui si occupa la
+			Verifica.
 		</p>
 
 		<!-- History block: how Ptolemy measured altitudes -->
@@ -697,12 +697,12 @@
 
 			<div class="row">
 				<p>
-					Tolomeo misurava la distanza del Sole di mezzogiorno dallo zenit su
-					un anello di bronzo, diviso in gradi e posto verticale nel piano del
-					meridiano, con un anello interno che si girava finché l&#8217;ombra di
-					una delle sue piastrine cadeva sull&#8217;altra. Usava anche una lastra
-					di pietra o di legno con un quadrante disegnato sopra, sulla quale un
-					piolo proietta la sua ombra di mezzogiorno (<em>Almagest</em> I 12).
+					Tolomeo misurava la distanza del Sole di mezzogiorno dallo zenit su un
+					anello di bronzo, diviso in gradi e posto verticale nel piano del
+					meridiano, con un anello interno che si girava finché l&#8217;ombra di una
+					delle sue piastrine cadeva sull&#8217;altra. Usava anche una lastra di
+					pietra o di legno con un quadrante disegnato sopra, sulla quale un piolo
+					proiettava la sua ombra di mezzogiorno (<em>Almagesto</em> I 12).
 				</p>
 				<aside>
 					<div class="note" data-origin="ptolemy"></div>
@@ -711,10 +711,10 @@
 			</div>
 
 			<p>
-				L&#8217;equatore sta a metà fra le posizioni del Sole di mezzogiorno ai
-				due solstizi. Per Alessandria, dove osservava, Tolomeo dà la sua
+				L&#8217;equatore si trova a metà fra le posizioni del Sole di mezzogiorno
+				ai due solstizi. Per Alessandria, dove osservava, Tolomeo dà la sua
 				distanza dallo zenit, che è la latitudine geografica, come 30°58′
-				(<em>Almagest</em> V 12), circa un quarto di grado sotto il valore
+				(<em>Almagesto</em> V 12), circa un quarto di grado sotto il valore
 				moderno.
 			</p>
 		</div>
@@ -725,16 +725,16 @@
 		<p>
 			Confrontiamo il modello con il cielo di riferimento per una notte del
 			2026, in cui la posizione di catalogo di ogni stella è portata a quella
-			data e ruotata dalla rotazione terrestre. Alla stella del modello diamo
-			la stessa declinazione, quindi ciò che resta è l&#8217;effetto
+			data e ruotata secondo la rotazione terrestre. Alla stella del modello
+			diamo la stessa declinazione, quindi ciò che resta è l&#8217;effetto
 			dell&#8217;atmosfera, che il modello trascura.
 		</p>
 
 		<div class="row">
 			<p>
 				La luce delle stelle si piega entrando nell&#8217;atmosfera, tanto più
-				quanto più arriva bassa, quindi una stella appare più alta di quanto
-				sia. Per l&#8217;aria standard questa <strong>rifrazione</strong> è
+				quanto più arriva bassa, quindi una stella appare più alta di quanto sia
+				in realtà. Per l&#8217;aria standard questa <strong>rifrazione</strong> è
 			</p>
 			<aside>
 				<div class="note" data-origin="modern"></div>
@@ -744,21 +744,20 @@
 		$$R = \frac{1{,}02'}{\tan\!\left(a + \dfrac{10{,}3^\circ}{a + 5{,}11^\circ}\right)} \qquad (a \text{ in gradi}),$$
 
 		<p>
-			È la formula di Sæmundsson (Meeus 16.4). La rifrazione cala in fretta
-			con l&#8217;altezza: una stella vista esattamente sull&#8217;orizzonte è in
-			realtà 34′ sotto di esso, ma a 45° lo spostamento è solo di 1′. Altri
-			effetti, come l&#8217;aberrazione e la nutazione, spostano una stella di
-			meno di 1′ e della stessa quantità per tutta la notte, quindi
-			l&#8217;adattamento li assorbe.
+			È la formula di Sæmundsson (Meeus 16.4). La rifrazione diminuisce
+			rapidamente con l&#8217;altezza: una stella vista esattamente
+			sull&#8217;orizzonte è in realtà 34′ sotto di esso, ma a 45° lo
+			spostamento è solo di 1′. Altri effetti, come l&#8217;aberrazione e la
+			nutazione, spostano una stella di meno di 1′ e della stessa quantità per
+			tutta la notte, quindi l&#8217;adattamento li assorbe.
 		</p>
 
 		<p>
 			La stella del modello è alla sua altezza vera $a$, mentre il cielo la
 			mostra ad $a + R$. L&#8217;errore del modello è quindi $\Delta a =
-			a_\text{modello} - a_\text{reale} = -R$, così la Figura 5 mostra la
-			rifrazione stessa, seguita durante un giro del cielo. La tracciamo come
-			un errore, modello meno cielo, come faremo per ogni errore di questo
-			sito.
+			a_\text{modello} - a_\text{reale} = -R$, quindi la Figura 5 mostra la
+			rifrazione stessa, seguita durante un giro del cielo. La tracciamo come un
+			errore, modello meno cielo, come faremo per ogni errore di questo sito.
 		</p>
 
 		<!-- Figure 5: the model against the sky -->
@@ -786,7 +785,7 @@
 				</div>
 			</div>
 			<figcaption>
-				Scegli una stella e una latitudine geografica, e nota che la curva
+				Scegli una stella e una latitudine geografica, e osserva che la curva
 				resta entro pochi primi d&#8217;arco da zero finché la stella è alta, e
 				precipita solo negli ultimi gradi sopra l&#8217;orizzonte.
 			</figcaption>
@@ -828,11 +827,11 @@
 		<h2 id="residual"><span class="step">5 · Residuo</span>Ciò che la sfera trascura</h2>
 
 		<p>
-			La rifrazione è un effetto dell&#8217;atmosfera, e vicino all&#8217;orizzonte
-			cambia con il tempo meteorologico di vari primi d&#8217;arco. I modelli di
-			questo sito prevedono quindi le posizioni come se non ci fosse aria, e
-			le pagine che calcolano il sorgere e il tramonto aggiungono di nuovo
-			$R$.
+			La rifrazione è un effetto dell&#8217;atmosfera, e vicino
+			all&#8217;orizzonte varia di parecchi primi d&#8217;arco con le condizioni
+			meteorologiche. I modelli di questo sito prevedono quindi le posizioni
+			come se non ci fosse aria, e le pagine che calcolano il sorgere e il
+			tramonto aggiungono poi $R$.
 		</p>
 
 		<p>
@@ -844,17 +843,17 @@
 
 		<p>
 			Anche il Sole, la Luna e i pianeti si muovono fra le stelle. Ruotano con
-			la sfera ma non mantengono il loro posto su di essa, un secondo moto che
-			Tolomeo descrive come «verso est e opposto [al moto di] quelle stelle
-			che conservano le loro distanze reciproche» (<em>Almagest</em> I 8).
+			la sfera ma non mantengono la loro posizione su di essa, un secondo moto
+			che Tolomeo descrive come «verso est e opposto [al moto di] quelle stelle
+			che conservano le loro distanze reciproche» (<em>Almagesto</em> I 8).
 		</p>
 
 		<p>
-			Per seguire un tale corpo ci servono due coordinate solidali con la
-			sfera: la declinazione, e una seconda al posto dell&#8217;angolo orario, che
-			cambia mentre il cielo ruota. Ci servono anche formule per passare da
-			un sistema di coordinate all&#8217;altro. La pagina 1.2 si chiede come
-			sceglierle.
+			Per seguire un corpo di questo tipo ci servono due coordinate solidali con
+			la sfera: la declinazione, e una seconda al posto dell&#8217;angolo
+			orario, che cambia mentre il cielo ruota. Ci servono anche formule per
+			passare da un sistema di coordinate all&#8217;altro. La pagina 1.2 si
+			chiede come sceglierle.
 		</p>
 
 		<!-- ============================== EXERCISES ============================== -->
@@ -917,7 +916,7 @@
 				Londra? (b) Tolomeo prende Rodi a $\varphi = 36^\circ$ con
 				l&#8217;obliquità $\varepsilon = 23^\circ 51' 20''$ ($23{,}856^\circ$), la
 				declinazione del Sole al solstizio d&#8217;estate. Trova il giorno più
-				lungo (<em>Almagest</em> II 2–3). Verifica entrambi nella Figura 4.
+				lungo (<em>Almagesto</em> II 2–3). Verifica entrambi nella Figura 4.
 			</p>
 			<details class="hint">
 				<p>
@@ -1002,9 +1001,9 @@
 						stelle.</li>
 				</ul>
 				<p>
-					I minuti in più non vengono dal cielo che ruota, che il modello
-					descrive correttamente: il modello non ha atmosfera e tratta il Sole
-					come un punto.
+					I minuti in più non vengono dalla rotazione del cielo, che il modello
+					descrive correttamente: il modello non ha atmosfera e tratta il Sole come
+					un punto.
 				</p>
 			</details>
 		</div>
@@ -1013,14 +1012,14 @@
 		<h2 id="sources">Fonti</h2>
 
 		<ul class="sources">
-			<li>Tolomeo, <em>Almagest</em> (trad. ingl. G. J. Toomer, 1984): I 3, I 4,
+			<li>Tolomeo, <em>Almagesto</em> (trad. ingl. G. J. Toomer, 1984): I 3, I 4,
 				I 6, I 7, I 8 (la sfera, la Terra come un punto, i due moti); I 12
 				(gli strumenti meridiani); II 1–3 e II 6 (la latitudine geografica, il
 				giorno più lungo a Rodi, il cerchio sempre visibile); V 12
 				(Alessandria).</li>
 			<li>Copernico, <em>De Revolutionibus</em> (trad. ingl. E. Rosen), I 5
-				[ff. 3r–3v] (il moto dell&#8217;osservatore e la Terra che ruota); I 8
-				[f. 6r] (l&#8217;aria ruota con la Terra); la prefazione al Libro II
+				[ff. 3r–3v] (il moto dell&#8217;osservatore e la rotazione della Terra);
+				I 8 [f. 6r] (l&#8217;aria ruota con la Terra); la prefazione al Libro II
 				[f. 27v] (la terminologia consueta).</li>
 			<li>L. Foucault, "Démonstration physique du mouvement de rotation de
 				la Terre au moyen du pendule", <em>Comptes rendus de l'Académie

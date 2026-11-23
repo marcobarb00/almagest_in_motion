@@ -50,9 +50,16 @@ page in English first, then its Italian translation in the same commit.
   constellations on the blue plates keep their Latin names, as in an
   atlas.
 - **Book titles** stay in the original or in the English edition cited
-  (*Almagest*, *De revolutionibus*, *Astronomia nova*); quotations from
+  (*De revolutionibus*, *Astronomia nova*, *A Modern Almagest*), except
+  Ptolemy's work, which Italian books call *Almagesto*; quotations from
   the English translations are given in Italian, with the source as in
   English.
+- **Natural Italian, not a calque of the English**: "la rotazione del
+  cielo", not "il cielo che ruota" as a noun; "la posizione" of a body,
+  not "il posto"; "si trova", not "sta", for where a point lies;
+  "precede / segue", not "corre avanti", for a body ahead of its mean
+  place; "osserva", not "nota", in captions; "passa il puntatore sul grafico",
+  not "punta il grafico"; "osservazione", not "avvistamento".
 - The voice is the one of WRITING.md: "noi" for the work done together,
   "tu" for what the reader does with the page.
 - Every longitude and latitude names its kind, as in English:

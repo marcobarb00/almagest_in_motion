@@ -232,7 +232,7 @@ const SITE_MAP = (function () {
 		{
 			number: 'beyond',
 			act: 5,
-			ready: false,
+			ready: true,
 			title: tr('Beyond Kepler', 'Oltre Keplero'),
 			question: tr('Where does the story go next?', 'Come prosegue la storia dopo Keplero?'),
 			path: 'beyond-kepler/index.html',

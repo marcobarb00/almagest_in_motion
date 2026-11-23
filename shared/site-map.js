@@ -76,10 +76,14 @@ const SITE_MAP = (function () {
 		{
 			number: '0.1',
 			act: 0,
-			ready: false,
-			title: tr('Where is Mars tonight?', "Dov'è Marte stanotte?"),
-			question: tr('How good was a model built from circles?', 'Quanto era buono un modello fatto di cerchi?'),
-			path: 'act0-intro/01-mars-tonight/index.html'
+			ready: true,
+			title: tr('From Ptolemy to Kepler', 'Da Tolomeo a Keplero'),
+			question: tr(
+				'Why did it take fifteen centuries to predict Mars?',
+				'Perché ci vollero quindici secoli per prevedere Marte?'
+			),
+			path: 'act0-intro/01-ptolemy-to-kepler/index.html',
+			italian: true
 		},
 		{
 			number: '1.1',

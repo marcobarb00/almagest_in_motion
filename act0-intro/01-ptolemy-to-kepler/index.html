@@ -6,14 +6,15 @@
      Copernicus' models side by side, giving the same loop; Kepler's eight
      arcminutes. No rhythm of
      observation, model, fit, test and residual, and no exercises
-     (STRUCTURE.md §4, Act 0). Numbers: tools/numbers/0.1-mars-tonight.js.
+     (STRUCTURE.md §4, Act 0). Numbers: tools/numbers/0.1-ptolemy-to-kepler.js.
      ========================================================================== -->
 <html lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>From Ptolemy to Kepler · Predicting the Sky</title>
+	<title>0.1 · From Ptolemy to Kepler · Predicting the Sky</title>
 	<link rel="icon" type="image/svg+xml" href="../../shared/favicon.svg">
+	<link rel="alternate" hreflang="it" href="index.it.html">
 
 	<!-- KaTeX (equation typesetting), pinned version, with auto-render for $...$.
 	     The integrity hashes pin the exact cdnjs files: keep them with the version. -->
@@ -72,12 +73,6 @@
 		<!-- ========================= THE BACKWARD LOOP OF MARS ========================= -->
 		<h2 id="loop">The backward loop of Mars</h2>
 
-		<p>
-			Figure 1 follows Mars through the loop nearest the day you open this
-			page, the one under way or the next, among the stars it crosses. A day passes in a twelfth of a
-			second, so a season of the night sky goes by in a few seconds.
-		</p>
-
 		<!-- Figure 1: Mars' next loop, animated -->
 		<figure class="fig">
 			<div class="frame">
@@ -132,14 +127,10 @@
 				Ptolemy explained the loop with an epicycle, as Apollonius had
 				before him (<em>De Revolutionibus</em> V 3). In his model Mars goes
 				round a small circle, the epicycle, whose center K goes round the
-				Earth on a larger circle, the deferent, at a speed that is uniform
-				as seen from a point off the Earth, the equant. When Mars is on the side of
+				Earth on a larger circle, the deferent. When Mars is on the side of
 				the epicycle nearest the Earth, its motion round the small circle
 				is westward and outruns the eastward motion of K, so Mars seems to go
-				back. The radius from K to Mars always points the way the mean Sun
-				lies from the Earth, the Sun moving at its average speed
-				(<em>Almagest</em> X 6), so Mars is on that near side when it is
-				opposite the mean Sun, and that is when the loop comes.
+				back.
 			</p>
 			<aside>
 				<div class="note" data-origin="ptolemy"></div>
@@ -162,8 +153,8 @@
 
 		<p>
 			To compare the two explanations, Figure 2 runs Ptolemy's model of
-			Mars, with the parameters fitted to modern observations on page 4.2,
-			twice: (a) as Ptolemy set it, with the Earth O at rest, and (b) in
+			Mars, with the parameters fitted to modern observations:
+			(a) as Ptolemy set it, with the Earth O at rest, and (b) in
 			Copernicus' arrangement, with the mean Sun ☉ at rest. Mars is P in
 			both.
 		</p>
@@ -201,15 +192,14 @@
 			</div>
 			<figcaption>
 				Compare the two values of λ in the read-out as the models run, and
-				watch the red trail on each dial when Mars goes back. Notice that in
-				(a) the radius from K to Mars always points the way of the mean Sun.
+				watch the red trail on each dial when Mars goes back.
 			</figcaption>
 			<div class="keys">
 				<div>
 					<p class="key-title">In the figure</p>
 					<dl class="key">
 						<dt>dial</dt>
-						<dd>ecliptic longitude, from γ (0°) anticlockwise, as seen from the north</dd>
+						<dd>the signs of the zodiac, 30° of ecliptic longitude each, from Aries at γ anticlockwise, as seen from the north</dd>
 						<dt class="c-planet">trail</dt>
 						<dd>the last 300 days of Mars' direction, older further in</dd>
 						<dt class="c-epicycle">violet</dt>
@@ -227,7 +217,7 @@
 		</figure>
 
 		<p>
-			Each dial stands for the sphere of the stars, which is so far away
+			The outer circle stands for the sphere of the stars, which is so far away
 			that two parallel lines, one from the Earth and one from the Sun,
 			meet it at the same star. In (a) the dial is centered on the Earth,
 			so the line of sight itself points to Mars' place on it. In (b) it is
@@ -331,8 +321,9 @@
 				<div class="readout" id="kepler-readout" data-lines="2"></div>
 			</div>
 			<figcaption>
-				Watch the two lines from the Sun in the loupe draw apart and come
-				back together as Mars goes round. Notice that the difference in (b)
+				Watch the two orbits in the loupe, and the dashed lines from the Sun
+				through each Mars, draw apart and come back together as Mars goes
+				round. Notice that the difference in (b)
 				is largest four times a revolution, midway between the aphelion,
 				the perihelion and the two points between them, and stays just
 				inside Kepler's 8′.
@@ -346,7 +337,7 @@
 						<dt class="c-planet">red</dt>
 						<dd>Kepler's ellipse, the Sun at a focus</dd>
 						<dt>loupe</dt>
-						<dd>the region round Mars, enlarged</dd>
+						<dd>the region round Mars, enlarged; dashed, the lines from the Sun</dd>
 					</dl>
 				</div>
 			</div>
@@ -356,11 +347,17 @@
 			Ptolemy's observations could not have shown so small a difference, and
 			with observations a little less accurate, or an orbit a little less
 			eccentric, Kepler might have kept the circle (Fitzpatrick § 1.4). He
-			trusted Tycho's, and looked for another shape. Around Easter 1605 he
-			found the ellipse, with the Sun at one focus, and he published it with
-			the law of areas in the <em>Astronomia Nova</em> in 1609 (Voelkel
-			ch. 3). The ellipse is still the first approximation used today for
-			the planets (page 4.5).
+			trusted Tycho's data, and wrote that "these eight minutes alone will have
+			led the way to the reformation of all of astronomy" (<em>Astronomia
+			Nova</em>, transl. Donahue, p. 286).
+		</p>
+
+		<p>
+			Kepler looked for another shape of the orbit. Around Easter 1605 he found the ellipse,
+			with the Sun at one focus, and he published it with the law of areas
+			in the <em>Astronomia Nova</em> in 1609 (Voelkel ch. 3). The ellipse
+			is still the first approximation used today for the planets (page
+			4.5).
 		</p>
 
 		<p>
@@ -393,6 +390,11 @@
 			<li>R. Fitzpatrick, <em>A Modern Almagest</em>, § 1.4 (Kepler's
 				circle with an equant, its error of about 8′, a quarter of the
 				Sun's apparent size).</li>
+			<li>J. Kepler, <em>Astronomia Nova</em> (1609), transl. W. H. Donahue,
+				<em>New Astronomy</em> (Cambridge University Press, 1992), p. 286
+				(the eight minutes), as quoted by D. A. Di Liscia, "Johannes
+				Kepler", <em>Stanford Encyclopedia of Philosophy</em> (revised
+				2025), § 4.4; outside the library.</li>
 			<li>J. R. Voelkel, <em>Johannes Kepler and the New Astronomy</em> (1999),
 				ch. 3 (Kepler with Tycho, Tycho's observations, the ellipse) and the
 				chronology (1600, 1601, 1605, 1609).</li>
@@ -400,7 +402,7 @@
 				Major Planets</em> (JPL): the positions of Mars and the Sun.</li>
 			<li>SIMBAD (CDS, Strasbourg) and the Extended Hipparcos Compilation
 				(Anderson and Francis, 2012): the stars.</li>
-			<li>Every number on this page: <code>tools/numbers/0.1-mars-tonight.js</code>.</li>
+			<li>Every number on this page: <code>tools/numbers/0.1-ptolemy-to-kepler.js</code>.</li>
 		</ul>
 
 		<!-- Previous / next, from the site map -->

@@ -2970,7 +2970,7 @@ The stars of the blue plates at 2026.0 (as plate.js places them)
   averagedDrift at 1000 BC       5.051628 -13.111470
   fixed ranges                   [-999,3000]  [-15,7]  [1926,2026]
 
-=== 8q. PAGE 0.1 (act0-intro/01-mars-tonight/page.js) ===
+=== 8q. PAGE 0.1 (act0-intro/01-ptolemy-to-kepler/page.js) ===
   titleCase                      "Leo" "Capricornus"
   elongation 2027-02-19          -179.104466
   nextOpposition from 2026-11-20 2461456.1368
@@ -2978,12 +2978,12 @@ The stars of the blue plates at 2026.0 (as plate.js places them)
   oppositionText                 "Opposite the Sun in 23 days" "Opposite the Sun in 1 day" "Opposite the Sun today" "Opposite the Sun 12 days ago"
   fixed ranges                   {"wide":{"halfWidth":20,"halfHeight":10},"narrow":{"halfWidth":14,"halfHeight":7}}  520.000000000  40.000000000  1.000000000  12.000000000  0.020000000  22.000000000  4.800000000  3.000000000  6.000000000  2461365.375000000
   Figure 2                       400.000000000  800.000000000  30.000000000  300.000000000  2.000000000  26.000000000  780.000000000  3.000000000  {"ptolemy":1.818499,"copernicus":1.7323690409251857}  0.800000000  26.000000000  14.000000000
-  Figure 3                       0.093409  1.523694  686.980760  30.000000000  12.000000000  8.000000000  0.240000000  10.000000000  0.550000000  0.450000000  40.000000000
+  Figure 3                       0.093409  1.523694  686.980760  30.000000000  12.000000000  8.000000000  0.240000000  10.000000000  0.550000000  0.450000000  40.000000000  3.000000000  150.000000000
   CIRCLE_E, largestDifference    0.093680940  7.494610
   keplerGap                      -7.467375 7.466136 -7.466136 7.467375
   machineLongitude 2027-02-19    150.889405
 
-=== 9. tools/numbers/0.1-mars-tonight.js ===
+=== 9. tools/numbers/0.1-ptolemy-to-kepler.js ===
 
 === Lead: the oppositions and loops of AD 2026 - 2060 ===
 19 Feb 2027: backward 81 days over 19.5°
@@ -5167,7 +5167,7 @@ G. M. Clemence, Rev. Mod. Phys. 19, 361 (1947), the budget in a century:
   oblateness), the sum 5557.18", left over 42.56" +- 0.94"; relativity 43.03"
   (page 2.3's precession: 5028.3" a century; Le Verrier 1859: 38"; Newcomb 1882: 43")
 
-=== 9. tools/numbers/simulator.js ===
+=== 9. tools/numbers/toolbox.js ===
 
 === The four ellipses, fitted to the oppositions and inferior conjunctions of 1926 - 2025 ===
 mercury: 315 events (31 Mar 1926 - 20 Nov 2025); L0 252.229179°, n 4.092376198°/day, aphelion (J2000) 257.4639°, e 0.205545; within 16.30' of the events; P 87.969 d, a 0.387099 au

@@ -223,9 +223,9 @@ const tonightFigure = {
 /* ==========================================================================
    2. THE WAY IN
    The filled link under the opening leads to the first page of the
-   course that is ready, in reading order: the intro (0.1) once it is
-   published, page 1.1 until then. index.html writes the link to 1.1, so
-   that it works without the script.
+   course that is ready, in reading order: the intro (0.1), published on
+   2026-11-22. index.html writes the same link, so that it works without
+   the script.
    ========================================================================== */
 
 function pointStartLink() {

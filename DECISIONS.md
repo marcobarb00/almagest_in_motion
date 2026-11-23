@@ -258,13 +258,29 @@ section.
   eccentricity; corrected after the math review of 2026-11-22). Built one scene at a time, each approved
   before the next. Titled "From Ptolemy to Kepler", with "Why did it
   take fifteen centuries to predict Mars?" as the subtitle (Marco,
-  2026-11-22); the folder keeps its slug, `01-mars-tonight`. Published
+  2026-11-22); the folder and the numbers script take the new slug,
+  `act0-intro/01-ptolemy-to-kepler/` and
+  `tools/numbers/0.1-ptolemy-to-kepler.js` (Marco, 2026-11-22). Published
   (ready) on 2026-11-22 at Marco's request, so the hub's filled link now
   leads to it. A
   figure may play by itself when it first comes into view, except for
   readers who ask for reduced motion; the smoke test and the label-jump
   check therefore run with reduced motion. → STRUCTURE.md §4 (page
   0.1), tools/check/smoke.js
+- **Kepler's "eight minutes" quoted on page 0.1 from outside the
+  library.** *Astronomia Nova* is not in the library; the sentence
+  "these eight minutes alone will have led the way to the reformation of
+  all of astronomy" is Donahue's translation (1992, p. 286), checked on
+  2026-11-22 against the Stanford Encyclopedia of Philosophy entry
+  "Johannes Kepler" (Di Liscia, § 4.4), which quotes it with that page.
+  Asked by Marco on 2026-11-22. → act0-intro/01-ptolemy-to-kepler/
+- **Page 0.1 in Italian; its loupe shows the orbits.** The intro got its
+  Italian translation on 2026-11-22 (Marco), `index.it.html`, with the
+  script's words through `tr()`, so the Italian hub's filled link leads
+  to it. The same day Marco found the loupe of Figure 3 not aligned with
+  the path it enlarges: it now draws the arcs of the two orbits near
+  Mars, in the same orientation as outside, with the lines from the Sun
+  dashed across them. → act0-intro/01-ptolemy-to-kepler/, TRANSLATION.md
 
 ## Look
 
@@ -585,8 +601,9 @@ section.
   only way to the simulator (Marco, 2026-11-20). → STYLE.md §4.9, index.html
 - **The hub's filled link leads to the first ready page**: the intro
   (0.1) once it is published, page 1.1 until then. Marco asked for the
-  intro on 2026-11-20; it is not built yet (it needs the Act IV models,
-  see Course). → hub.js
+  intro on 2026-11-20; it was published on 2026-11-22, and index.html
+  now writes the link to it too, so that it works without the script.
+  → hub.js, index.html
 
 - **The simulator fits Mercury, Venus, Jupiter and Saturn by page 4.5's
   method, against VSOP87.** The course fits ellipses for the Sun and Mars

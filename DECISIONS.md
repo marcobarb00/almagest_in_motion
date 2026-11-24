@@ -304,6 +304,21 @@ section.
   stays "From the celestial sphere to Kepler's ellipse". →
   shared/components.js (SITE_TITLE), index.html, every page's title
 
+- **Search and link previews are generated from the site map**
+  (Marco, 2026-11-24): every page's head has a description (its
+  question, then what the page is), a canonical address and Open Graph
+  tags, written by `tools/make-meta.js` between two marker comments,
+  with `sitemap.xml` beside the hub; CI checks that they are up to date.
+  The preview image is one card per language, the title beside page
+  1.1's blue plate, rendered by `tools/make-preview.js`. No
+  `robots.txt`: a project site cannot serve one at the domain's root,
+  so the sitemap is submitted in Google Search Console. → DEVELOPING.md
+- **Page views are counted with GoatCounter** (Marco, 2026-11-24): no
+  cookies and no personal data, so no consent banner. Its script is
+  added by `components.js` only on `marcobarb00.github.io`, pinned by
+  its hash, and counts nothing while the site's code is empty. The
+  README says so under Privacy. → shared/components.js §10, DEVELOPING.md
+
 ## Look
 
 - **The star-atlas style (variant "B2"): navy ink on parchment, margin
@@ -495,6 +510,12 @@ section.
 - **CI fails on changed reference values, console errors and failed
   checks; screenshot differences are only reported**, because fonts and
   anti-aliasing differ between machines. → .github/workflows/check.yml
+- **CI runs on pushes to `main` and `develop` and on pull requests, in two
+  parallel jobs** (Node checks, smoke test), 45 minutes each (2026-11-24).
+  In one job the golden values (about 20 minutes on GitHub) and the smoke
+  test overran the 30-minute limit and every run was cancelled; session
+  branches no longer run the checks, which their merge into `develop`
+  runs anyway. → .github/workflows/check.yml
 - **Prettier for `.js` and `.css` only, never `.html`** (it would reflow
   the prose and the KaTeX). `@ts-check` non-strict. → package.json,
   tools/check/README.md

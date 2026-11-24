@@ -50,6 +50,11 @@ Folder and file names come from STRUCTURE.md §9, e.g.
    `tools/check/typecheck.js`. `smoke.js` finds pages by itself.
 7. Images go in `<folder>/images/`, public domain or CC0 only, with
    `images/CREDITS.md` (CLAUDE.md, Photos).
+8. When the page is published (`ready: true`), run
+   `node tools/make-meta.js`: it writes the page's description and
+   link-preview tags into its head and adds it to `sitemap.xml`. Run it
+   again whenever the page's title or question changes; CI fails while
+   they are out of date.
 
 ## While writing
 

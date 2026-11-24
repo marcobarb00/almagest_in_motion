@@ -1,8 +1,11 @@
 # ============================================================================
 # THE ALMAGEST IN MOTION - CHECKS (.github/workflows/check.yml)
-# On every push and pull request: lint, format, type check, the tests of
-# shared/tests.html in Node, the golden values, and the smoke test of every
-# page. A change in the reference numbers (golden.txt, readouts.txt) or a
+# On every push to main or develop, and every pull request: lint, format,
+# type check, the tests of shared/tests.html in Node, the search and
+# link-preview tags (tools/make-meta.js --check), the golden values,
+# and the smoke test of every page. The golden values (about 20 minutes)
+# and the smoke test run as two jobs in parallel, so that neither waits
+# for the other; a newer push cancels the older run of the same branch. A change in the reference numbers (golden.txt, readouts.txt) or a
 # console error fails the build; screenshot differences from the previous
 # commit are only reported (job summary, and the images as an artifact),
 # since fonts and anti-aliasing differ a little between machines.
@@ -13,12 +16,66 @@ name: Checks
 
 on:
   push:
+    branches: [main, develop]
   pull_request:
 
+# One run per branch or pull request: a newer push cancels the older run.
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  check:
+  # The maths in Node: lint, format, types, tests, golden values.
+  numbers:
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 45
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install the development tools
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Format
+        run: npm run format:check
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Tests of shared/tests.html
+        run: npm run tests
+
+      # The description and link-preview tags of every page, and the
+      # sitemap, match the site map.
+      - name: Search and link previews
+        run: node tools/make-meta.js --check
+
+      - name: Golden values
+        run: node tools/check/golden.js --check
+
+      # Report only: the reference sky against astronomy-engine and JPL.
+      - name: Cross-check of the reference sky (report only)
+        continue-on-error: true
+        run: |
+          {
+            echo '## Cross-check of the reference sky'
+            echo '```'
+            node tools/check/crosscheck.js
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  # The pages in Chromium.
+  smoke:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
 
     steps:
       - uses: actions/checkout@v5
@@ -35,32 +92,6 @@ jobs:
 
       - name: Install Chromium for Playwright
         run: npx playwright install --with-deps chromium
-
-      - name: Lint
-        run: npm run lint
-
-      - name: Format
-        run: npm run format:check
-
-      - name: Type check
-        run: npm run typecheck
-
-      - name: Tests of shared/tests.html
-        run: npm run tests
-
-      - name: Golden values
-        run: node tools/check/golden.js --check
-
-      # Report only: the reference sky against astronomy-engine and JPL.
-      - name: Cross-check of the reference sky (report only)
-        continue-on-error: true
-        run: |
-          {
-            echo '## Cross-check of the reference sky'
-            echo '```'
-            node tools/check/crosscheck.js
-            echo '```'
-          } >> "$GITHUB_STEP_SUMMARY"
 
       # The commit to compare the screenshots with: the base of a pull
       # request, or the commit before the push (the parent for a new branch).

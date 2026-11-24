@@ -670,7 +670,7 @@ const Site = (function () {
 	   LICENSE as raw text, so the links open them on GitHub, rendered.
 	   ====================================================================== */
 
-	const REPOSITORY = 'https://github.com/marcobarb00/astronomy/blob/main/';
+	const REPOSITORY = 'https://github.com/marcobarb00/almagest_in_motion/blob/main/';
 
 	const FOOTER_TEXT =
 		'© 2026 Marco Barbieri. ' +

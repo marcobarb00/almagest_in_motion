@@ -223,20 +223,29 @@ const tonightFigure = {
 /* ==========================================================================
    2. THE WAY IN
    The filled link under the opening leads to the first page of the
-   course that is ready, in reading order: the intro (0.1), published on
-   2026-11-22. index.html writes the same link, so that it works without
-   the script.
+   course that is ready, in reading order: the intro (Act 0), published
+   on 2026-11-22. index.html writes the same link, so that it works
+   without the script.
    ========================================================================== */
+
+/* The words of the link: the page named by its number ("Begin with 1.1,
+   ..."), or by its act when it has none ("Begin with Act 0, ..."). */
+function startText(page) {
+	if (/^\d/.test(page.number)) {
+		return tr(`Begin with ${page.number}, ${page.title}`, `Comincia da ${page.number}, ${page.title}`);
+	}
+
+	const act = SITE_MAP.ACTS.find(entry => entry.id === page.act);
+
+	return tr(`Begin with ${act.name}, ${page.title}`, `Comincia dall'${act.name}, ${page.title}`);
+}
 
 function pointStartLink() {
 	const first = SITE_MAP.PAGES.find(page => page.ready);
 	const link = byId('begin');
 
 	link.href = first.path;
-	byId('begin-text').textContent = tr(
-		`Begin with ${first.number}, ${first.title}`,
-		`Comincia da ${first.number}, ${first.title}`
-	);
+	byId('begin-text').textContent = startText(first);
 }
 
 /* ==========================================================================

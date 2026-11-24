@@ -928,7 +928,7 @@ async function checkWithoutCdn(browser, site, pageFile, problems) {
 /* Open one page at one width: screenshot (into shotDir), and (desktop)
    the controls, with their read-outs appended to 'log'. */
 async function checkPage(browser, site, pageFile, viewportName, shotDir, log) {
-	// reduced motion: a figure that plays by itself (page 0.1) stays at
+	// reduced motion: a figure that plays by itself (the intro) stays at
 	// rest, so that the read-outs do not depend on the time a page took
 	const context = await browser.newContext({
 		viewport: VIEWPORTS[viewportName],

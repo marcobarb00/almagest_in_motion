@@ -537,7 +537,7 @@ function viewGroups() {
 
 /* Check one page at one width; returns the number of jumps. */
 async function checkPage(browser, base, file, viewportName) {
-	// reduced motion: a figure that plays by itself (page 0.1) stays at rest
+	// reduced motion: a figure that plays by itself (the intro) stays at rest
 	const context = await browser.newContext({ viewport: VIEWPORTS[viewportName], reducedMotion: 'reduce' });
 	const page = await context.newPage();
 	let jumps = 0;

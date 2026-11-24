@@ -95,7 +95,7 @@ const Thumbs = (function () {
 
 	const DRAW = {
 		/* Ptolemy's Mars and the real Mars, side by side on the zodiac. */
-		'0.1'(k) {
+		intro(k) {
 			k.line(6, 44, 114, 44, 'sun');
 			k.star(28, 30, 2.2);
 			k.star(92, 24, 2.6);

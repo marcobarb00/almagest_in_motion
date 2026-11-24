@@ -281,6 +281,20 @@ section.
   the path it enlarges: it now draws the arcs of the two orbits near
   Mars, in the same orientation as outside, with the lines from the Sun
   dashed across them. → act0-intro/01-ptolemy-to-kepler/, TRANSLATION.md
+- **The intro is "Act 0", not page 0.1** (Marco, 2026-11-24). It is
+  the act's only page, so like the epilogue it has no number of its own:
+  its entry in `PAGES` has the number `intro`, its header reads "Act 0",
+  the hub's filled link "Begin with Act 0", and its numbers script is
+  `tools/numbers/ptolemy-to-kepler.js`. The entries above that say "page
+  0.1" are kept as written. → shared/site-map.js, hub.js, STRUCTURE.md §4
+- **Detour notes say what follows and what does not** (Marco,
+  2026-11-24). No detour topic has a page or is planned for one
+  (2026-11-21), so the heading "Detour · coming later" promised what the
+  course does not give. The heading is now "Detour · outside the course";
+  for the topics the epilogue tells as history (Newton and gravitation,
+  perturbations, the Moon after Kepler, ΔT) the note adds a link to that
+  section of *Beyond Kepler* and says that the mathematics does not
+  follow. → STRUCTURE.md §7.4, STYLE.md §4.5, shared/site-map.js
 
 ## Look
 

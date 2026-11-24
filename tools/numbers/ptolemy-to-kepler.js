@@ -1,11 +1,11 @@
 /* ==========================================================================
-   NUMBERS FOR PAGE 0.1 · THE INTRO (tools/numbers/0.1-ptolemy-to-kepler.js)
+   NUMBERS FOR ACT 0 · THE INTRO (tools/numbers/ptolemy-to-kepler.js)
    Loads the site's shared code in a Node vm context and prints every
    number the page quotes, in page order, and the bounds of the strip of
    its Figure 1. Sample of the first scene, the backward loop of Mars.
    The real Mars and Sun are the reference sky (shared/ephemeris.js).
 
-   Run from the repository root:  node tools/numbers/0.1-ptolemy-to-kepler.js
+   Run from the repository root:  node tools/numbers/ptolemy-to-kepler.js
 
    TABLE OF CONTENTS
 	 1. Loading the shared code

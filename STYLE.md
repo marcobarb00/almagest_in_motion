@@ -149,8 +149,10 @@ Everything that comments on a paragraph moves into the margin:
   added later, with the content work. The labels are explained nowhere
   else: "Origin · Ptolemy", "Origin · Debated" say enough on their own.
 - **Citations** ("Almagest I 3, transl. Toomer"): plain, 15 px, no rule.
-- **Detours**: heading "Detour · coming later" in `--accent`, a 1 px dashed
-  `--accent` rule on top. Becomes a link when the page exists.
+- **Detours**: heading "Detour · outside the course" in `--accent`, a 1 px
+  dashed `--accent` rule on top. A topic the epilogue tells as history
+  ends with a link to its section there; the heading becomes "Detour" and
+  the topic a link only if the topic ever gets a page.
 - **Today notes** (STRUCTURE.md §7.5): heading "Today" in `--earth-text`,
   the colour of the Modern origin, with a 1 px `--earth-text` rule on top,
   then one or two sentences. Written `<div class="note today">…</div>`;
@@ -199,7 +201,7 @@ styled by `shared/theme.css`.
 
 1. The header (act line, h1, italic subtitle) and the double rule.
 2. The opening with its drop cap, in the author's voice (WRITING.md §1),
-   then a link to the first ready page (the intro, 0.1) filled like the
+   then a link to the first ready page (the intro, Act 0) filled like the
    Play button (§8), beside it the
    button to the simulator, as tall, outlined in `--accent` (the only way
    to the simulator), and a plain link to the chapters.

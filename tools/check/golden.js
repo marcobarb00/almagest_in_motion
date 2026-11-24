@@ -1545,7 +1545,7 @@ function beyondKepler(c) {
 function page01(c) {
 	const figure = inContext(c, 'loopFigure');
 
-	title('8q. PAGE 0.1 (act0-intro/01-ptolemy-to-kepler/page.js)');
+	title('8q. ACT 0, THE INTRO (act0-intro/01-ptolemy-to-kepler/page.js)');
 	row('titleCase', ['LEO', 'CAPRICORNUS'].map(name => quote(inContext(c, 'titleCase')(name))).join(' '));
 	row('elongation 2027-02-19', num(c.elongation(c.Time.julianDay(2027, 2, 19)), 6));
 	row('nextOpposition from 2026-11-20', num(c.nextOpposition(c.Time.julianDay(2026, 11, 20)), 4));

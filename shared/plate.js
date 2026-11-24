@@ -25,7 +25,7 @@
    its ring or border and the pole's P.
 
    Plate.FIGURES, the stick figures of the constellations (lines between
-   stars of PLATE_STARS, by SIMBAD identifier), is also read by page 0.1,
+   stars of PLATE_STARS, by SIMBAD identifier), is also read by the intro,
    which draws the zodiac in ink on parchment.
 
    TABLE OF CONTENTS

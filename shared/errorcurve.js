@@ -254,7 +254,7 @@ class ErrorCurve {
 	}
 
 	/* A faint curve from an earlier model, for comparison. With smooth:
-	   true, a curve that does not oscillate within a column (page 0.1's
+	   true, a curve that does not oscillate within a column (the intro's
 	   lag of a mean longitude) is drawn as its dashed line over every span,
 	   never as a band, and on top of the models, which would hide it. */
 	addGhost(ghost) {
@@ -311,7 +311,7 @@ class ErrorCurve {
 	}
 
 	/* Span presets keep the center of the current range, unless the span
-	   gives its own (span.center, JD TT): page 0.1's 2000 years from
+	   gives its own (span.center, JD TT): the intro's 2000 years from
 	   Ptolemy's time and 20 years around today. */
 	chooseSpan(span, button) {
 		const center = span.center ?? (this.start + this.end) / 2;

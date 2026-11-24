@@ -49,13 +49,14 @@ the Earth's rotation ($\Delta T$).
 ## 4. The path
 
 Five acts, sixteen pages, plus a hub and an epilogue. Pages are numbered
-`act.page`. Each entry gives the guiding question, what the reader learns,
+`act.page`, except the intro, which is Act 0's only page and is called
+"Act 0" (Marco, 2026-11-24), as the epilogue is called "Epilogue". Each entry gives the guiding question, what the reader learns,
 the main figures, exercise ideas, and the residual that hands over to the
 next page.
 
 ### Act 0: Intro
 
-#### 0.1 · From Ptolemy to Kepler
+#### Act 0 · From Ptolemy to Kepler
 
 - **Question:** why did it take fifteen centuries to predict Mars?
 - **Idea:** a hook in three animated scenes, built one at a time, each
@@ -1141,8 +1142,8 @@ them on the site's own reference before they are written.
 - **Question:** where does the story go next?
 - **Idea:** after Kepler the question changed from *what shape* to *why*.
   Newton is named as the answer, in a paragraph, without his mathematics
-  (no derivations, no force law, no simulator: his topic card points to a
-  future page). From then on each residual of the best model of its time
+  (no derivations, no force law, no simulator; his topic card promises no
+  page). From then on each residual of the best model of its time
   was a test of his law, and the page follows that chain of residuals in
   time, stopping at Mercury and Einstein. Mostly prose, a few static
   figures, no controls, no exercises.
@@ -1267,7 +1268,7 @@ The site's `index.html` (its layout is STYLE.md §4.9): an opening in the
 author's voice, saying why the course exists (the books Marco studied
 from gave the old models a paragraph and a drawing, never how they were
 found or how their parameters were fitted) and what each page does about
-it; a link to the first ready page (the intro, 0.1); a blue plate of tonight's sky (`hub.js`); the
+it; a link to the first ready page (the intro, Act 0); a blue plate of tonight's sky (`hub.js`); the
 timeline of the astronomers, with the pages that rebuild their models or
 use their observations (`ASTRONOMERS` in `shared/site-map.js`); the story
 in a few short paragraphs; the acts as chapters, one row per page with
@@ -1486,10 +1487,15 @@ faint "ghosts", so the reader sees the error shrink page by page.
 ### 7.4 Detour notes
 
 A margin note next to the paragraph where a topic outside the scope
-naturally comes up (`STYLE.md` §4.5): the heading "Detour · coming later",
-then the topic and why it matters, "*Nutation: the small wobble of the pole
-on top of precession.*" When the topic gets its own page, the topic becomes
-a link.
+naturally comes up (`STYLE.md` §4.5): the heading "Detour · outside the
+course", then the topic and why it matters, "*Nutation: the small wobble of
+the pole on top of precession.*" No topic has a page or is planned for one
+(Marco, 2026-11-21), so a note never promises one. For a topic that the
+epilogue tells as history (Newton and gravitation, perturbations, the Moon
+after Kepler, ΔT: `epilogue` in `SITE_MAP.TOPICS`), the note adds "The
+epilogue tells its history, without the mathematics", linked to that
+section of *Beyond Kepler* (Marco, 2026-11-24). If a topic ever gets its
+own page, the heading becomes "Detour" and the topic a link to it.
 
 ### 7.5 Today notes
 
@@ -1538,7 +1544,7 @@ of time, `models/equation-of-time.js`) exports plain functions instead of
 `make()`. Precession (`models/precession.js`, page 2.3) predicts the
 longitude of a star: its `make(parameters, lon0)` takes the star's longitude
 at the epoch. The lunar epicycle (`models/lunar-epicycle.js`, page 3.1)
-reuses the solar equation of center as its equation of anomaly. Ptolemy's crank (`models/lunar-crank.js`, page 3.2) carries that epicycle on a turning eccentric and also gives the Moon's distance. The Moon's latitude (`models/lunar-latitude.js`, page 3.3) tilts that epicycle's circle, and `models/eclipses.js` joins a Sun and a Moon into an eclipse model, with the reference sky's eclipses (`Eclipses.reference`) to test it against. The simple planetary epicycle (`models/planet-epicycle.js`, page 4.1) carries a planet on an epicycle whose radius keeps the direction of the mean Sun, and finds the reference sky's stations and loops (`PlanetEpicycle.referenceEvents`). The planetary equant (`models/planet-equant.js`, page 4.2) puts that epicycle on an eccentric deferent turning uniformly about the equant, and holds Ptolemy's Mars, which page 0.1 runs to tonight. Kepler's ellipses (`models/kepler.js`, page 4.5) give the Sun and a planet seen from the Earth, with Kepler's equation and the third law; the simulator adds the ellipses of the other four planets (`Kepler.PLANETS_FIT`). The mean Sun (`models/mean-sun.js`, page 1.3)
+reuses the solar equation of center as its equation of anomaly. Ptolemy's crank (`models/lunar-crank.js`, page 3.2) carries that epicycle on a turning eccentric and also gives the Moon's distance. The Moon's latitude (`models/lunar-latitude.js`, page 3.3) tilts that epicycle's circle, and `models/eclipses.js` joins a Sun and a Moon into an eclipse model, with the reference sky's eclipses (`Eclipses.reference`) to test it against. The simple planetary epicycle (`models/planet-epicycle.js`, page 4.1) carries a planet on an epicycle whose radius keeps the direction of the mean Sun, and finds the reference sky's stations and loops (`PlanetEpicycle.referenceEvents`). The planetary equant (`models/planet-equant.js`, page 4.2) puts that epicycle on an eccentric deferent turning uniformly about the equant, and holds Ptolemy's Mars, which the intro runs to tonight. Kepler's ellipses (`models/kepler.js`, page 4.5) give the Sun and a planet seen from the Earth, with Kepler's equation and the third law; the simulator adds the ellipses of the other four planets (`Kepler.PLANETS_FIT`). The mean Sun (`models/mean-sun.js`, page 1.3)
 is the first model with `make()`, and the solar eccentric
 (`models/solar-eccentric.js`, page 2.1) the first that adds an anomaly to it.
 A parameter set whose days are turns of the Earth, as every ancient one is,

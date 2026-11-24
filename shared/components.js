@@ -72,7 +72,7 @@ const Site = (function () {
 
 	const href = path => ROOT + path;
 
-	/* A page by its number ('2.1', 'beyond'), or the simulator. */
+	/* A page by its number ('2.1', 'intro', 'beyond'), or the simulator. */
 	function findPage(number) {
 		if (String(number) === SIMULATOR.number) {
 			return SIMULATOR;
@@ -82,7 +82,7 @@ const Site = (function () {
 	}
 
 	/* "2.1 · " before a numbered page's title; nothing before the
-	   epilogue's or the simulator's. */
+	   intro's, the epilogue's or the simulator's. */
 	function numberPrefix(page) {
 		return /^\d/.test(page.number) ? `${page.number} · ` : '';
 	}
@@ -91,7 +91,8 @@ const Site = (function () {
 		return ACTS.find(act => act.id === page.act);
 	}
 
-	/* "Act II · 2.1", "Epilogue", or the simulator's own kicker. */
+	/* "Act II · 2.1", "Act 0" (the intro), "Epilogue", or the simulator's
+	   own kicker. */
 	function pageKicker(page) {
 		if (page.kicker) {
 			return page.kicker;
@@ -307,8 +308,22 @@ const Site = (function () {
 	/* "nutation" -> "Nutation". */
 	const capitalise = text => text.charAt(0).toUpperCase() + text.slice(1);
 
-	/* Detour notes: "Detour · coming later", then the topic and why it
-	   matters. When the topic has a ready page, the topic is a link. */
+	/* The sentence after a detour whose topic the epilogue tells as
+	   history: a link to that section of Beyond Kepler, and a plain
+	   statement that the mathematics does not follow. */
+	function epilogueSentence(topic) {
+		const link = `${href(findPage('beyond').path)}#${topic.epilogue}`;
+
+		return tr(
+			` The <a href="${link}">epilogue</a> tells its history, without the mathematics.`,
+			` L'<a href="${link}">epilogo</a> ne racconta la storia, senza la matematica.`
+		);
+	}
+
+	/* Detour notes: "Detour · outside the course", then the topic and why
+	   it matters, and, when the epilogue tells the topic's history, a link
+	   to it. When the topic has a ready page of its own, the heading is
+	   "Detour" and the topic is a link to that page. */
 	function buildDetours(root) {
 		root.querySelectorAll('.note.detour[data-topic]').forEach(note => {
 			const topic = TOPICS[note.dataset.topic];
@@ -326,9 +341,11 @@ const Site = (function () {
 					`<div class="note-head">${tr('Detour', 'Digressione')}</div>` +
 					`<a href="${href(topic.path)}">${title}</a>: ${text}.`;
 			} else {
+				const more = topic.epilogue ? epilogueSentence(topic) : '';
+
 				note.innerHTML =
-					`<div class="note-head">${tr('Detour · coming later', 'Digressione · prossimamente')}</div>` +
-					`${title}: ${text}.`;
+					`<div class="note-head">${tr('Detour · outside the course', 'Digressione · fuori dal corso')}</div>` +
+					`${title}: ${text}.${more}`;
 			}
 		});
 	}

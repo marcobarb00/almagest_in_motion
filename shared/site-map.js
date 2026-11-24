@@ -74,7 +74,7 @@ const SITE_MAP = (function () {
 	   common.js). */
 	const PAGES = [
 		{
-			number: '0.1',
+			number: 'intro',
 			act: 0,
 			ready: true,
 			title: tr('From Ptolemy to Kepler', 'Da Tolomeo a Keplero'),
@@ -321,8 +321,12 @@ const SITE_MAP = (function () {
 		italian: true
 	};
 
-	/* Topics outside the scope (STRUCTURE.md §3, §7.4). A detour card
-	   becomes a link when its topic has a ready page. */
+	/* Topics outside the scope (STRUCTURE.md §3, §7.4). None has a page
+	   of its own, and none is planned (Marco, 2026-11-21), so a detour note
+	   says "outside the course". epilogue is the section of Beyond Kepler
+	   that tells a topic's history, without its mathematics: the note
+	   then links to it. A topic becomes a link of its own only if a page is
+	   ever written for it (path, ready). */
 	const TOPICS = {
 		nutation: {
 			title: tr('nutation', 'nutazione'),
@@ -336,17 +340,17 @@ const SITE_MAP = (function () {
 		aberration: {
 			title: tr('aberration', 'aberrazione'),
 			sentence: tr(
-				"the Earth's yearly motion relative to the solar system's center of mass tilts the incoming starlight by about 20″",
-				'il moto annuo della Terra rispetto al centro di massa del sistema solare sposta di circa 20″ la direzione da cui arriva la luce delle stelle'
+				"how the Earth's yearly motion relative to the solar system's center of mass moves the apparent place of every star by up to about 20″, and how the shift is computed",
+				'come il moto annuo della Terra rispetto al centro di massa del sistema solare sposta fino a circa 20″ la posizione apparente di ogni stella, e come si calcola lo spostamento'
 			),
 			path: null,
 			ready: false
 		},
 		parallax: {
-			title: tr('stellar parallax', 'parallasse stellare'),
+			title: tr('measuring stellar parallax', 'la misura della parallasse stellare'),
 			sentence: tr(
-				'the annual shift that finally measured the distance to the stars',
-				'lo spostamento annuo che permise finalmente di misurare la distanza delle stelle'
+				"how the stars' annual shift was first measured, in the late 1830s, and the distances it gives",
+				"come lo spostamento annuo delle stelle fu misurato per la prima volta, alla fine degli anni Trenta dell'Ottocento, e le distanze che ne risultano"
 			),
 			path: null,
 			ready: false
@@ -385,6 +389,7 @@ const SITE_MAP = (function () {
 				'perché le leggi di Keplero valgono quasi esattamente, e dove non valgono'
 			),
 			path: null,
+			epilogue: 'newton',
 			ready: false
 		},
 		perturbations: {
@@ -394,6 +399,7 @@ const SITE_MAP = (function () {
 				'perché le ellissi stesse ruotano e cambiano lentamente'
 			),
 			path: null,
+			epilogue: 'jupiter-saturn',
 			ready: false
 		},
 		moon: {
@@ -403,6 +409,7 @@ const SITE_MAP = (function () {
 				"l'evezione, la variazione e l'equazione annua come effetti dell'attrazione del Sole, e le serie di termini con cui oggi si calcola la Luna"
 			),
 			path: null,
+			epilogue: 'perigee',
 			ready: false
 		},
 		calendars: {
@@ -427,6 +434,7 @@ const SITE_MAP = (function () {
 				'le maree allungano il giorno, e nel corso dei millenni gli orologi e la rotazione della Terra si discostano di ore'
 			),
 			path: null,
+			epilogue: 'clock',
 			ready: false
 		}
 	};

@@ -495,6 +495,12 @@ section.
 - **CI fails on changed reference values, console errors and failed
   checks; screenshot differences are only reported**, because fonts and
   anti-aliasing differ between machines. → .github/workflows/check.yml
+- **CI runs on pushes to `main` and `develop` and on pull requests, in two
+  parallel jobs** (Node checks, smoke test), 45 minutes each (2026-11-24).
+  In one job the golden values (about 20 minutes on GitHub) and the smoke
+  test overran the 30-minute limit and every run was cancelled; session
+  branches no longer run the checks, which their merge into `develop`
+  runs anyway. → .github/workflows/check.yml
 - **Prettier for `.js` and `.css` only, never `.html`** (it would reflow
   the prose and the KaTeX). `@ts-check` non-strict. → package.json,
   tools/check/README.md

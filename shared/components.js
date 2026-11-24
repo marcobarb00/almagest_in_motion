@@ -774,7 +774,7 @@ const Site = (function () {
 	   ====================================================================== */
 
 	const ANALYTICS = {
-		code: '', // the site's code: its dashboard is https://<code>.goatcounter.com
+		code: 'almagest', // the site's code: its dashboard is https://<code>.goatcounter.com
 		host: 'marcobarb00.github.io',
 		script: 'https://gc.zgo.at/count.v4.js',
 		integrity: 'sha384-nRw6qfbWyJha9LhsOtSb2YJDyZdKvvCFh0fJYlkquSFjUxp9FVNugbfy8q1jdxI+'

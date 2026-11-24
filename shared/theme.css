@@ -1,5 +1,5 @@
 /* ==========================================================================
-   PREDICTING THE SKY - SHARED THEME (theme.css)
+   THE ALMAGEST IN MOTION - SHARED THEME (theme.css)
    One stylesheet for the whole site, in the star-atlas style of STYLE.md:
    navy ink on parchment, engraved-plate typography, one frame, one rule
    style. Pages may add CSS for their own figures, never new colours: every
@@ -207,7 +207,7 @@ article {
 	min-width: 0;
 }
 
-/* "Predicting the Sky" above the header, after a small star: the way back
+/* "The Almagest in Motion" above the header, after a small star: the way back
    to the hub. It stays at the top of the window while the page scrolls,
    on a band of parchment as wide as the window (a shadow, so that only the
    words are clickable) that hides the text passing under it. */

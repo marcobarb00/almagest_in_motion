@@ -1,6 +1,6 @@
 // @ts-check
 /* ==========================================================================
-   PREDICTING THE SKY - REFERENCE EPHEMERIS (ephemeris.js)
+   THE ALMAGEST IN MOTION - REFERENCE EPHEMERIS (ephemeris.js)
    The "reference sky" every model on the site is compared with.
    Needs common.js and time.js. Touches no DOM, so it can be loaded in Node.
 

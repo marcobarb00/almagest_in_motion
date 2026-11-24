@@ -1,6 +1,6 @@
 // @ts-check
 /* ==========================================================================
-   PREDICTING THE SKY - BLUE PLATES (plate.js)
+   THE ALMAGEST IN MOTION - BLUE PLATES (plate.js)
    Static charts of the sky in the style of a cyanotype star atlas: white
    lines and stars on Prussian blue, one element highlighted (STYLE.md §7).
    Drawn as inline SVG. Needs common.js, time.js, ephemeris.js, stars.js and

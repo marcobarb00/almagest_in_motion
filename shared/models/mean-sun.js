@@ -1,6 +1,6 @@
 // @ts-check
 /* ==========================================================================
-   PREDICTING THE SKY - MODEL: THE MEAN SUN (models/mean-sun.js)
+   THE ALMAGEST IN MOTION - MODEL: THE MEAN SUN (models/mean-sun.js)
    The Sun moving uniformly along the ecliptic: its longitude grows by the
    same angle n every day,
 	   lambda_bar(t) = L0 + n (t - epoch).

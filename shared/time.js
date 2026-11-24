@@ -1,6 +1,6 @@
 // @ts-check
 /* ==========================================================================
-   PREDICTING THE SKY - TIME (time.js)
+   THE ALMAGEST IN MOTION - TIME (time.js)
    Julian Date, calendar conversions, Delta T and sidereal time.
    Needs common.js. Touches no DOM, so it can be loaded in Node.
 

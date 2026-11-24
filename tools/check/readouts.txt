@@ -1,4 +1,4 @@
-PREDICTING THE SKY - READ-OUTS (tools/check/smoke.js)
+THE ALMAGEST IN MOTION - READ-OUTS (tools/check/smoke.js)
 Regenerate with: node tools/check/smoke.js --update
 
 === act0-intro/01-ptolemy-to-kepler/index.html ===

@@ -1,6 +1,6 @@
 // @ts-check
 /* ==========================================================================
-   PREDICTING THE SKY - THE ERROR CURVE (errorcurve.js)
+   THE ALMAGEST IN MOTION - THE ERROR CURVE (errorcurve.js)
    The running thread of the site (STRUCTURE.md §7.3): a plot of
 	   Delta lambda = lambda_model - lambda_reference
    in arcminutes against time, with the curves of earlier models overlaid

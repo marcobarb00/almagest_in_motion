@@ -1,6 +1,6 @@
 // @ts-check
 /* ==========================================================================
-   PREDICTING THE SKY - PAGE COMPONENTS (components.js)
+   THE ALMAGEST IN MOTION - PAGE COMPONENTS (components.js)
    The site map and the parts every article shares, in the star-atlas
    style of STYLE.md: the link to the hub, the sticky table of contents on
    the left, the page header, margin notes (origins, detours), exercises,
@@ -105,7 +105,7 @@ const Site = (function () {
 
 	/* ======================================================================
 	   3. PAGE HEADER AND LINK TO THE HUB
-	   STYLE.md §4.2: "Predicting the Sky" in small caps, then the header:
+	   STYLE.md §4.2: "The Almagest in Motion" in small caps, then the header:
 	   act line, title and subtitle on the left, the table of contents in
 	   the margin on the right, and a double rule under it (theme.css).
 	   ====================================================================== */
@@ -115,7 +115,7 @@ const Site = (function () {
 	   west (to the left, the way back) with a short trail while the
 	   pointer is on the link (theme.css §3). Hidden from screen readers,
 	   which announce the link by its words. */
-	const SITE_TITLE = tr('Predicting the Sky', 'Prevedere il cielo');
+	const SITE_TITLE = tr('The Almagest in Motion', "L'Almagesto in movimento");
 
 	const BACK_MARK =
 		'<span class="back-mark" aria-hidden="true"><span class="back-trail"></span>' +

@@ -1,6 +1,6 @@
 # Licence of the content
 
-The content of *Predicting the Sky* (the text of the pages, the figures,
+The content of *The Almagest in Motion* (the text of the pages, the figures,
 the exercises and their answers, and the blue plates of the sky) is
 © 2026 Marco Barbieri and is licensed under the
 [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International](https://creativecommons.org/licenses/by-nc-sa/4.0/)
@@ -22,7 +22,7 @@ licensed separately, under the MIT License: see [LICENSE](LICENSE).
 
 ## How to credit
 
-> Marco Barbieri, *Predicting the Sky*, https://marcobarb00.github.io/astronomy/
+> Marco Barbieri, *The Almagest in Motion*, https://marcobarb00.github.io/astronomy/
 
 followed by the licence, CC BY-NC-SA 4.0, with a link to
 <https://creativecommons.org/licenses/by-nc-sa/4.0/>, and a note of any

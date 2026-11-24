@@ -1,4 +1,4 @@
-# Predicting the Sky · Style
+# The Almagest in Motion · Style
 
 The visual style of the whole site: a **star atlas**. Engraved-plate typography
 and ink on parchment, used with restraint, around modern, plain wording.
@@ -108,7 +108,7 @@ Rules:
 
 ### 4.2 Header
 
-1. "Predicting the Sky" link (small caps) after a small four-pointed star
+1. "The Almagest in Motion" link (small caps) after a small four-pointed star
    in `--accent`, the way back to the hub. On hover or keyboard focus the
    star darts west (to the left) with a short trail and comes back, in a
    loop; no motion for reduced motion. The link stays at the top of the

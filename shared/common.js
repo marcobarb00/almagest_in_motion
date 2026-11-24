@@ -1,6 +1,6 @@
 // @ts-check
 /* ==========================================================================
-   PREDICTING THE SKY - SHARED LIBRARY (common.js)
+   THE ALMAGEST IN MOTION - SHARED LIBRARY (common.js)
    Loaded by every page, before any other shared script.
    Contains nothing specific to one page and touches no DOM at load time,
    so the maths can also be loaded in Node for checks.

@@ -1,6 +1,6 @@
 // @ts-check
 /* ==========================================================================
-   PREDICTING THE SKY - PAGE DRAWINGS (thumbs.js)
+   THE ALMAGEST IN MOTION - PAGE DRAWINGS (thumbs.js)
    A small engraved drawing for each page of the course, beside its row
    on the hub (components.js, renderHub): the main construction of the
    page, drawn once, with no labels but a letter or two. Ink and the

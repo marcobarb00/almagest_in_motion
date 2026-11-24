@@ -1,6 +1,6 @@
 // @ts-check
 /* ==========================================================================
-   PREDICTING THE SKY - THE REFERENCE OF PAGE 4.5 AND THE SIMULATOR
+   THE ALMAGEST IN MOTION - THE REFERENCE OF PAGE 4.5 AND THE SIMULATOR
    (vsop87.js)
    The planets of the reference sky (ephemeris.js) are Kepler ellipses
    whose elements drift slowly (Standish's Table 2): a Kepler model fitted

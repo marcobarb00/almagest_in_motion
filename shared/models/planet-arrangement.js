@@ -1,6 +1,6 @@
 // @ts-check
 /* ==========================================================================
-   PREDICTING THE SKY - MODEL: COPERNICUS' ARRANGEMENT
+   THE ALMAGEST IN MOTION - MODEL: COPERNICUS' ARRANGEMENT
    (models/planet-arrangement.js)
    The model of page 4.3. Ptolemy's epicycle models of pages 4.1 and 4.2,
    one per planet, each in units of its own deferent, are joined into one

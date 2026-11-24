@@ -1,5 +1,5 @@
 /* ==========================================================================
-   PREDICTING THE SKY - LOADING THE SITE'S CODE IN NODE (tools/check/load.js)
+   THE ALMAGEST IN MOTION - LOADING THE SITE'S CODE IN NODE (tools/check/load.js)
    The site's scripts are plain browser scripts that share one global
    scope. This module runs them in a Node vm context, with the smallest
    stand-in for the browser that lets them load (nothing runs before

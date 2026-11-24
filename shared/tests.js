@@ -1,6 +1,6 @@
 // @ts-check
 /* ==========================================================================
-   PREDICTING THE SKY - TESTS (tests.js)
+   THE ALMAGEST IN MOTION - TESTS (tests.js)
    Script of tests.html: checks time.js and ephemeris.js against the worked
    examples of J. Meeus, Astronomical Algorithms (2nd ed., 1998), the SOFA /
    ERFA test values of the long-term precession, positions from JPL

@@ -1,5 +1,5 @@
 /* ==========================================================================
-   PREDICTING THE SKY - BUILD shared/vsop87-data.js AND
+   THE ALMAGEST IN MOTION - BUILD shared/vsop87-data.js AND
    shared/vsop87-planets.js (tools/make-vsop87.js)
    The reference of page 4.5 and of the simulator. The site's reference
    planets (Standish's elements, shared/ephemeris.js) are themselves

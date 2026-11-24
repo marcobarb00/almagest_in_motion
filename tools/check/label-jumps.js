@@ -1,5 +1,5 @@
 /* ==========================================================================
-   PREDICTING THE SKY - LABEL JUMPS (tools/check/label-jumps.js)
+   THE ALMAGEST IN MOTION - LABEL JUMPS (tools/check/label-jumps.js)
    Finds the labels of a figure that jump: a name or a letter that moves
    by several pixels for an arbitrarily small move of a control, instead
    of following its point (CLAUDE.md, "A label never jumps").

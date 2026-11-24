@@ -1,6 +1,6 @@
 // @ts-check
 /* ==========================================================================
-   PREDICTING THE SKY - MODEL: THE EQUATION OF TIME (models/equation-of-time.js)
+   THE ALMAGEST IN MOTION - MODEL: THE EQUATION OF TIME (models/equation-of-time.js)
    The model of page 2.2: the difference between the time a sundial
    shows (apparent solar time, the hour angle of the real Sun) and the
    time a clock shows (mean solar time, the hour angle of the mean Sun of

@@ -1,6 +1,6 @@
 // @ts-check
 /* ==========================================================================
-   PREDICTING THE SKY - THE ERROR LADDER (ladder.js)
+   THE ALMAGEST IN MOTION - THE ERROR LADDER (ladder.js)
    A static chart of the largest error of several models against the
    reference, one row per model in the order of the course, its dot on a
    horizontal scale of powers of ten (0.1' to 100°), the dots joined from

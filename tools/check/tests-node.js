@@ -1,5 +1,5 @@
 /* ==========================================================================
-   PREDICTING THE SKY - THE TEST PAGE IN NODE (tools/check/tests-node.js)
+   THE ALMAGEST IN MOTION - THE TEST PAGE IN NODE (tools/check/tests-node.js)
    Runs the cases of shared/tests.html (shared/tests.js: Meeus' worked
    examples, SOFA / ERFA values, JPL Horizons positions, the models of
    pages 1.1 to 1.3) in Node, without a browser, and exits with 1 if any

@@ -1,6 +1,6 @@
 // @ts-check
 /* ==========================================================================
-   PREDICTING THE SKY - 2D PLOTS (plot2d.js)
+   THE ALMAGEST IN MOTION - 2D PLOTS (plot2d.js)
    Simple 2D plots on a canvas: axes, grid, curves, bands, markers, an HTML
    legend and an optional hover cursor. Used by the error curve and by every
    graph on the pages. Needs common.js.

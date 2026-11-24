@@ -1,4 +1,4 @@
-# Predicting the Sky · Decisions
+# The Almagest in Motion · Decisions
 
 The choices already made, and why, so no session reopens them by accident.
 Claude Code does not remember earlier sessions: this file is that memory.
@@ -295,6 +295,14 @@ section.
   perturbations, the Moon after Kepler, ΔT) the note adds a link to that
   section of *Beyond Kepler* and says that the mathematics does not
   follow. → STRUCTURE.md §7.4, STYLE.md §4.5, shared/site-map.js
+- **The site is called "The Almagest in Motion"** ("L'Almagesto in
+  movimento"; Marco, 2026-11-24), not "Predicting the Sky". The word is
+  used, as in Riccioli's *Almagestum Novum* (1651), for a complete
+  treatise of positional astronomy, not for Ptolemy's book alone; "A
+  Modern Almagest" and "A New Almagest" were left out as too close to
+  Fitzpatrick's title, one of the course's sources. The hub's subtitle
+  stays "From the celestial sphere to Kepler's ellipse". →
+  shared/components.js (SITE_TITLE), index.html, every page's title
 
 ## Look
 

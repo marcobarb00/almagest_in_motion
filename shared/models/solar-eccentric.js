@@ -1,6 +1,6 @@
 // @ts-check
 /* ==========================================================================
-   PREDICTING THE SKY - MODEL: THE SOLAR ECCENTRIC (models/solar-eccentric.js)
+   THE ALMAGEST IN MOTION - MODEL: THE SOLAR ECCENTRIC (models/solar-eccentric.js)
    The model of page 2.1, Hipparchus' Sun: the Sun moves uniformly on a
    circle whose center C is not the Earth O but lies at a distance e (in
    units of the circle's radius) towards the apogee, at longitude lambdaA.

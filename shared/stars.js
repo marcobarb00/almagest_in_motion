@@ -1,6 +1,6 @@
 // @ts-check
 /* ==========================================================================
-   PREDICTING THE SKY - BRIGHT STARS (stars.js)
+   THE ALMAGEST IN MOTION - BRIGHT STARS (stars.js)
    A small catalogue of bright stars for the figures and the reference sky,
    and their positions of date. Needs common.js, time.js, ephemeris.js.
    Touches no DOM, so it can be loaded in Node.

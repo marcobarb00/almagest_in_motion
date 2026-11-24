@@ -1,5 +1,5 @@
 {
-	"name": "predicting-the-sky",
+	"name": "almagest-in-motion",
 	"private": true,
 	"description": "Development tools only (checks, lint, format, type check). The site itself needs none of this: it is plain HTML, CSS and JavaScript.",
 	"license": "MIT",

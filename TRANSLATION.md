@@ -1,4 +1,4 @@
-# Predicting the Sky · Italian translation
+# The Almagest in Motion · Italian translation
 
 The site exists in English and in Italian. This file holds the conventions
 of the translation and the glossary of its technical terms, so that every

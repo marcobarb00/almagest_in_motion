@@ -1,6 +1,6 @@
 // @ts-check
 /* ==========================================================================
-   PREDICTING THE SKY - THE HUB (hub.js)
+   THE ALMAGEST IN MOTION - THE HUB (hub.js)
    The hub's own figure, the plate of tonight's sky, the link to the
    first page, and the building of the hub from the shared components: the chapters with the drawing of
    each page, the timeline of the astronomers.

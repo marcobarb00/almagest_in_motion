@@ -1,6 +1,6 @@
 // @ts-check
 /* ==========================================================================
-   PREDICTING THE SKY - 3D SPHERE (sphere3d.js)
+   THE ALMAGEST IN MOTION - 3D SPHERE (sphere3d.js)
    A draggable celestial sphere drawn on a canvas.
    Needs common.js.
 

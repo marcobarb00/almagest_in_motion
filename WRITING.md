@@ -1,4 +1,4 @@
-# Predicting the Sky · Writing
+# The Almagest in Motion · Writing
 
 How the site's prose should read. STYLE.md covers how it looks; this file
 covers how it sounds. Follow it for every new page, and when revising old ones.

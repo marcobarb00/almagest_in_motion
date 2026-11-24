@@ -1,5 +1,5 @@
 /* ==========================================================================
-   PREDICTING THE SKY - SMOKE TEST (tools/check/smoke.js)
+   THE ALMAGEST IN MOTION - SMOKE TEST (tools/check/smoke.js)
    A safety net for refactoring: serves the repository on a local port,
    opens every HTML page in Chromium (Playwright) at a desktop and a phone
    width, and fails on any console error or warning, uncaught exception,
@@ -977,7 +977,7 @@ async function capture(browser, root, shotDir, only, label) {
 	const site = { root, base };
 	const pages = findPages(root).filter(page => matchesOnly(page, only));
 	const log = [
-		'PREDICTING THE SKY - READ-OUTS (tools/check/smoke.js)',
+		'THE ALMAGEST IN MOTION - READ-OUTS (tools/check/smoke.js)',
 		'Regenerate with: node tools/check/smoke.js --update'
 	];
 	const screenshots = [];

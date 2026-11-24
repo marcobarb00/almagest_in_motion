@@ -1,5 +1,5 @@
 /* ==========================================================================
-   PREDICTING THE SKY - ESLINT CONFIGURATION (eslint.config.mjs)
+   THE ALMAGEST IN MOTION - ESLINT CONFIGURATION (eslint.config.mjs)
    Development only: the site does not need it. Run with `npm run lint`.
 
    The site's scripts are plain <script> files that share one global

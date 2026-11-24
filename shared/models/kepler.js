@@ -1,6 +1,6 @@
 // @ts-check
 /* ==========================================================================
-   PREDICTING THE SKY - MODEL: KEPLER'S ELLIPSES (models/kepler.js)
+   THE ALMAGEST IN MOTION - MODEL: KEPLER'S ELLIPSES (models/kepler.js)
    The model of page 4.5. A body moves on an ellipse with the Sun at one
    focus (for the Sun itself, described from the Earth, the Earth at the
    focus), and the line from the focus sweeps equal areas in equal times.

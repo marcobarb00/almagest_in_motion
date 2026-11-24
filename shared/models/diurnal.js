@@ -1,6 +1,6 @@
 // @ts-check
 /* ==========================================================================
-   PREDICTING THE SKY - MODEL: THE TURNING SKY (models/diurnal.js)
+   THE ALMAGEST IN MOTION - MODEL: THE TURNING SKY (models/diurnal.js)
    The model of page 1.1: the sky is a rigid celestial sphere turning
    uniformly about the polar axis, seen by an observer at latitude phi.
    Needs common.js and time.js. Touches no DOM, so it can be loaded in Node.

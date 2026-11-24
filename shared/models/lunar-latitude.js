@@ -1,6 +1,6 @@
 // @ts-check
 /* ==========================================================================
-   PREDICTING THE SKY - MODEL: THE MOON'S LATITUDE (models/lunar-latitude.js)
+   THE ALMAGEST IN MOTION - MODEL: THE MOON'S LATITUDE (models/lunar-latitude.js)
    The model of page 3.3 (Almagest IV 9, V 12): the Moon's circle, with
    the epicycle of page 3.1 on it, is tilted by the inclination i to the
    ecliptic and crosses it at the two nodes, which move westward. The

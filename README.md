@@ -1,4 +1,4 @@
-# Predicting the Sky
+# The Almagest in Motion
 
 *From the celestial sphere to Kepler: an interactive course in classical
 positional astronomy.*

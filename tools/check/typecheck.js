@@ -1,5 +1,5 @@
 /* ==========================================================================
-   PREDICTING THE SKY - TYPE CHECK (tools/check/typecheck.js)
+   THE ALMAGEST IN MOTION - TYPE CHECK (tools/check/typecheck.js)
    Runs the TypeScript checker over the site's JavaScript (checkJs,
    non-strict), once per page with the scripts that page loads, in the
    order of its <script> tags, so that names of different pages never

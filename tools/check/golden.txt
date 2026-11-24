@@ -1,4 +1,4 @@
-PREDICTING THE SKY - GOLDEN VALUES (tools/check/golden.js)
+THE ALMAGEST IN MOTION - GOLDEN VALUES (tools/check/golden.js)
 Regenerate with: node tools/check/golden.js --write
 
 === 3. TIME AND SIDEREAL TIME (input: calendar date in UT) ===

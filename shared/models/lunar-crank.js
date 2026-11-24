@@ -1,6 +1,6 @@
 // @ts-check
 /* ==========================================================================
-   PREDICTING THE SKY - MODEL: PTOLEMY'S CRANK (models/lunar-crank.js)
+   THE ALMAGEST IN MOTION - MODEL: PTOLEMY'S CRANK (models/lunar-crank.js)
    The model of page 3.2, the Moon's second anomaly (Almagest V 2-7). It
    keeps the epicycle of page 3.1 (models/lunar-epicycle.js) and carries
    its center K on an eccentric whose center C turns westward about the

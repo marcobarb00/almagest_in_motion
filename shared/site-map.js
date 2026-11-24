@@ -1,6 +1,6 @@
 // @ts-check
 /* ==========================================================================
-   PREDICTING THE SKY - SITE MAP (site-map.js)
+   THE ALMAGEST IN MOTION - SITE MAP (site-map.js)
    The acts, the pages, the detour topics, the origins and the kinds of
    exercise: the data from which components.js builds the hub, the page
    headers, the previous / next links and the margin notes. Touches no DOM.

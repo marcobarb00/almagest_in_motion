@@ -1,5 +1,5 @@
 /* ==========================================================================
-   PREDICTING THE SKY - GOLDEN VALUES (tools/check/golden.js)
+   THE ALMAGEST IN MOTION - GOLDEN VALUES (tools/check/golden.js)
    A safety net for refactoring: loads the site's shared code (and each
    page's own script, with a stub for the DOM) in Node vm contexts, as the
    scripts of tools/numbers/ do, and prints a table of reference values:
@@ -1657,7 +1657,7 @@ function buildTable() {
 	const shared = loadFiles(SHARED_FILES);
 	const pages = PAGE_FILES.map(file => loadPage(file));
 
-	out('PREDICTING THE SKY - GOLDEN VALUES (tools/check/golden.js)');
+	out('THE ALMAGEST IN MOTION - GOLDEN VALUES (tools/check/golden.js)');
 	out('Regenerate with: node tools/check/golden.js --write');
 
 	timeSection(shared);

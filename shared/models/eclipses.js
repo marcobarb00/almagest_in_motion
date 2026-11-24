@@ -1,6 +1,6 @@
 // @ts-check
 /* ==========================================================================
-   PREDICTING THE SKY - MODEL: ECLIPSES (models/eclipses.js)
+   THE ALMAGEST IN MOTION - MODEL: ECLIPSES (models/eclipses.js)
    The eclipse model of page 3.3, built from the models of the earlier
    pages: a Sun (models/solar-eccentric.js) and a Moon in longitude
    (models/lunar-epicycle.js) and in latitude (models/lunar-latitude.js).

@@ -25,7 +25,7 @@
    vsop87.js, models/mean-sun.js, models/precession.js,
    models/solar-eccentric.js, models/planet-epicycle.js,
    models/planet-equant.js, models/planet-arrangement.js, models/kepler.js,
-   plot2d.js, errorcurve.js, components.js. Every number quoted in the
+   plot2d.js, ladder.js, errorcurve.js, components.js. Every number quoted in the
    prose comes from tools/numbers/4.5-kepler.js.
 
    TABLE OF CONTENTS
@@ -51,10 +51,6 @@ const realMars = jd => Ephem.longitude('mars', jd, VSOP);
 /* The dates where the reference can be trusted: VSOP87's terms were kept
    for AD 1000 to 3000 (vsop87.js). */
 const VSOP_RANGE = { start: Time.julianDay(1000, 1, 1), end: Time.julianDay(3000, 12, 31) };
-
-/* The direction (deg, anticlockwise from the right, as towards()) of
-   screen point b seen from screen point a. */
-const screenDirection = (a, b) => atan2d(a.y - b.y, b.x - a.x);
 
 /* ==========================================================================
    1. FIGURE 1: THE SUN'S SPEED AND SIZE
@@ -113,7 +109,7 @@ const sunFigure = {
 			y: SUN_RANGE,
 			xTicks: () => MONTH_TICKS.map(([value, label]) => ({ value, label })),
 			xLabel: SUN_YEAR.toString(),
-			yLabel: 'from the mean (%)',
+			yLabel: tr('from the mean (%)', 'rispetto alla media (%)'),
 			aspect: 0.45,
 			maxHeight: 340,
 			minHeight: 220,
@@ -121,9 +117,9 @@ const sunFigure = {
 		});
 
 		Plot2D.legend(byId('sun-legend'), [
-			{ label: 'daily motion', color: COL.sun, mark: 'band' },
-			{ label: 'apparent diameter', color: COL.earth },
-			{ label: 'diameter squared', color: COL.deferent }
+			{ label: tr('daily motion', 'moto diurno'), color: COL.sun, mark: 'band' },
+			{ label: tr('apparent diameter', 'diametro apparente'), color: COL.earth },
+			{ label: tr('diameter squared', 'diametro al quadrato'), color: COL.deferent }
 		]);
 	},
 
@@ -201,7 +197,7 @@ const triangleFigure = {
 			y: TRIANGLE_RANGE,
 			xTicks: quarterTicks,
 			yTicks: () => [-0.008, -0.006, -0.004, -0.002, 0, 0.002].map(value => ({ value, label: fixed(value, 3) })),
-			xLabel: 'heliocentric ecliptic longitude',
+			xLabel: tr('heliocentric ecliptic longitude', 'longitudine eclittica eliocentrica'),
 			yLabel: 'au',
 			aspect: 0.8,
 			maxHeight: 380,
@@ -345,6 +341,10 @@ const ELLIPSE_PERIOD = Kepler.siderealPeriod(PlanetEpicycle.MARS_FIT.n);
 const ELLIPSE_ROOM = 1.17;
 const ELLIPSE_SECTORS = 12;
 
+/* The names of P and P' stand this far (deg) ahead of and behind the
+   outward direction from the center C. */
+const P_NAME_TURN = 45;
+
 /* Play: a period in about twenty seconds. */
 const ELLIPSE_DAYS_PER_SECOND = 35;
 
@@ -373,14 +373,20 @@ const ellipseFigure = {
 		wireSlider(
 			byId('ellipse-day'),
 			() => this.update(),
-			value => `${fixed(value, 0)} days`
+			value => tr(`${fixed(value, 0)} days`, `${fixed(value, 0)} giorni`)
 		);
 		wirePresets(byId('ellipse-day').closest('figure'));
 		wirePlayButton(byId('ellipse-play'), byId('ellipse-day'), ELLIPSE_DAYS_PER_SECOND);
-		buildChoice(byId('ellipse-views'), Object.keys(ELLIPSE_VIEWS), this.view, name => {
-			this.view = name;
-			this.update();
-		});
+		buildChoice(
+			byId('ellipse-views'),
+			Object.keys(ELLIPSE_VIEWS),
+			this.view,
+			name => {
+				this.view = name;
+				this.update();
+			},
+			name => (name === 'Mars' ? bodyName(name) : localNumbers(name))
+		);
 		this.update();
 	},
 
@@ -494,34 +500,15 @@ const ellipseFigure = {
 			labelOutside(ctx, 'C', C, 3, 90, COL.ink, owner.labels);
 		}
 
-		// P and P' also keep off the directions of the long axis (0° and
-		// 180° on the screen), so that at A and Π they go above or below it,
-		// clear of the labels A and Π
-		const raysAtP = [screenDirection(P, S), screenDirection(P, Q), 0, 180];
+		// P and P' are letters on a side of their point that turns smoothly
+		// as P goes round, so that they pass over a line for a moment
+		// rather than jump to the other side of their point: P outward
+		// and ahead, P' outward and behind, so that at A and Π they stand
+		// above and below the long axis, clear of the labels A and Π
+		labelOutside(ctx, 'P', P, 6, screenDirection(C, P) + P_NAME_TURN, COL.planet, owner.labels);
 
 		if (construction) {
-			raysAtP.push(screenDirection(P, P1), screenDirection(P1, P));
-		}
-
-		labelOutside(ctx, 'P', P, 6, clearestDirection(raysAtP), COL.planet, owner.labels);
-
-		if (construction) {
-			labelOutside(
-				ctx,
-				'P′',
-				P1,
-				3,
-				clearestDirection([
-					screenDirection(P1, C),
-					screenDirection(P1, P),
-					screenDirection(C, P1) + 90,
-					screenDirection(C, P1) - 90,
-					0,
-					180
-				]),
-				COL.ink,
-				owner.labels
-			);
+			labelOutside(ctx, 'P′', P1, 3, now.E - P_NAME_TURN, COL.ink, owner.labels);
 		}
 	},
 
@@ -596,9 +583,9 @@ const marsErrorFigure = {
 			start: Time.julianDay(2016, 1, 1),
 			end: Time.julianDay(2020, 1, 1),
 			spans: [
-				{ label: '4 years', years: 4 },
-				{ label: '16 years', years: 16 },
-				{ label: '200 years', years: 200 }
+				{ label: tr('4 years', '4 anni'), years: 4 },
+				{ label: tr('16 years', '16 anni'), years: 16 },
+				{ label: tr('200 years', '200 anni'), years: 200 }
 			],
 			units: 'arcmin',
 			yMax: MARS_ERROR_HALF,
@@ -607,19 +594,22 @@ const marsErrorFigure = {
 		const model = Kepler.make();
 
 		curve.addGhost({
-			label: "page 4.2's equant",
-			short: "page 4.2's equant",
+			label: tr("page 4.2's equant", "l'equante della pagina 4.2"),
+			short: tr("page 4.2's equant", "l'equante della pagina 4.2"),
 			color: COL.epicycle,
 			fn: PlanetEquant.make(PlanetEquant.MARS_FIT)
 		});
 		curve.addModel({
-			label: "Kepler's ellipses, fitted to 2010–2025",
-			short: 'ellipses',
+			label: tr("Kepler's ellipses, fitted to 2010–2025", 'le ellissi di Keplero, adattate al 2010–2025'),
+			short: tr('ellipses', 'ellissi'),
 			color: COL.deferent,
 			fn: model
 		});
 		curve.addMarks({
-			label: 'the ellipses at the oppositions (spans of 16 years or less)',
+			label: tr(
+				'the ellipses at the oppositions (spans of 16 years or less)',
+				'le ellissi alle opposizioni (intervalli di 16 anni o meno)'
+			),
 			color: COL.deferent,
 			fn: model,
 			dates: oppositions(Time.julianDay(2010, 1, 1), Time.julianDay(2026, 1, 1)),
@@ -637,23 +627,23 @@ const sunErrorFigure = {
 			start: Time.julianDay(2026, 1, 1),
 			end: Time.julianDay(2027, 1, 1),
 			spans: [
-				{ label: '1 year', years: 1 },
-				{ label: '100 years', years: 100 },
-				{ label: '1000 years', years: 1000 }
+				{ label: tr('1 year', '1 anno'), years: 1 },
+				{ label: tr('100 years', '100 anni'), years: 100 },
+				{ label: tr('1000 years', '1000 anni'), years: 1000 }
 			],
 			units: 'arcmin',
 			ghostButtons: false
 		});
 
 		curve.addGhost({
-			label: "page 2.1's eccentric, its apogee moving",
-			short: "page 2.1's eccentric",
+			label: tr("page 2.1's eccentric, its apogee moving", "l'eccentrico della pagina 2.1, con l'apogeo in moto"),
+			short: tr("page 2.1's eccentric", "l'eccentrico della pagina 2.1"),
 			color: COL.sun,
 			fn: SolarEccentric.make(SolarEccentric.MOVING_2026)
 		});
 		curve.addModel({
-			label: "Kepler's ellipse, fitted to 2026",
-			short: 'ellipse',
+			label: tr("Kepler's ellipse, fitted to 2026", "l'ellisse di Keplero, adattata al 2026"),
+			short: tr('ellipse', 'ellisse'),
 			color: COL.deferent,
 			fn: Kepler.makeSun()
 		});
@@ -663,115 +653,48 @@ const sunErrorFigure = {
 /* ==========================================================================
    5. FIGURE 6: EVERY MODEL OF THE SUN AND OF MARS
    Static. The largest error of each model against the reference: the Sun
-   every day of 2026, Mars every day of 2010 - 2025. One row per model,
-   named on the left with its page, in the order of the course, its dot on
-   a horizontal scale of the logarithm of the error in arcminutes, and the
-   dots of a body joined from row to row. The two panels, one above the
-   other, share the scale. The errors run from 0.24' (the Sun's ellipse)
-   to 53.7° (the uniform Mars) (tools/numbers/4.5-kepler.js): the axis
-   runs from 0.1' to 100°.
+   every day of 2026, Mars every day of 2010 - 2025, drawn by the shared
+   error ladder (ladder.js): one row per model, named on the left with its
+   page, in the order of the course, on a scale of powers of ten. The two
+   panels, one above the other, share the scale. The errors run from 0.24'
+   (the Sun's ellipse) to 53.7° (the uniform Mars)
+   (tools/numbers/4.5-kepler.js).
    ========================================================================== */
-
-/* The marks of the scale: their value in arcminutes and their label. */
-const SUMMARY_MARKS = [
-	{ arcmin: 0.1, label: '0.1′' },
-	{ arcmin: 1, label: '1′' },
-	{ arcmin: 10, label: '10′' },
-	{ arcmin: 60, label: '1°' },
-	{ arcmin: 600, label: '10°' },
-	{ arcmin: 6000, label: '100°' }
-];
-const SUMMARY_RANGE = [Math.log10(0.1), Math.log10(6000)];
-
-/* The height of a row, and the room for the row names on the left (px):
-   "4.3 epicyclet" is the longest. */
-const SUMMARY_ROW = 34;
-const SUMMARY_NAMES = 100;
 
 /* The models of each panel, in the order of the course: the page it comes
    from, its name and the model (jd -> longitude). */
 const SUMMARY_MODELS = {
 	sun: [
-		{ page: '1.3', name: 'uniform', fn: MeanSun.make(MeanSun.MODERN) },
-		{ page: '2.1', name: 'eccentric', fn: SolarEccentric.make(SolarEccentric.FIT_2026) },
-		{ page: '4.5', name: 'ellipse', fn: Kepler.makeSun() }
+		{ page: '1.3', name: tr('uniform', 'uniforme'), fn: MeanSun.make(MeanSun.MODERN) },
+		{ page: '2.1', name: tr('eccentric', 'eccentrico'), fn: SolarEccentric.make(SolarEccentric.FIT_2026) },
+		{ page: '4.5', name: tr('ellipse', 'ellisse'), fn: Kepler.makeSun() }
 	],
 	mars: [
-		{ page: '4.1', name: 'uniform', fn: PlanetEpicycle.makeUniform(PlanetEpicycle.MARS_FIT) },
-		{ page: '4.1', name: 'epicycle', fn: PlanetEpicycle.make(PlanetEpicycle.MARS_FIT) },
-		{ page: '4.2', name: 'equant', fn: PlanetEquant.make(PlanetEquant.MARS_FIT) },
-		{ page: '4.3', name: 'epicyclet', fn: PlanetArrangement.makeEpicyclet() },
-		{ page: '4.5', name: 'ellipses', fn: Kepler.make() }
+		{ page: '4.1', name: tr('uniform', 'uniforme'), fn: PlanetEpicycle.makeUniform(PlanetEpicycle.MARS_FIT) },
+		{ page: '4.1', name: tr('epicycle', 'epiciclo'), fn: PlanetEpicycle.make(PlanetEpicycle.MARS_FIT) },
+		{ page: '4.2', name: tr('equant', 'equante'), fn: PlanetEquant.make(PlanetEquant.MARS_FIT) },
+		{ page: '4.3', name: tr('epicyclet', 'epiciclo minore'), fn: PlanetArrangement.makeEpicyclet() },
+		{ page: '4.5', name: tr('ellipses', 'ellissi'), fn: Kepler.make() }
 	]
 };
 
 const summaryFigure = {
 	init() {
+		const year = y => Time.julianDay(y, 1, 1);
+
 		this.panels = [
-			this.panel('sun', 'summary-sun', realSun, 2026, 2027, 1),
-			this.panel('mars', 'summary-mars', realMars, 2010, 2026, 1)
+			ErrorLadder.panel(
+				byId('summary-sun'),
+				SUMMARY_MODELS.sun,
+				jd => realSun(jd).lon,
+				year(2026),
+				year(2027),
+				1
+			),
+			ErrorLadder.panel(byId('summary-mars'), SUMMARY_MODELS.mars, realMars, year(2010), year(2026), 1)
 		];
-	},
-
-	/* One panel: the largest errors of its models, and their plot. */
-	panel(body, canvasId, reference, fromYear, toYear, step) {
-		const models = SUMMARY_MODELS[body];
-		const worst = models.map(() => 0);
-		const start = Time.julianDay(fromYear, 1, 1);
-		const end = Time.julianDay(toYear, 1, 1);
-
-		for (let jd = start; jd < end; jd += step) {
-			const ref = body === 'sun' ? reference(jd).lon : reference(jd);
-
-			models.forEach((model, i) => {
-				worst[i] = Math.max(worst[i], Math.abs(norm180(model.fn(jd) - ref)));
-			});
-		}
-
-		const panel = {
-			models,
-			values: worst.map(degrees => Math.log10(degrees * 60)),
-			rows: models.map((model, i) => summaryRow(i, models.length)),
-			plot: null
-		};
-
-		// a fixed height: the rows, and the margins of Plot2D for the
-		// scale's ticks and title below
-		const height = models.length * SUMMARY_ROW + 52;
-
-		panel.plot = new Plot2D(byId(canvasId), {
-			x: SUMMARY_RANGE,
-			y: [0.5, models.length + 0.5],
-			xTicks: () => SUMMARY_MARKS.map(mark => ({ value: Math.log10(mark.arcmin), label: mark.label })),
-			yTicks: () => models.map((model, i) => ({ value: panel.rows[i], label: `${model.page} ${model.name}` })),
-			xLabel: 'largest error',
-			margin: { left: SUMMARY_NAMES },
-			minHeight: height,
-			maxHeight: height,
-			onDraw: () => this.draw(panel)
-		});
-
-		return panel;
-	},
-
-	draw(panel) {
-		const p = panel.plot;
-
-		if (!panel.values) {
-			return;
-		}
-
-		p.frame();
-		p.curve(panel.values, panel.rows, { color: withAlpha(COL.planet, 0.5), width: 1.2 });
-		panel.values.forEach((value, i) => p.marker(value, panel.rows[i], { color: COL.planet, radius: 5.5 }));
 	}
 };
-
-/* The y value of row i of n, the first row at the top: from n down to 1,
-   so that no row falls on y = 0, where Plot2D draws a stronger line. */
-function summaryRow(i, n) {
-	return n - i;
-}
 
 /* ==========================================================================
    6. PAGE START

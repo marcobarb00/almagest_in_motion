@@ -1,6 +1,6 @@
 // @ts-check
 /* ==========================================================================
-   PREDICTING THE SKY - MODEL: THE PLANETARY EQUANT (models/planet-equant.js)
+   THE ALMAGEST IN MOTION - MODEL: THE PLANETARY EQUANT (models/planet-equant.js)
    The model of page 4.2, Ptolemy's model of an outer planet (Almagest
    IX 5 - 6, X 6 - 8, XI 9). The epicycle of page 4.1
    (models/planet-epicycle.js) is carried on an eccentric deferent, and

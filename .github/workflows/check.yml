@@ -1,5 +1,5 @@
 # ============================================================================
-# PREDICTING THE SKY - CHECKS (.github/workflows/check.yml)
+# THE ALMAGEST IN MOTION - CHECKS (.github/workflows/check.yml)
 # On every push and pull request: lint, format, type check, the tests of
 # shared/tests.html in Node, the golden values, and the smoke test of every
 # page. A change in the reference numbers (golden.txt, readouts.txt) or a

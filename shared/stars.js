@@ -1,6 +1,6 @@
 // @ts-check
 /* ==========================================================================
-   PREDICTING THE SKY - BRIGHT STARS (stars.js)
+   THE ALMAGEST IN MOTION - BRIGHT STARS (stars.js)
    A small catalogue of bright stars for the figures and the reference sky,
    and their positions of date. Needs common.js, time.js, ephemeris.js.
    Touches no DOM, so it can be loaded in Node.
@@ -161,6 +161,21 @@ const Stars = (function () {
 		};
 	}
 
+	/* The names that differ in Italian, as Italian books write them; the
+	   others (Vega, Deneb, Polaris, Antares...) are the same. */
+	const ITALIAN_NAMES = {
+		Arcturus: 'Arturo',
+		Regulus: 'Regolo',
+		Sirius: 'Sirio',
+		Canopus: 'Canopo'
+	};
+
+	/* A star's name in the page's language (common.js, tr): "Sirius",
+	   "Sirio". The star is still found by its English name (find). */
+	function label(name) {
+		return ITALIAN ? (ITALIAN_NAMES[name] ?? name) : name;
+	}
+
 	/* ======================================================================
 	   3. EXPORT
 	   ====================================================================== */
@@ -169,6 +184,7 @@ const Stars = (function () {
 		LIST,
 		MORE,
 		find,
+		label,
 		vectorJ2000,
 		atEpoch,
 		ofDate,

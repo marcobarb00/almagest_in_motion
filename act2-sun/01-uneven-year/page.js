@@ -52,7 +52,7 @@ const YEAR_LENGTH = MeanSun.yearLength();
 const PLAY_DAYS_PER_SECOND = 30;
 
 /* The names of the seasons, in order from the spring equinox. */
-const SEASON_NAMES = ['spring', 'summer', 'autumn', 'winter'];
+const SEASON_NAMES = tr(['spring', 'summer', 'autumn', 'winter'], ['primavera', 'estate', 'autunno', 'inverno']);
 
 /* The directions from the Earth to the equinoxes and the solstices, with
    their labels on the figures. */
@@ -153,8 +153,8 @@ const motionFigure = {
 		this.plot = new Plot2D(byId('motion-plot'), {
 			x: [this.seasons[0], this.seasons[4]],
 			y: MOTION_RANGE,
-			xLabel: `date (${YEAR - 1}–${YEAR})`,
-			yLabel: 'daily motion (′)',
+			xLabel: tr(`date (${YEAR - 1}–${YEAR})`, `data (${YEAR - 1}–${YEAR})`),
+			yLabel: tr('daily motion (′)', 'moto giornaliero (′)'),
 			xTicks: monthTicks,
 			aspect: 0.42,
 			margin: { top: SEASON_HEADER.room },
@@ -208,7 +208,7 @@ const motionFigure = {
 
 		// the mean, named above its line in the middle of summer (the last
 		// season), where the curve runs well below it
-		p.text(`mean, ${fixed(mean, 2)}′`, (this.seasons[3] + this.seasons[4]) / 2, mean, {
+		p.text(`${tr('mean', 'media')}, ${fixed(mean, 2)}′`, (this.seasons[3] + this.seasons[4]) / 2, mean, {
 			align: 'center',
 			baseline: 'bottom',
 			dx: 0,
@@ -236,7 +236,12 @@ const motionFigure = {
 			ctx.font = right - left >= SEASON_NAME_ROOM ? FONT_NAME : FONT_NAME_SMALL;
 			ctx.fillText(SEASON_NAMES[(i + MOTION_FIRST_SEASON) % 4], x, p.box.top - SEASON_HEADER.name);
 			ctx.font = FONT_TICK;
-			ctx.fillText(`${fixed(this.seasons[i + 1] - this.seasons[i], 2)} d`, x, p.box.top - SEASON_HEADER.length);
+			canvasText(
+				ctx,
+				`${fixed(this.seasons[i + 1] - this.seasons[i], 2)} d`,
+				x,
+				p.box.top - SEASON_HEADER.length
+			);
 		}
 	}
 };
@@ -280,8 +285,8 @@ function drawApsides(view, center, apogee, labels) {
 	segment(ctx, far, near, { color: COL.muted, width: 1.2, dash: [2, 4] });
 	drawDot(ctx, far.x, far.y, 3.5, COL.deferent);
 	drawDot(ctx, near.x, near.y, 3.5, COL.deferent);
-	labelOutside(ctx, 'apogee', C, view.scale, apogee, COL.deferent, labels);
-	labelOutside(ctx, 'perigee', C, view.scale, apogee + 180, COL.deferent, labels);
+	labelOutside(ctx, tr('apogee', 'apogeo'), C, view.scale, apogee, COL.deferent, labels);
+	labelOutside(ctx, tr('perigee', 'perigeo'), C, view.scale, apogee + 180, COL.deferent, labels);
 }
 
 /* The lines from the Earth to the equinoxes and solstices, up to the
@@ -378,8 +383,8 @@ const restFigure = {
 		// the circle
 		const arrowLon = Math.atan2(sun.y, sun.x) * R2D;
 
-		labelOutside(ctx, 'Earth', earth, 6, arrowLon + 180, COL.earth);
-		labelOutside(ctx, 'Sun', center, view.scale, REST_MEAN_LONGITUDE, COL.sun);
+		labelOutside(ctx, tr('Earth', 'Terra'), earth, 6, arrowLon + 180, COL.earth);
+		labelOutside(ctx, tr('Sun', 'Sole'), center, view.scale, REST_MEAN_LONGITUDE, COL.sun);
 	},
 
 	/* (b) The Sun at rest at the origin, the Earth on the equal circle
@@ -405,8 +410,8 @@ const restFigure = {
 		// circle
 		const arrowLon = Math.atan2(sun.y, sun.x) * R2D;
 
-		labelOutside(ctx, 'Sun', S, 8, arrowLon, COL.sun);
-		labelOutside(ctx, 'Earth', center, view.scale, REST_MEAN_LONGITUDE + 180, COL.earth);
+		labelOutside(ctx, tr('Sun', 'Sole'), S, 8, arrowLon, COL.sun);
+		labelOutside(ctx, tr('Earth', 'Terra'), center, view.scale, REST_MEAN_LONGITUDE + 180, COL.earth);
 	}
 };
 
@@ -425,8 +430,12 @@ const ECCENTRIC_Q_RANGE = [-12, 12];
 const SUN_Q_RANGE = [-2.5, 2.5];
 
 const EOC_VIEWS = [
-	{ name: 'exaggerated, e = 0.2', e: 0.2, qRange: ECCENTRIC_Q_RANGE },
-	{ name: `the Sun, e = ${fixed(SolarEccentric.FIT_2026.e, 4)}`, e: SolarEccentric.FIT_2026.e, qRange: SUN_Q_RANGE }
+	{ name: tr('exaggerated, e = 0.2', 'esagerato, e = 0,2'), e: 0.2, qRange: ECCENTRIC_Q_RANGE },
+	{
+		name: localNumbers(`${tr('the Sun', 'il Sole')}, e = ${fixed(SolarEccentric.FIT_2026.e, 4)}`),
+		e: SolarEccentric.FIT_2026.e,
+		qRange: SUN_Q_RANGE
+	}
 ];
 
 /* The drawing is centered on C: the circle, and the labels just outside
@@ -438,14 +447,21 @@ const ECCENTRIC_REACH = 1.27;
 const ARC_RADIUS = { M: 0.16, q: 0.62 };
 const Q_LABEL_GAP = 13;
 
-/* The Earth is named O, 45° to one side of the line of apsides away from
-   C, EARTH_LABEL_DISTANCE px from it; C 45° to one side of the line of
-   apsides beyond C, CENTRE_LABEL_DISTANCE radii away. Each takes the side
-   farther from the other lines through its point: single letters, which
-   may change sides (CLAUDE.md). */
+/* The Earth is named O, 45° from the line of apsides away from C,
+   EARTH_LABEL_DISTANCE px from it; C 45° from the line of apsides beyond
+   C, on its other side, CENTRE_LABEL_DISTANCE radii away. They keep these
+   sides all year: the Sun's lines pass over them for a moment (CLAUDE.md,
+   "A label never jumps"), and C's name stays clear of the arc M, which
+   opens on the other side of the line. */
 const CENTRE_LABEL_TURN = 45;
 const CENTRE_LABEL_DISTANCE = 0.2;
 const EARTH_LABEL_DISTANCE = 16;
+
+/* The name q stands beside the mean direction from O, on the side away
+   from the angle q; within this fraction of q's greatest value (about 2e
+   radians) of zero, it turns round its place on the line, through the
+   side of the Earth, instead of jumping to the line's other side. */
+const Q_SIDE_RAMP = 0.15;
 
 const centreFigure = {
 	plot: null,
@@ -459,7 +475,7 @@ const centreFigure = {
 		this.plot = new Plot2D(byId('eoc-plot'), {
 			x: [0, DAYS_IN_YEAR],
 			y: this.view.qRange,
-			xLabel: `date (${YEAR})`,
+			xLabel: tr(`date (${YEAR})`, `data (${YEAR})`),
 			yLabel: 'q (°)',
 			xTicks: monthTicks,
 			aspect: 0.95,
@@ -469,7 +485,9 @@ const centreFigure = {
 
 		wireSlider(byId('eoc-day'), () => this.update(), dayText);
 		wirePresets(byId('eoc-day').closest('figure'));
-		wirePlayButton(byId('eoc-play'), byId('eoc-day'), PLAY_DAYS_PER_SECOND, { playLabel: 'Play a year' });
+		wirePlayButton(byId('eoc-play'), byId('eoc-day'), PLAY_DAYS_PER_SECOND, {
+			playLabel: tr('Play a year', 'Avvia un anno')
+		});
 
 		buildChoice(
 			byId('eoc-views'),
@@ -532,8 +550,7 @@ const centreFigure = {
 		]);
 	},
 
-	/* Panel (a). The names that never move (apogee, perigee, γ) are set
-	   first; the letters then keep clear of them (LabelPlacer). */
+	/* Panel (a). */
 	draw() {
 		if (!this.state) {
 			return;
@@ -553,20 +570,17 @@ const centreFigure = {
 		drawEccentric(this, center);
 		drawCardinalLines(this, center, [CARDINAL_POINTS[0]], 0, this.labels);
 		this.drawSun(center, now);
-		this.labelCentre(center, now);
+		this.labelCentre(center);
 	},
 
-	/* The names of the Earth O and of C (CENTRE_LABEL_TURN), clear of the
-	   mean direction, the Sun and the middle of the arc M. */
-	labelCentre(center, now) {
+	/* The names of the Earth O and of C (CENTRE_LABEL_TURN), on either
+	   side of the line of apsides. */
+	labelCentre(center) {
 		const apogee = this.state.parameters.apogee;
-		const busy = [now.meanLongitude, now.lambda, apogee + now.M / 2, 0];
-		const clearance = lon => Math.min(...busy.map(b => Math.abs(norm180(lon - b))));
-		const better = (a, b) => (clearance(a) >= clearance(b) ? a : b);
-		const earthSide = better(apogee + 180 - CENTRE_LABEL_TURN, apogee + 180 + CENTRE_LABEL_TURN);
-		const cSide = better(apogee - CENTRE_LABEL_TURN, apogee + CENTRE_LABEL_TURN);
 		const O = toCanvas(this, 0, 0);
 		const C = toCanvas(this, center.h, center.k);
+		const earthSide = apogee + 180 - CENTRE_LABEL_TURN;
+		const cSide = apogee - CENTRE_LABEL_TURN;
 
 		centeredLabel(this.ctx, 'O', towards(O, earthSide, EARTH_LABEL_DISTANCE), COL.earth, this.labels);
 		centeredLabel(this.ctx, 'C', towards(C, cSide, CENTRE_LABEL_DISTANCE * this.scale), COL.ink, this.labels);
@@ -607,8 +621,10 @@ const centreFigure = {
 
 		// q beside the mean direction from O, outside the angle (q is too
 		// narrow to hold its name; on the other side, beyond the line O-S,
-		// runs the line C-S): a single letter, which changes sides with q
-		const outside = q >= 0 ? -90 : 90;
+		// runs the line C-S); it turns to the other side through the
+		// Earth's as q goes through zero (Q_SIDE_RAMP), clear of the Sun
+		const ramp = Q_SIDE_RAMP * 2 * this.state.parameters.e * R2D;
+		const outside = -180 + 90 * clamp(q / ramp, -1, 1);
 		const onLine = towards(O, meanLongitude, (ARC_RADIUS.q + 0.05) * this.scale);
 
 		centeredLabel(ctx, 'q', towards(onLine, meanLongitude + outside, Q_LABEL_GAP), COL.planet, this.labels);
@@ -715,7 +731,7 @@ const seasonsFigure = {
 
 			centeredLabel(ctx, name, { x: at.x, y: at.y - 10 }, COL.ink);
 			ctx.font = FONT_TICK;
-			ctx.fillText(`${fixed(lengths[i], 2)} d`, at.x, at.y + 11);
+			canvasText(ctx, `${fixed(lengths[i], 2)} d`, at.x, at.y + 11);
 		});
 	}
 };
@@ -762,12 +778,15 @@ const SMALL_ANGLE_LABEL = { along: { k: 0.64, h: 0.42 }, gap: 7, ramp: 3 };
    their leg (px), inside the triangle. */
 const LEG_LABEL_GAP = 12;
 
-/* Panel (b): the radius of the arc lambdaA about the Earth, the two radii
-   where its name may go, inside and outside the arc (units of the radius
-   of the eccentric), and the half size of the name (px). */
+/* Panel (b): the radius of the arc lambdaA about the Earth, and that of
+   its name, just outside it (units of the radius of the eccentric). */
 const APOGEE_ARC_RADIUS = 0.05;
-const APOGEE_LABEL_RADII = [0.031, 0.069];
-const APOGEE_LABEL_HALF = { width: 12, height: 11 };
+const APOGEE_LABEL_RADIUS = 0.069;
+
+/* Panel (b): the names of O, C, h and k stand on the side of an axis
+   away from C, and glide across it as C comes within this distance of
+   it (units of the radius of the eccentric). */
+const AXIS_SIDE_RAMP = 0.01;
 
 /* Below this eccentricity the read-out shows e = 0.0000 and C is at the
    Earth, so there is no apogee to show. The preset "equal" (91.31 days,
@@ -816,8 +835,8 @@ const fitFigure = {
 		this.plot = new Plot2D(byId('fit-plot'), {
 			x: CENTRE_RANGE,
 			y: CENTRE_RANGE,
-			xLabel: 'x, towards γ',
-			yLabel: 'y, towards 90°',
+			xLabel: tr('x, towards γ', 'x, verso γ'),
+			yLabel: tr('y, towards 90°', 'y, verso 90°'),
 			aspect: 1,
 			maxHeight: 520,
 			margin: { left: 56, right: 14, top: 30, bottom: 40 },
@@ -865,13 +884,15 @@ const fitFigure = {
 
 		// with no eccentricity there is no apogee: the line says so instead
 		const apogeeText =
-			e > NO_ECCENTRICITY ? `\\lambda_A = ${fixedAngle(apogee, 1)}^\\circ` : '\\text{no apogee (C at the Earth)}';
+			e > NO_ECCENTRICITY
+				? `\\lambda_A = ${fixedAngle(apogee, 1)}^\\circ`
+				: tr('\\text{no apogee (C at the Earth)}', '\\text{nessun apogeo (C sulla Terra)}');
 
 		showLines('fit-readout', [
 			`a_1 = ${fixed(arcs[0], 2)}^\\circ,\\quad a_2 = ${fixed(arcs[1], 2)}^\\circ`,
 			`h = ${fixed(h, 4)},\\ k = ${fixed(k, 4)},\\quad e = ${fixed(e, 4)}`,
 			`${apogeeText},\\quad ${greatest}`,
-			`\\text{autumn } ${texDays(lengths[2])},\\quad \\text{winter } ${texDays(lengths[3])}`
+			`\\text{${SEASON_NAMES[2]} } ${texDays(lengths[2])},\\quad \\text{${SEASON_NAMES[3]} } ${texDays(lengths[3])}`
 		]);
 	},
 
@@ -1047,8 +1068,7 @@ const fitFigure = {
 	},
 
 	/* The line from the Earth through C to the edge of the panel, and the
-	   angle lambdaA from gamma, with its name inside the arc (kept clear
-	   of the letters, which are set after it). */
+	   angle lambdaA from gamma, with its name just outside the arc. */
 	drawApogee() {
 		const p = this.plot;
 		const apogee = this.fit.apogee;
@@ -1065,36 +1085,30 @@ const fitFigure = {
 
 		p.curve(arc.xs, arc.ys, { color: COL.muted, width: 1.5, clip: true });
 
-		// inside the arc or just outside it, whichever is farther from the
-		// axes and the dashed parallels (λA, two characters, may move)
-		const { h, k } = this.fit;
-		const lines = { xs: [p.px(0), p.px(h)], ys: [p.py(0), p.py(k)] };
-		const clearance = point =>
-			Math.min(
-				...lines.xs.map(x => Math.abs(point.x - x) - APOGEE_LABEL_HALF.width),
-				...lines.ys.map(y => Math.abs(point.y - y) - APOGEE_LABEL_HALF.height)
-			);
-		const places = APOGEE_LABEL_RADII.map(r => ({ x: p.px(r * cos(half)), y: p.py(r * sin(half)) }));
-		const at = clearance(places[0]) >= clearance(places[1]) ? places[0] : places[1];
+		// just outside the arc, where it stays as C moves: an axis or a
+		// parallel passes under it for a moment rather than sending it
+		// inside the arc (CLAUDE.md, "A label never jumps")
+		const at = { x: p.px(APOGEE_LABEL_RADIUS * cos(half)), y: p.py(APOGEE_LABEL_RADIUS * sin(half)) };
 
 		subscriptLabel(p.ctx, 'λ', 'A', at, COL.ink);
-		p.labels.reserve({ x0: at.x - 12, y0: at.y - 12, x1: at.x + 12, y1: at.y + 14 });
 	},
 
-	/* The names in panel (b): the Earth O, C, h and k, single letters
-	   that may change sides as C crosses an axis (CLAUDE.md), and move
-	   round their point when another name takes their place (LabelPlacer).
+	/* The names in panel (b): the Earth O, C, h and k, single letters.
 	   Each goes on the side of the axes away from C, so that none sits on
-	   the dashed parallels: O in the quadrant opposite C, h under (or
-	   over) the x axis, k beside the y axis, C on its far side from the y
-	   axis. The axis titles say where the axes lead. */
+	   the dashed parallels: O opposite C, h under (or over) the x axis, k
+	   beside the y axis, C on its far side from the y axis. As C comes
+	   near an axis, they glide across it rather than jump to its other
+	   side (AXIS_SIDE_RAMP, CLAUDE.md). The axis titles say where the axes
+	   lead. */
 	labelPlot() {
 		const p = this.plot;
-		const { h, k } = this.fit;
-		const right = h < 0 ? 1 : -1; // the side of the y axis away from C
-		const below = k < 0 ? -1 : 1; // the side of the x axis away from C
+		const { h, k, e } = this.fit;
+		const right = -clamp(h / AXIS_SIDE_RAMP, -1, 1); // the side of the y axis away from C
+		const below = clamp(k / AXIS_SIDE_RAMP, -1, 1); // the side of the x axis away from C
+		const O = { x: p.px(0), y: p.py(0) };
+		const awayFromC = e > NO_ECCENTRICITY ? screenDirection({ x: p.px(h), y: p.py(k) }, O) : 225;
 
-		centeredLabel(p.ctx, 'O', { x: p.px(0) + 12 * right, y: p.py(0) + 14 * below }, COL.earth, p.labels);
+		centeredLabel(p.ctx, 'O', towards(O, awayFromC, EARTH_LABEL_DISTANCE + 2), COL.earth, p.labels);
 		centeredLabel(p.ctx, 'C', { x: p.px(h) - 14 * right, y: p.py(k) - 12 }, COL.ink, p.labels);
 		centeredLabel(p.ctx, 'h', { x: p.px(h / 2), y: p.py(0) + 14 * below }, COL.planet, p.labels);
 		centeredLabel(p.ctx, 'k', { x: p.px(0) + 12 * right, y: p.py(k / 2) }, COL.planet, p.labels);
@@ -1119,16 +1133,16 @@ const errorFigure = {
 			start: YEAR_START,
 			end: YEAR_START + 365.25,
 			spans: [
-				{ label: '1 year', years: 1 },
-				{ label: '100 years', years: 100 },
-				{ label: '1000 years', years: 1000 }
+				{ label: tr('1 year', '1 anno'), years: 1 },
+				{ label: tr('100 years', '100 anni'), years: 100 },
+				{ label: tr('1000 years', '1000 anni'), years: 1000 }
 			],
 			ghostButtons: false
 		});
 
 		curve.addModel({
-			label: 'eccentric, fitted to 2026',
-			short: 'eccentric',
+			label: tr('eccentric, fitted to 2026', 'eccentrico, adattato al 2026'),
+			short: tr('eccentric', 'eccentrico'),
 			color: COL.deferent,
 			fn: SolarEccentric.make(SolarEccentric.FIT_2026)
 		});

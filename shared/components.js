@@ -1,13 +1,13 @@
 // @ts-check
 /* ==========================================================================
-   PREDICTING THE SKY - PAGE COMPONENTS (components.js)
+   THE ALMAGEST IN MOTION - PAGE COMPONENTS (components.js)
    The site map and the parts every article shares, in the star-atlas
    style of STYLE.md: the link to the hub, the sticky table of contents on
    the left, the page header, margin notes (origins, detours), exercises,
    figure numbers, the graduated frame of figures, previous / next
-   navigation, and the hub's map and key of origins.
+   navigation, and the hub's chapters and timeline.
    Needs common.js and site-map.js (and KaTeX with its auto-render
-   extension).
+   extension). The hub passes the drawings of its pages (thumbs.js).
 
    Authoring (see templates/page.html)
 	 <body data-page="2.1">                      the page's number in SITE.pages
@@ -48,7 +48,8 @@
 	 6. Previous / next navigation
 	 7. Hub
 	 8. Footer: copyright and licences
-	 9. Entry point
+	 9. Language switch: the flag of the other language
+	10. Entry point
 	 GraduatedFrame (after Site): the border of every figure
    ========================================================================== */
 
@@ -57,7 +58,7 @@ const Site = (function () {
 	   1. SITE MAP (site-map.js)
 	   ====================================================================== */
 
-	const { ACTS, PAGES, TOPICS, ORIGINS, ORIGIN_KEY, EXERCISE_KINDS } = SITE_MAP;
+	const { ACTS, PAGES, ASTRONOMERS, SIMULATOR, TOPICS, TOPIC_GROUPS, ORIGINS, EXERCISE_KINDS } = SITE_MAP;
 
 	/* ======================================================================
 	   2. PATHS
@@ -71,16 +72,32 @@ const Site = (function () {
 
 	const href = path => ROOT + path;
 
+	/* A page by its number ('2.1', 'intro', 'beyond'), or the simulator. */
 	function findPage(number) {
+		if (String(number) === SIMULATOR.number) {
+			return SIMULATOR;
+		}
+
 		return PAGES.find(page => page.number === String(number));
+	}
+
+	/* "2.1 · " before a numbered page's title; nothing before the
+	   intro's, the epilogue's or the simulator's. */
+	function numberPrefix(page) {
+		return /^\d/.test(page.number) ? `${page.number} · ` : '';
 	}
 
 	function actOf(page) {
 		return ACTS.find(act => act.id === page.act);
 	}
 
-	/* "Act II · 2.1", or "Epilogue". */
+	/* "Act II · 2.1", "Act 0" (the intro), "Epilogue", or the simulator's
+	   own kicker. */
 	function pageKicker(page) {
+		if (page.kicker) {
+			return page.kicker;
+		}
+
 		const act = actOf(page);
 
 		return /^\d/.test(page.number) ? `${act.name} · ${page.number}` : act.name;
@@ -88,21 +105,31 @@ const Site = (function () {
 
 	/* ======================================================================
 	   3. PAGE HEADER AND LINK TO THE HUB
-	   STYLE.md §4.2: "Predicting the Sky" in small caps, then the header:
+	   STYLE.md §4.2: "The Almagest in Motion" in small caps, then the header:
 	   act line, title and subtitle on the left, the table of contents in
 	   the margin on the right, and a double rule under it (theme.css).
 	   ====================================================================== */
 
 	/* The way back to the hub, above the header. */
+	/* The mark before the link's words: a four-pointed star that darts
+	   west (to the left, the way back) with a short trail while the
+	   pointer is on the link (theme.css §3). Hidden from screen readers,
+	   which announce the link by its words. */
+	const SITE_TITLE = tr('The Almagest in Motion', "L'Almagesto in movimento");
+
+	const BACK_MARK =
+		'<span class="back-mark" aria-hidden="true"><span class="back-trail"></span>' +
+		`<svg class="back-star" viewBox="-9 -9 18 18"><path d="${starPath(0, 0, 9)}"/></svg></span>`;
+
 	function buildSiteLink() {
 		if (document.querySelector('.site-link')) {
 			return;
 		}
 
-		const link = makeEl('a', 'site-link', 'Predicting the Sky');
+		const link = makeEl('a', 'site-link', `${BACK_MARK}${SITE_TITLE}`);
 		const container = document.querySelector('.page') ?? document.body;
 
-		link.href = href('index.html');
+		link.href = href(tr('index.html', 'index.it.html'));
 		container.prepend(link);
 	}
 
@@ -131,7 +158,7 @@ const Site = (function () {
 				makeEl('p', 'subtitle', page.question)
 			);
 
-			document.title = `${page.number === 'beyond' ? '' : page.number + ' · '}${page.title} · Predicting the Sky`;
+			document.title = `${numberPrefix(page)}${page.title} · ${SITE_TITLE}`;
 		}
 
 		return head;
@@ -190,7 +217,7 @@ const Site = (function () {
 
 		if (!toc) {
 			toc = makeEl('nav', 'toc');
-			toc.setAttribute('aria-label', 'Contents');
+			toc.setAttribute('aria-label', tr('Contents', 'Indice'));
 		}
 
 		head.before(toc);
@@ -274,15 +301,29 @@ const Site = (function () {
 			}
 
 			note.classList.add('origin');
-			note.prepend(makeEl('div', 'note-head', `Origin · ${label}`));
+			note.prepend(makeEl('div', 'note-head', `${tr('Origin', 'Origine')} · ${label}`));
 		});
 	}
 
 	/* "nutation" -> "Nutation". */
 	const capitalise = text => text.charAt(0).toUpperCase() + text.slice(1);
 
-	/* Detour notes: "Detour · coming later", then the topic and why it
-	   matters. When the topic has a ready page, the topic is a link. */
+	/* The sentence after a detour whose topic the epilogue tells as
+	   history: a link to that section of Beyond Kepler, and a plain
+	   statement that the mathematics does not follow. */
+	function epilogueSentence(topic) {
+		const link = `${href(findPage('beyond').path)}#${topic.epilogue}`;
+
+		return tr(
+			` The <a href="${link}">epilogue</a> tells its history, without the mathematics.`,
+			` L'<a href="${link}">epilogo</a> ne racconta la storia, senza la matematica.`
+		);
+	}
+
+	/* Detour notes: "Detour · outside the course", then the topic and why
+	   it matters, and, when the epilogue tells the topic's history, a link
+	   to it. When the topic has a ready page of its own, the heading is
+	   "Detour" and the topic is a link to that page. */
 	function buildDetours(root) {
 		root.querySelectorAll('.note.detour[data-topic]').forEach(note => {
 			const topic = TOPICS[note.dataset.topic];
@@ -297,9 +338,14 @@ const Site = (function () {
 
 			if (topic.ready && topic.path) {
 				note.innerHTML =
-					`<div class="note-head">Detour</div>` + `<a href="${href(topic.path)}">${title}</a>: ${text}.`;
+					`<div class="note-head">${tr('Detour', 'Digressione')}</div>` +
+					`<a href="${href(topic.path)}">${title}</a>: ${text}.`;
 			} else {
-				note.innerHTML = `<div class="note-head">Detour · coming later</div>${title}: ${text}.`;
+				const more = topic.epilogue ? epilogueSentence(topic) : '';
+
+				note.innerHTML =
+					`<div class="note-head">${tr('Detour · outside the course', 'Digressione · fuori dal corso')}</div>` +
+					`${title}: ${text}.${more}`;
 			}
 		});
 	}
@@ -309,7 +355,7 @@ const Site = (function () {
 	   modern first approximation. */
 	function buildTodayNotes(root) {
 		root.querySelectorAll('.note.today').forEach(note => {
-			note.prepend(makeEl('div', 'note-head', 'Today'));
+			note.prepend(makeEl('div', 'note-head', tr('Today', 'Oggi')));
 		});
 	}
 
@@ -319,15 +365,18 @@ const Site = (function () {
 			const kind = EXERCISE_KINDS[exercise.dataset.kind] ?? '';
 			const head = makeEl('div', 'exercise-head');
 
-			head.append(makeEl('span', 'exercise-number', `Exercise ${i + 1}`), makeEl('span', 'exercise-kind', kind));
+			head.append(
+				makeEl('span', 'exercise-number', `${tr('Exercise', 'Esercizio')} ${i + 1}`),
+				makeEl('span', 'exercise-kind', kind)
+			);
 			exercise.prepend(head);
 
 			if (!exercise.id) {
 				exercise.id = `exercise-${i + 1}`;
 			}
 
-			labelDetails(exercise, 'details.hint', 'Hint');
-			labelDetails(exercise, 'details.answer', 'Answer');
+			labelDetails(exercise, 'details.hint', tr('Hint', 'Suggerimento'));
+			labelDetails(exercise, 'details.answer', tr('Answer', 'Soluzione'));
 		});
 	}
 
@@ -339,6 +388,8 @@ const Site = (function () {
 			}
 		});
 	}
+
+	const FIGURE_WORD = tr('Figure', 'Figura');
 
 	/* Figures and blue plates, numbered together in page order: "Figure n."
 	   in front of a figure's caption, "Figure n" in a plate's label. */
@@ -352,9 +403,9 @@ const Site = (function () {
 			}
 
 			if (plateLabel) {
-				plateLabel.textContent = `Figure ${i + 1}`;
+				plateLabel.textContent = `${FIGURE_WORD} ${i + 1}`;
 			} else if (caption) {
-				caption.prepend(makeEl('span', 'fig-label', `Figure ${i + 1}.`));
+				caption.prepend(makeEl('span', 'fig-label', `${FIGURE_WORD} ${i + 1}.`));
 			}
 		});
 	}
@@ -363,10 +414,12 @@ const Site = (function () {
 	   6. PREVIOUS / NEXT NAVIGATION
 	   ====================================================================== */
 
+	const IN_PREPARATION = tr('in preparation', 'in preparazione');
+
 	/* One side of the pager: a link if the page is ready, a grey label if not. */
 	function pagerLink(page, direction) {
-		const word = direction === 'prev' ? '← Previous' : 'Next →';
-		const label = `${page.number === 'beyond' ? '' : page.number + ' · '}${page.title}`;
+		const word = direction === 'prev' ? tr('← Previous', '← Precedente') : tr('Next →', 'Successiva →');
+		const label = `${numberPrefix(page)}${page.title}`;
 
 		if (page.ready) {
 			const link = makeEl('a', direction, `<small>${word}</small>${label}`);
@@ -376,7 +429,7 @@ const Site = (function () {
 			return link;
 		}
 
-		return makeEl('span', direction, `<small>${word} · in preparation</small>${label}`);
+		return makeEl('span', direction, `<small>${word} · ${IN_PREPARATION}</small>${label}`);
 	}
 
 	function buildPager(page) {
@@ -401,68 +454,212 @@ const Site = (function () {
 
 	/* ======================================================================
 	   7. HUB
-	   The acts in order, each a small-caps label, a title and a blurb; each
-	   page is a tile, greyed until ready. Then the key of origins.
+	   The acts in order as chapters: a small-caps label and a title, then
+	   one row per page, with the drawing of the page (thumbs.js), its
+	   number, its title and its question under it (as in the page's own
+	   header), greyed until ready. The
+	   timeline of the astronomers, with the pages under each. The hub's plate of tonight's sky is its own (hub.js).
 	   ====================================================================== */
 
-	function pageTile(page) {
-		const number = page.number === 'beyond' ? 'Epilogue' : page.number;
-		const soon = page.ready ? '' : '<span class="soon">in preparation</span>';
-		const inner =
-			`<span class="tile-number">${number}</span>${soon}` +
-			`<span class="tile-title">${page.title}</span>` +
-			`<span class="tile-question">${page.question}</span>`;
+	/* One page of a chapter: a link when the page is ready. drawPage
+	   (number -> svg) gives its drawing: Thumbs.svg, passed by the hub, so
+	   that the pages need not load thumbs.js. */
+	function pageRow(page, drawPage) {
+		const row = makeEl(page.ready ? 'a' : 'div', page.ready ? 'page-row' : 'page-row unready');
+		const number = /^\d/.test(page.number) ? page.number : '';
+		const soon = page.ready ? '' : `<span class="soon">${IN_PREPARATION}</span>`;
 
 		if (page.ready) {
-			const link = makeEl('a', 'tile', inner);
-
-			link.href = href(page.path);
-
-			return link;
+			row.href = href(page.path);
+		} else {
+			row.setAttribute('aria-disabled', 'true');
 		}
 
-		const tile = makeEl('div', 'tile unready', inner);
+		row.append(
+			drawPage(page.number),
+			makeEl('span', 'page-number', number),
+			makeEl(
+				'span',
+				'page-words',
+				`<span class="page-title">${page.title}${soon}</span>` +
+					`<span class="page-question">${page.question}</span>`
+			)
+		);
 
-		tile.setAttribute('aria-disabled', 'true');
-
-		return tile;
+		return row;
 	}
 
-	function renderHub(container) {
-		container.classList.add('acts');
+	function renderHub(container, drawPage) {
+		container.classList.add('chapters');
 
 		ACTS.forEach(act => {
-			const section = makeEl('section', 'act');
-			const tiles = makeEl('div', 'tiles');
+			const chapter = makeEl('section', 'chapter');
+			const head = makeEl('div', 'chapter-head');
+			const rows = makeEl('div', 'page-rows');
 
-			section.append(
-				makeEl('p', 'act-label', act.name),
-				makeEl('h2', 'act-title', act.title),
-				makeEl('p', 'act-blurb', act.blurb),
-				tiles
-			);
+			head.append(makeEl('p', 'act-label', act.name), makeEl('h2', 'act-title', act.title));
+			chapter.append(head, rows);
 
 			PAGES.filter(page => page.act === act.id).forEach(page => {
-				tiles.appendChild(pageTile(page));
+				rows.appendChild(pageRow(page, drawPage));
+			});
+
+			container.appendChild(chapter);
+		});
+	}
+
+	/* The timeline: a broken axis, 800 BC to AD 250 and 1500 to 1650 (the
+	   two eras share the width by what they hold, not in proportion to
+	   their years). Each astronomer has a tick, a date, a
+	   name and a work, alternately above and below the axis, and his pages
+	   as small links beyond them. Drawn in a fixed viewBox: the svg scales
+	   with the column. */
+	const TIMELINE = {
+		width: 960,
+		height: 300,
+		axisY: 150,
+		eras: [
+			{ from: -800, to: 250, x0: 20, x1: 560 },
+			{ from: 1500, to: 1650, x0: 600, x1: 940 }
+		],
+		chip: { w: 38, h: 26, gap: 6 }
+	};
+
+	const SVG_NS = 'http://www.w3.org/2000/svg';
+
+	/* An SVG element with attributes (and text), appended to parent. */
+	function svgChild(parent, tag, attrs = {}, text = '') {
+		const node = document.createElementNS(SVG_NS, tag);
+
+		Object.entries(attrs).forEach(([name, value]) => {
+			node.setAttribute(name, String(value));
+		});
+
+		if (text) {
+			node.textContent = text;
+		}
+
+		parent.appendChild(node);
+
+		return node;
+	}
+
+	/* The x of a year on the broken axis. */
+	function timelineX(year) {
+		const era = TIMELINE.eras.find(e => year >= e.from && year <= e.to);
+
+		return era.x0 + ((year - era.from) * (era.x1 - era.x0)) / (era.to - era.from);
+	}
+
+	/* The epilogue's topic cards (STRUCTURE.md §4, Epilogue): one list per
+	   group of TOPIC_GROUPS, each topic with its sentence. The list promises
+	   no pages: a topic is plain text, and a link only if a page for it
+	   exists one day. */
+	function renderTopics(container) {
+		container.classList.add('topics');
+
+		TOPIC_GROUPS.forEach(group => {
+			const section = makeEl('section', 'topic-group');
+			const list = makeEl('ul', 'topic-list');
+
+			section.append(makeEl('p', 'act-label', group.title), list);
+
+			group.topics.forEach(id => {
+				const topic = TOPICS[id];
+				const ready = topic.ready && topic.path;
+				const title = capitalise(topic.title);
+				const item = makeEl('li', 'topic');
+				const head = ready
+					? `<a class="topic-title" href="${href(topic.path)}">${title}</a>`
+					: `<span class="topic-title">${title}</span>`;
+
+				item.innerHTML = `${head}<span class="topic-sentence">${capitalise(topic.sentence)}.</span>`;
+				list.appendChild(item);
 			});
 
 			container.appendChild(section);
 		});
 	}
 
-	/* The key of origins, once for the whole site (STYLE.md §4.5): each
-	   line is the heading of a margin note, in its colour, and what it means. */
-	function renderOriginKey(container) {
-		const list = makeEl('dl', 'origin-key');
+	/* The links to an astronomer's pages, in a row centered on x. */
+	function drawPageChips(svg, numbers, x, y) {
+		const { w, h, gap } = TIMELINE.chip;
+		const rowWidth = numbers.length * (w + gap) - gap;
 
-		ORIGIN_KEY.forEach(entry => {
-			const term = makeEl('dt', 'note-head', `Origin · ${entry.label}`);
+		numbers.forEach((number, i) => {
+			const page = findPage(number);
+			const left = x - rowWidth / 2 + i * (w + gap);
+			const link = svgChild(svg, 'a', { href: href(page.path), class: 'chip' });
 
-			term.dataset.origin = entry.origin;
-			list.append(term, makeEl('dd', '', entry.text));
+			svgChild(link, 'title', {}, `${page.number} ${page.title}`);
+			svgChild(link, 'rect', { x: left, y: y, width: w, height: h });
+			svgChild(link, 'text', { x: left + w / 2, y: y + 18, 'text-anchor': 'middle' }, number);
+		});
+	}
+
+	function renderTimeline(container) {
+		const { width, height, axisY, eras } = TIMELINE;
+		const svg = svgChild(container, 'svg', {
+			viewBox: `0 0 ${width} ${height}`,
+			class: 'timeline-chart',
+			role: 'img',
+			'aria-label': tr(
+				'The astronomers of the course on a timeline, with the pages that rebuild their models',
+				'Gli astronomi del corso su una linea del tempo, con le pagine che ricostruiscono i loro modelli'
+			)
 		});
 
-		container.appendChild(list);
+		eras.forEach(era => {
+			svgChild(svg, 'line', { x1: era.x0, y1: axisY, x2: era.x1, y2: axisY, class: 'axis' });
+		});
+
+		// the break between the eras: two slanted strokes
+		[eras[0].x1 + 12, eras[0].x1 + 24].forEach(x => {
+			svgChild(svg, 'line', { x1: x - 5, y1: axisY + 8, x2: x + 5, y2: axisY - 8, class: 'axis' });
+		});
+
+		ASTRONOMERS.forEach(person => {
+			const x = timelineX(person.year);
+			const dir = person.above ? -1 : 1;
+			const shift = person.above ? 0 : 10; // a text's baseline below the axis
+			const nameY = axisY + dir * 34 + shift;
+
+			svgChild(svg, 'line', { x1: x, y1: axisY - 5, x2: x, y2: axisY + 5, class: 'tick' });
+			svgChild(
+				svg,
+				'text',
+				{ x: x, y: axisY + dir * 16 + 5, 'text-anchor': 'middle', class: 'date' },
+				person.date
+			);
+			svgChild(svg, 'text', { x: x, y: nameY, 'text-anchor': 'middle', class: 'name' }, person.name);
+			svgChild(svg, 'text', { x: x, y: nameY + dir * 20, 'text-anchor': 'middle', class: 'work' }, person.work);
+			drawPageChips(svg, person.pages, x, person.above ? axisY - 118 : axisY + 92);
+		});
+
+		container.appendChild(timelineList());
+	}
+
+	/* The same astronomers as a list, shown instead of the chart on a
+	   phone (theme.css §16): date, name, work and the links to the pages. */
+	function timelineList() {
+		const list = makeEl('ol', 'timeline-list');
+
+		ASTRONOMERS.forEach(person => {
+			const chips = person.pages.map(number => `<a href="${href(findPage(number).path)}">${number}</a>`).join('');
+
+			list.appendChild(
+				makeEl(
+					'li',
+					'',
+					`<span class="date">${person.date}</span>` +
+						`<span class="name">${person.name}</span>` +
+						`<span class="work">${person.work}</span>` +
+						`<span class="chips">${chips}</span>`
+				)
+			);
+		});
+
+		return list;
 	}
 
 	/* ======================================================================
@@ -477,8 +674,12 @@ const Site = (function () {
 
 	const FOOTER_TEXT =
 		'© 2026 Marco Barbieri. ' +
-		`Text and figures under <a href="${REPOSITORY}LICENSE-CONTENT.md">CC BY-NC-SA 4.0</a>, ` +
-		`code under <a href="${REPOSITORY}LICENSE">MIT</a>.`;
+		tr(
+			`Text and figures under <a href="${REPOSITORY}LICENSE-CONTENT.md">CC BY-NC-SA 4.0</a>, ` +
+				`code under <a href="${REPOSITORY}LICENSE">MIT</a>.`,
+			`Testi e figure con licenza <a href="${REPOSITORY}LICENSE-CONTENT.md">CC BY-NC-SA 4.0</a>, ` +
+				`codice con licenza <a href="${REPOSITORY}LICENSE">MIT</a>.`
+		);
 
 	/* Add the footer once, at the end of the page container. */
 	function buildFooter() {
@@ -496,7 +697,72 @@ const Site = (function () {
 	document.addEventListener('DOMContentLoaded', buildFooter);
 
 	/* ======================================================================
-	   9. ENTRY POINT
+	   9. LANGUAGE SWITCH: THE FLAG OF THE OTHER LANGUAGE
+	   A page that has a translation names it in its <head>, as search
+	   engines expect: <link rel="alternate" hreflang="it" href="index.it.html">
+	   (and the Italian page hreflang="en" for its English original). The
+	   page then gets a small flag of the other language at the top right,
+	   linked to the translation; a page without one (the intro, for now)
+	   gets no flag. The link keeps the section the reader is in: the ids of
+	   the headings, figures and exercises are the same in both languages.
+	   The flags keep their own colours, the one exception to the palette
+	   (STYLE.md §2, DECISIONS.md).
+	   ====================================================================== */
+
+	/* The two flags, drawn at 16 px of height (theme.css §3). */
+	const FLAGS = {
+		it:
+			'<svg class="flag" viewBox="0 0 3 2" aria-hidden="true">' +
+			'<rect width="1" height="2" x="0" fill="#009246"/>' +
+			'<rect width="1" height="2" x="1" fill="#ffffff"/>' +
+			'<rect width="1" height="2" x="2" fill="#ce2b37"/></svg>',
+		en:
+			'<svg class="flag" viewBox="0 0 60 30" aria-hidden="true">' +
+			'<clipPath id="flag-clip"><path d="M30 15h30v15zv15h-30zh-30v-15zv-15h30z"/></clipPath>' +
+			'<path d="M0 0v30h60V0z" fill="#012169"/>' +
+			'<path d="M0 0l60 30m0-30L0 30" stroke="#ffffff" stroke-width="6"/>' +
+			'<path d="M0 0l60 30m0-30L0 30" clip-path="url(#flag-clip)" stroke="#c8102e" stroke-width="4"/>' +
+			'<path d="M30 0v30M0 15h60" stroke="#ffffff" stroke-width="10"/>' +
+			'<path d="M30 0v30M0 15h60" stroke="#c8102e" stroke-width="6"/></svg>'
+	};
+
+	/* What the flag says, in the language it leads to. */
+	const SWITCH_LABELS = {
+		it: 'Leggi in italiano',
+		en: 'Read in English'
+	};
+
+	/* Add the flag once, at the start of the page container. */
+	function buildLanguageSwitch() {
+		const other = document.querySelector('link[rel="alternate"][hreflang]');
+
+		if (!other || document.querySelector('.lang-switch')) {
+			return;
+		}
+
+		const lang = other.getAttribute('hreflang');
+		const link = makeEl('a', 'lang-switch', FLAGS[lang] ?? lang);
+		const container = document.querySelector('.page') ?? document.body;
+
+		link.href = other.getAttribute('href');
+		link.hreflang = lang;
+		link.lang = lang;
+		link.title = SWITCH_LABELS[lang] ?? lang;
+		link.setAttribute('aria-label', link.title);
+
+		// the same section on the other side
+		link.addEventListener('click', () => {
+			link.hash = window.location.hash;
+		});
+
+		container.prepend(link);
+	}
+
+	/* Every page that loads this file gets the flag, as it gets the footer. */
+	document.addEventListener('DOMContentLoaded', buildLanguageSwitch);
+
+	/* ======================================================================
+	   10. ENTRY POINT
 	   ====================================================================== */
 
 	/* Build every shared component of an article page, then typeset. The
@@ -526,14 +792,14 @@ const Site = (function () {
 		PAGES,
 		TOPICS,
 		ORIGINS,
-		ORIGIN_KEY,
 		EXERCISE_KINDS,
 		ROOT,
 		href,
 		findPage,
 		initPage,
 		renderHub,
-		renderOriginKey
+		renderTimeline,
+		renderTopics
 	};
 })();
 

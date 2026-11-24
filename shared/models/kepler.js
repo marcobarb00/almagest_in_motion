@@ -1,6 +1,6 @@
 // @ts-check
 /* ==========================================================================
-   PREDICTING THE SKY - MODEL: KEPLER'S ELLIPSES (models/kepler.js)
+   THE ALMAGEST IN MOTION - MODEL: KEPLER'S ELLIPSES (models/kepler.js)
    The model of page 4.5. A body moves on an ellipse with the Sun at one
    focus (for the Sun itself, described from the Earth, the Earth at the
    focus), and the line from the focus sweeps equal areas in equal times.
@@ -28,6 +28,9 @@
 	   r_P u(lambda_P) + R u(lambda_sun),
    where lambda_P is the planet's heliocentric ecliptic longitude and R the
    Earth - Sun distance (au). The planets' inclinations are left out.
+
+   The simulator adds ellipses for Mercury, Venus, Jupiter and Saturn,
+   fitted the same way (PLANETS_FIT, with Mars' MARS_FIT).
 
    Parameter sets: those of an orbit, { L0 (the mean longitude at the
    epoch, deg), n (deg / day), epoch (JD TT), apogee (lambdaA at the
@@ -88,6 +91,53 @@ const Kepler = (function () {
 		apogeeRate: PRECESSION_PER_DAY,
 		e: 0.093409,
 		a: 1.523694
+	};
+
+	/* The other four planets, for the simulator's calculator, fitted by the
+	   method of page 4.5 (tools/numbers/simulator.js) to their oppositions to
+	   the real Sun (Jupiter, Saturn) or inferior conjunctions (Mercury,
+	   Venus) of 1926 - 2025, where the heliocentric ecliptic longitude is
+	   the geocentric one (outer) or the Earth's (inner): L0, n, the
+	   aphelion at J2000 (fixed among the stars, as Mars') and e; a from
+	   the third law. Mars is MARS_FIT. */
+	const PLANETS_FIT = {
+		mercury: {
+			L0: 252.229179,
+			n: 4.092376198,
+			epoch: 2451545.0,
+			apogee: 257.4639,
+			apogeeRate: PRECESSION_PER_DAY,
+			e: 0.205545,
+			a: 0.387099
+		},
+		venus: {
+			L0: 181.970704,
+			n: 1.602168733,
+			epoch: 2451545.0,
+			apogee: 311.4224,
+			apogeeRate: PRECESSION_PER_DAY,
+			e: 0.006806,
+			a: 0.723332
+		},
+		mars: MARS_FIT,
+		jupiter: {
+			L0: 34.399589,
+			n: 0.083124539,
+			epoch: 2451545.0,
+			apogee: 194.7717,
+			apogeeRate: PRECESSION_PER_DAY,
+			e: 0.048504,
+			a: 5.201359
+		},
+		saturn: {
+			L0: 49.978673,
+			n: 0.033510382,
+			epoch: 2451545.0,
+			apogee: 272.466,
+			apogeeRate: PRECESSION_PER_DAY,
+			e: 0.05409,
+			a: 9.535588
+		}
 	};
 
 	/* ======================================================================
@@ -419,6 +469,7 @@ const Kepler = (function () {
 		SUN_APOGEE_RATE,
 		SUN_2026,
 		MARS_FIT,
+		PLANETS_FIT,
 		newton,
 		fixedPoint,
 		eccentricAnomaly,

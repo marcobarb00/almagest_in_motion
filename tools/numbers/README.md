@@ -6,6 +6,7 @@ shared code in Node, and prints the numbers quoted on the page.
 
 | Script | Page |
 |---|---|
+| `ptolemy-to-kepler.js` | Act 0 · From Ptolemy to Kepler |
 | `1.1-turning-sky.js` | 1.1 · The turning sky |
 | `1.2-frames.js` | 1.2 · Frames |
 | `1.3-clocks.js` | 1.3 · Clocks |
@@ -20,6 +21,8 @@ shared code in Node, and prints the numbers quoted on the page.
 | `4.3-new-center.js` | 4.3 · Same geometry, new center |
 | `4.4-phases-parallax.js` | 4.4 · Phases and parallax |
 | `4.5-kepler.js` | 4.5 · Kepler |
+| `beyond-kepler.js` | Epilogue · Beyond Kepler |
+| `simulator.js` | The simulator |
 
 Run from the repository root, e.g.
 

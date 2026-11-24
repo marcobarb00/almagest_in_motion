@@ -1,5 +1,5 @@
 /* ==========================================================================
-   PREDICTING THE SKY - GOLDEN VALUES (tools/check/golden.js)
+   THE ALMAGEST IN MOTION - GOLDEN VALUES (tools/check/golden.js)
    A safety net for refactoring: loads the site's shared code (and each
    page's own script, with a stub for the DOM) in Node vm contexts, as the
    scripts of tools/numbers/ do, and prints a table of reference values:
@@ -54,6 +54,7 @@ const SHARED_FILES = [
 	'shared/time.js',
 	'shared/ephemeris.js',
 	'shared/vsop87-data.js',
+	'shared/vsop87-planets.js',
 	'shared/vsop87.js',
 	'shared/stars.js',
 	'shared/plate-stars.js',
@@ -73,6 +74,7 @@ const SHARED_FILES = [
 	'shared/models/planet-arrangement.js',
 	'shared/models/kepler.js',
 	'shared/plot2d.js',
+	'shared/ladder.js',
 	'shared/errorcurve.js'
 ];
 
@@ -92,7 +94,10 @@ const PAGE_FILES = [
 	'act4-planets/02-equant/index.html',
 	'act4-planets/03-new-center/index.html',
 	'act4-planets/04-phases-parallax/index.html',
-	'act4-planets/05-kepler/index.html'
+	'act4-planets/05-kepler/index.html',
+	'simulator/index.html',
+	'beyond-kepler/index.html',
+	'act0-intro/01-ptolemy-to-kepler/index.html'
 ];
 
 /* ==========================================================================
@@ -1462,8 +1467,142 @@ function page45(c) {
 		num(inContext(c, 'ELLIPSE_ROOM')),
 		num(inContext(c, 'ELLIPSE_PERIOD')),
 		JSON.stringify(inContext(c, 'ELLIPSE_VIEWS')),
-		JSON.stringify(inContext(c, 'SUMMARY_RANGE'))
+		JSON.stringify(inContext(c, 'ErrorLadder').RANGE)
 	);
+}
+
+function simulator(c) {
+	const { Time, Ephem, Kepler } = c;
+	const vsop = { theory: 'vsop87' };
+
+	title('8o. THE SIMULATOR (simulator/page.js; Kepler.PLANETS_FIT; vsop87-planets.js)');
+	['mercury', 'venus', 'jupiter', 'saturn'].forEach(name => {
+		row(`PLANETS_FIT.${name}`, JSON.stringify(Kepler.PLANETS_FIT[name]));
+	});
+	[
+		[1950, 1, 1],
+		[2026, 11, 20],
+		[2100, 6, 1]
+	].forEach(([year, month, day]) => {
+		const jd = Time.julianDay(year, month, day);
+
+		row(
+			`${year}-${month}-${day}`,
+			['mercury', 'venus', 'jupiter', 'saturn']
+				.map(name => {
+					const model = Kepler.geocentric(Kepler.PLANETS_FIT[name], Kepler.SUN_2026, jd).lon;
+
+					return `${num(model, 6)}/${num(Ephem.planet(name, jd, vsop).lon, 6)}`;
+				})
+				.join(' ')
+		);
+	});
+	row('clockText', [0, 9.25, 23.999, NaN].map(h => quote(c.clockText(h))).join(' '));
+	row('raText', [0, 15.5, 359.99].map(ra => quote(c.raText(ra))).join(' '));
+	row('isoOf, jdOfIso', quote(c.isoOf(2461364.5)), num(c.jdOfIso('2026-11-20')));
+	row(
+		'crossing',
+		num(
+			c.crossing(t => (t - 2461364.8) * 100, 2461364.5, 1),
+			6
+		),
+		num(
+			c.crossing(t => (2461364.9 - t) * 100, 2461364.5, -1),
+			6
+		)
+	);
+	row(
+		'fixed ranges',
+		num(inContext(c, 'DAY_FIRST')),
+		num(inContext(c, 'DAY_LAST')),
+		num(inContext(c, 'SUN_BAND')),
+		num(inContext(c, 'SEARCH_STEP'))
+	);
+}
+
+function beyondKepler(c) {
+	const { Time } = c;
+
+	title('8p. EPILOGUE, BEYOND KEPLER (beyond-kepler/page.js)');
+	row(
+		'ellipseDrift',
+		['jupiter', 'saturn']
+			.map(name => [-999, 1, 2000].map(y => num(c.ellipseDrift(name, Time.julianDay(y, 1, 1)), 6)).join('/'))
+			.join(' ')
+	);
+	row(
+		'averagedDrift at 1000 BC',
+		['jupiter', 'saturn'].map(name => num(c.averagedDrift(name).values[0], 6)).join(' ')
+	);
+	row(
+		'fixed ranges',
+		JSON.stringify(inContext(c, 'DRIFT_YEARS')),
+		JSON.stringify(inContext(c, 'DRIFT_RANGE')),
+		JSON.stringify(inContext(c, 'FIT_YEARS'))
+	);
+}
+
+function page01(c) {
+	const figure = inContext(c, 'loopFigure');
+
+	title('8q. ACT 0, THE INTRO (act0-intro/01-ptolemy-to-kepler/page.js)');
+	row('titleCase', ['LEO', 'CAPRICORNUS'].map(name => quote(inContext(c, 'titleCase')(name))).join(' '));
+	row('elongation 2027-02-19', num(c.elongation(c.Time.julianDay(2027, 2, 19)), 6));
+	row('nextOpposition from 2026-11-20', num(c.nextOpposition(c.Time.julianDay(2026, 11, 20)), 4));
+	row('motionText', [0.4213, -0.35, 0.01].map(m => quote(figure.motionText(m))).join(' '));
+	row('oppositionText', [23, 1, 0, -12].map(d => quote(figure.oppositionText(d))).join(' '));
+	row(
+		'fixed ranges',
+		JSON.stringify(inContext(c, 'LOOP_STRIP')),
+		num(inContext(c, 'LOOP_NARROW_BELOW')),
+		num(inContext(c, 'LOOP_PAST_DAYS')),
+		num(inContext(c, 'LOOP_EDGE')),
+		num(inContext(c, 'LOOP_DAYS_PER_SECOND')),
+		num(inContext(c, 'STANDING_STILL')),
+		num(inContext(c, 'HALO_RADIUS')),
+		num(inContext(c, 'LOOP_MAG_LIMIT')),
+		num(inContext(c, 'NAME_INSET')),
+		num(inContext(c, 'NAME_GAP')),
+		num(inContext(c, 'EXAMPLE_UT'))
+	);
+	row(
+		'Figure 2',
+		num(inContext(c, 'MACHINE_BEFORE')),
+		num(inContext(c, 'MACHINE_SPAN')),
+		num(inContext(c, 'MACHINE_DAYS_PER_SECOND')),
+		num(inContext(c, 'TRAIL_DAYS')),
+		num(inContext(c, 'TRAIL_STEP')),
+		num(inContext(c, 'TRAIL_DEPTH')),
+		num(inContext(c, 'PATH_DAYS')),
+		num(inContext(c, 'PATH_STEP')),
+		JSON.stringify(inContext(c, 'MACHINE_REACH')),
+		num(inContext(c, 'MACHINE_FILL')),
+		num(inContext(c, 'DIAL_MARGIN')),
+		num(inContext(c, 'DIAL_LABEL'))
+	);
+	row(
+		'Figure 3',
+		num(inContext(c, 'KEPLER_E'), 6),
+		num(inContext(c, 'KEPLER_A'), 6),
+		num(inContext(c, 'KEPLER_PERIOD'), 6),
+		num(inContext(c, 'KEPLER_DAYS_PER_SECOND')),
+		num(inContext(c, 'GAP_RANGE')),
+		num(inContext(c, 'KEPLER_GAP')),
+		num(inContext(c, 'LOUPE_SIZE')),
+		num(inContext(c, 'LOUPE_GAP')),
+		num(inContext(c, 'LOUPE_FILL')),
+		num(inContext(c, 'SIGHT_BEYOND_ALPHA')),
+		num(inContext(c, 'SUN_MARK_INSET')),
+		num(inContext(c, 'LOUPE_ARC')),
+		num(inContext(c, 'LOUPE_ARC_STEPS'))
+	);
+	row(
+		'CIRCLE_E, largestDifference',
+		num(inContext(c, 'CIRCLE_E'), 9),
+		num(c.largestDifference(inContext(c, 'CIRCLE_E')), 6)
+	);
+	row('keplerGap', [45, 135, 225, 315].map(M => num(c.keplerGap(M), 6)).join(' '));
+	row('machineLongitude 2027-02-19', num(inContext(c, 'machineLongitude')(c.Time.julianDay(2027, 2, 19)), 6));
 }
 
 function page22(c) {
@@ -1518,7 +1657,7 @@ function buildTable() {
 	const shared = loadFiles(SHARED_FILES);
 	const pages = PAGE_FILES.map(file => loadPage(file));
 
-	out('PREDICTING THE SKY - GOLDEN VALUES (tools/check/golden.js)');
+	out('THE ALMAGEST IN MOTION - GOLDEN VALUES (tools/check/golden.js)');
 	out('Regenerate with: node tools/check/golden.js --write');
 
 	timeSection(shared);
@@ -1552,6 +1691,9 @@ function buildTable() {
 	page43(pages[11]);
 	page44(pages[12]);
 	page45(pages[13]);
+	simulator(pages[14]);
+	beyondKepler(pages[15]);
+	page01(pages[16]);
 	numbersSection();
 
 	return lines.join('\n') + '\n';

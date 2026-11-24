@@ -1,6 +1,6 @@
 // @ts-check
 /* ==========================================================================
-   PREDICTING THE SKY - SHARED LIBRARY (common.js)
+   THE ALMAGEST IN MOTION - SHARED LIBRARY (common.js)
    Loaded by every page, before any other shared script.
    Contains nothing specific to one page and touches no DOM at load time,
    so the maths can also be loaded in Node for checks.
@@ -14,6 +14,7 @@
 	 6. Drawing helpers       (four-pointed stars, canvas fonts)
 	 7. DOM and KaTeX helpers
 	 8. UI wiring helpers     (sliders, presets, choice buttons, play button)
+	 9. Language              (English or Italian, decimal commas)
    ========================================================================== */
 
 /* ==========================================================================
@@ -625,10 +626,9 @@ function wideCanvas(owner, canvas, aspect, maxWidth) {
 }
 
 /* A text label centered at a screen point, in the atlas fonts and the text
-   colour of 'color' (labelFont, textColor). With a LabelPlacer, a single
-   symbol that would cover an earlier label or leave the canvas (on a
-   phone) moves next to its point instead; a word stays where it is, only
-   moved inside the canvas (LabelPlacer.candidates). 'kind' ('name' or
+   colour of 'color' (labelFont, textColor). With a LabelPlacer, a label
+   that would leave the canvas (on a phone) slides inside it; it never
+   steps aside from another label (LabelPlacer). 'kind' ('name' or
    'symbol') overrides the font labelFont would choose, e.g. 'symbol' for a
    formula such as "CQ sin M". */
 function centeredLabel(ctx, text, point, color, labels = null, kind = null) {
@@ -637,9 +637,9 @@ function centeredLabel(ctx, text, point, color, labels = null, kind = null) {
 	ctx.textAlign = 'center';
 	ctx.textBaseline = 'middle';
 
-	const place = labels ? labels.choose(ctx, text, LabelPlacer.candidates(ctx, text, point, point)) : point;
+	const place = labels ? labels.place(ctx, text, point) : point;
 
-	ctx.fillText(text, place.x, place.y);
+	canvasText(ctx, text, place.x, place.y);
 }
 
 /* ---------- Segments, arcs and subscripts on a canvas ---------- */
@@ -684,9 +684,9 @@ function subscriptLabel(ctx, base, sub, point, color) {
 	ctx.textAlign = 'left';
 	ctx.textBaseline = 'middle';
 	ctx.font = FONT_SYMBOL;
-	ctx.fillText(base, left, point.y);
+	canvasText(ctx, base, left, point.y);
 	ctx.font = subFont;
-	ctx.fillText(sub, left + baseWidth, point.y + 5);
+	canvasText(ctx, sub, left + baseWidth, point.y + 5);
 }
 
 /* ---------- Points, circles and labels of plane constructions ----------
@@ -698,6 +698,18 @@ function subscriptLabel(ctx, base, sub, point, color) {
    ecliptic pole). */
 function towards(from, lon, r) {
 	return { x: from.x + r * cos(lon), y: from.y - r * sin(lon) };
+}
+
+/* A planet's name stands this far (deg) anticlockwise from its line of
+   sight, the line from the Earth through it, which the name then never
+   crosses (pages 4.1 to 4.4): labelOutside(ctx, 'P', P, r,
+   lambda + SIGHT_NAME_TURN, ...). */
+const SIGHT_NAME_TURN = 135;
+
+/* The direction (deg, anticlockwise from the right, as towards()) of
+   screen point b seen from screen point a. */
+function screenDirection(a, b) {
+	return atan2d(a.y - b.y, b.x - a.x);
 }
 
 /* A circle on a canvas. */
@@ -729,7 +741,10 @@ function labelOutside(ctx, text, center, r, lon, color, labels, kind = null) {
 
 /* The direction (deg) from a point that is farthest from every line
    leaving it ('rays', their directions in deg), where the point's name
-   goes: the best of 72 directions, 5° apart. */
+   goes: the best of 72 directions, 5° apart. Only for a figure that no
+   control moves: as the lines turn, the best direction leaps from one gap
+   to another, and the name with it (CLAUDE.md, "A label never jumps").
+   A moving figure gives each name a side that turns smoothly instead. */
 function clearestDirection(rays) {
 	let best = 0;
 	let bestGap = -1;
@@ -782,27 +797,24 @@ function whenCanvasFontsReady() {
 	return canvasFontsPromise;
 }
 
-/* ---------- Labels that keep clear of one another ----------
+/* ---------- Labels that stay inside the canvas ----------
    On a phone a figure shrinks but its labels keep their size (13 px or
-   more, CLAUDE.md), so two labels can land on each other or past the edge
-   of the canvas. A LabelPlacer remembers the boxes of the labels already
-   drawn in one drawing (begin() starts a new one) and gives each new label
-   the first of its candidate places that stays inside the bounds and
-   touches no earlier label. A label's designed place comes first, so it
-   moves only where it would collide: on a wide screen, nowhere. Used by
-   Sphere3D.label and Plot2D.text.
+   more, CLAUDE.md), so a label can land past the edge of the canvas. A
+   LabelPlacer keeps every label of one drawing (begin() starts a new one)
+   at its designed place, slid inside the bounds if it would leave them.
+   Used by centeredLabel, Sphere3D.label and Plot2D.text.
 
-   Only a single symbol (K, γ, P′) may move round its point: its step
-   aside is a few pixels. A word or an expression (Vega, mean Sun,
-   90° − a) keeps its designed place, slid inside the canvas if it would
-   leave it, even when that place is taken: a name that jumped from one
-   side of its point to the other whenever a control moves is worse than
-   one that briefly touches another (CLAUDE.md, "Rules for every
-   figure"). */
+   No label, a single letter included, ever steps to another place round
+   its point to keep clear of a line or another label: a label that jumped
+   from one side of its point to the other whenever a control moves is
+   far more distracting than one that passes over another for a moment
+   (CLAUDE.md, "A label never jumps"). The slide inside the bounds follows
+   the designed place smoothly. Only Plot2D.text may still choose among
+   places a page lists (style.alternatives), for a label of a drawing that
+   no control moves. */
 
-/* Clear space between two labels, and between a point and its label (px). */
+/* Clear space between two labels (px). */
 const LABEL_CLEARANCE = 1;
-const LABEL_POINT_GAP = 7;
 
 class LabelPlacer {
 	constructor() {
@@ -830,44 +842,11 @@ class LabelPlacer {
 		};
 	}
 
-	/* Candidate places all round a point q, 'gap' px away: right, left,
-	   above, below, then the four diagonals; each is the (x, y) to draw at
-	   with the context's current alignment and baseline. */
-	static around(ctx, text, q, gap = LABEL_POINT_GAP) {
-		const box = LabelPlacer.boxOf(ctx, text, 0, 0);
-		const w = box.x1 - box.x0;
-		const h = box.y1 - box.y0;
-		const d = 0.7 * gap;
-		const at = (left, top) => ({ x: left - box.x0, y: top - box.y0 });
-
-		return [
-			at(q.x + gap, q.y - h / 2),
-			at(q.x - gap - w, q.y - h / 2),
-			at(q.x - w / 2, q.y - gap - h),
-			at(q.x - w / 2, q.y + gap),
-			at(q.x + d, q.y - d - h),
-			at(q.x + d, q.y + d),
-			at(q.x - d - w, q.y - d - h),
-			at(q.x - d - w, q.y + d)
-		];
-	}
-
-	/* May this label move round its point to stay clear of the others?
-	   Only a single symbol, of one or two characters (K, γ, P′). */
-	static mayMove(text) {
-		return [...text].length <= 2;
-	}
-
-	/* The candidate places of a label: its designed place, then, for a
-	   single symbol only, the places all round its point q (around). */
-	static candidates(ctx, text, designed, q, gap = LABEL_POINT_GAP) {
-		return LabelPlacer.mayMove(text) ? [designed, ...LabelPlacer.around(ctx, text, q, gap)] : [designed];
-	}
-
-	/* Keep later labels clear of a box drawn some other way ({ x0, y0, x1,
-	   y1 }, e.g. a label with a subscript). */
-	reserve(box) {
-		this.boxes.push(box);
+	/* The designed place of a label, slid inside the bounds if it would
+	   leave them; remembered, so that Plot2D's alternatives keep clear of
+	   it. */
+	place(ctx, text, designed) {
+		return this.choose(ctx, text, [designed]);
 	}
 
 	/* The same place moved inside the bounds, if it was past an edge. */
@@ -900,7 +879,9 @@ class LabelPlacer {
 	/* The first candidate inside the bounds and clear of every earlier
 	   label; failing that, the one inside that overlaps least; failing
 	   that, the first one moved inside. The chosen box is remembered.
-	   Without begin() (no bounds), the first candidate is kept as it is. */
+	   Without begin() (no bounds), the first candidate is kept as it is.
+	   With a single candidate (place), the label keeps its place, slid
+	   inside the bounds, whatever it covers. */
 	choose(ctx, text, candidates) {
 		if (!this.bounds) {
 			return candidates[0];
@@ -964,11 +945,11 @@ function makeEl(tag, className = '', html = '') {
 function renderTex(element, source, displayMode = true) {
 	// KaTeX did not load (a CDN failure): the TeX source, as plain text
 	if (typeof katex === 'undefined') {
-		element.textContent = source;
+		element.textContent = localNumbers(source);
 		return;
 	}
 
-	katex.render(source, element, { throwOnError: false, displayMode: displayMode });
+	katex.render(localTexNumbers(source), element, { throwOnError: false, displayMode: displayMode });
 }
 
 /** Typeset every element that carries a data-tex attribute.
@@ -1320,12 +1301,12 @@ function formatSliderValue(input, formatter) {
 	const value = Number(input.value);
 
 	if (formatter) {
-		return formatter(value);
+		return localNumbers(formatter(value));
 	}
 
 	const text = Number.isInteger(value) ? value : fixed(value, 1);
 
-	return text + (input.dataset.unit ?? '°');
+	return localNumbers(text + (input.dataset.unit ?? '°'));
 }
 
 /* A slider keeps its <output> in sync and calls onChange when it moves. */
@@ -1447,10 +1428,12 @@ function startFigures(figures) {
 }
 
 /* A row of buttons, one per name (e.g. a star); the chosen one is marked
-   active. onChoose(name) runs when another one is picked. */
-function buildChoice(container, names, chosen, onChoose) {
+   active. onChoose(name) runs when another one is picked. label(name) is
+   the text of a button, when it is not the name itself (a star's name in
+   the page's language, Stars.label). */
+function buildChoice(container, names, chosen, onChoose, label = name => name) {
 	const buttons = names.map(name => {
-		const button = makeEl('button', '', name);
+		const button = makeEl('button', '', label(name));
 
 		button.type = 'button';
 		button.addEventListener('click', () => {
@@ -1512,8 +1495,8 @@ function wrapIntoRange(value, min, max) {
 }
 
 function wirePlayButton(button, slider, unitsPerSecond, options = {}) {
-	const playLabel = options.playLabel ?? 'Play';
-	const pauseLabel = options.pauseLabel ?? 'Pause';
+	const playLabel = options.playLabel ?? tr('Play', 'Avvia');
+	const pauseLabel = options.pauseLabel ?? tr('Pause', 'Pausa');
 	let playing = false;
 	let looping = false; // a frame loop is running (at most one at a time)
 	let visible = true; // the figure is on the screen
@@ -1616,4 +1599,93 @@ function onPixelRatioChange(callback) {
 function showPlayState(button, playing, label) {
 	button.innerHTML = `${playing ? PAUSE_ICON : PLAY_ICON}<span>${label}</span>`;
 	button.setAttribute('aria-pressed', playing ? 'true' : 'false');
+}
+
+/* ==========================================================================
+   9. LANGUAGE (ENGLISH OR ITALIAN)
+   Every page exists in English (index.html) and in Italian (index.it.html,
+   beside it, with the same page.js). The language is the lang attribute of
+   the <html> element; in Node (the checks) there is no document, and the
+   language is English. TRANSLATION.md has the conventions and the glossary.
+
+   The prose of an Italian page is written in its HTML. The scripts choose
+   their words with tr(english, italian), and their numbers get a decimal
+   comma where they reach the screen: the read-outs (renderTex), the slider
+   values (formatSliderValue) and the text drawn on a canvas (canvasText).
+   The numbers themselves are computed in the same way in both languages.
+   ========================================================================== */
+
+/** The page's language: 'it' or 'en'. */
+const LANG =
+	typeof document !== 'undefined' && document.documentElement && document.documentElement.lang === 'it' ? 'it' : 'en';
+
+const ITALIAN = LANG === 'it';
+
+/* The text of the page's language: tr('rises and sets', 'sorge e tramonta'). */
+function tr(english, italian) {
+	return ITALIAN ? italian : english;
+}
+
+/* A digit, a point and a digit: the decimal point of a number. */
+const DECIMAL_POINT = /(\d)\.(\d)/g;
+
+/* Plain text with the decimal comma of the page's language: "0.5°" ->
+   "0,5°" in Italian. The raised dot between thousands (126·007) is the
+   same in both languages (WRITING.md §4). */
+function localNumbers(text) {
+	return ITALIAN ? String(text).replace(DECIMAL_POINT, '$1,$2') : text;
+}
+
+/* The same for TeX: the comma goes in braces, "0{,}5", or KaTeX would set
+   it as punctuation, with a space after it. */
+function localTexNumbers(tex) {
+	return ITALIAN ? tex.replace(DECIMAL_POINT, '$1{,}$2') : tex;
+}
+
+/* Text for a canvas (labels, tick labels, axis titles): fillText through
+   this, so that its numbers follow the page's language. */
+function canvasText(ctx, text, x, y) {
+	ctx.fillText(localNumbers(text), x, y);
+}
+
+/* A year before or after Christ as text: "585 BC" / "585 a.C." and
+   "AD 150" / "150 d.C." (the number already formatted, e.g. "13·790"). */
+const bcText = number => tr(`${number} BC`, `${number} a.C.`);
+const adText = number => tr(`AD ${number}`, `${number} d.C.`);
+
+/* The names of people that differ in Italian, as Italian books write
+   them; any other name is the same in both languages. */
+const ITALIAN_PERSON_NAMES = {
+	Timocharis: 'Timocari',
+	Hipparchus: 'Ipparco',
+	Menelaus: 'Menelao',
+	Ptolemy: 'Tolomeo',
+	Copernicus: 'Copernico',
+	Kepler: 'Keplero',
+	Tycho: 'Tycho',
+	Galileo: 'Galileo',
+	Aristarchus: 'Aristarco',
+	Apollonius: 'Apollonio'
+};
+
+/* A person's name in the page's language: "Ptolemy", "Tolomeo". */
+function personName(name) {
+	return ITALIAN ? (ITALIAN_PERSON_NAMES[name] ?? name) : name;
+}
+
+/* The names of the Sun, the Moon and the planets in Italian. */
+const ITALIAN_BODY_NAMES = {
+	Sun: 'Sole',
+	Moon: 'Luna',
+	Mercury: 'Mercurio',
+	Venus: 'Venere',
+	Earth: 'Terra',
+	Mars: 'Marte',
+	Jupiter: 'Giove',
+	Saturn: 'Saturno'
+};
+
+/* A body's name in the page's language: "Mars", "Marte". */
+function bodyName(name) {
+	return ITALIAN ? (ITALIAN_BODY_NAMES[name] ?? name) : name;
 }

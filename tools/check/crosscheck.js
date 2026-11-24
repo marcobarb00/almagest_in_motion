@@ -1,5 +1,5 @@
 /* ==========================================================================
-   PREDICTING THE SKY - CROSS-CHECK OF THE REFERENCE SKY
+   THE ALMAGEST IN MOTION - CROSS-CHECK OF THE REFERENCE SKY
    (tools/check/crosscheck.js)
    Compares the apparent geocentric ecliptic longitudes of shared/
    ephemeris.js (Standish's elements, Meeus' lunar series) with an
@@ -208,7 +208,7 @@ function horizonsSection() {
 }
 
 function main() {
-	out('PREDICTING THE SKY - CROSS-CHECK OF THE REFERENCE SKY (tools/check/crosscheck.js)');
+	out('THE ALMAGEST IN MOTION - CROSS-CHECK OF THE REFERENCE SKY (tools/check/crosscheck.js)');
 	out('Apparent geocentric ecliptic longitude: shared/ephemeris.js minus astronomy-engine 2.1.19.');
 	out(`Expected: our error against JPL DE441 (ephemeris.js header) + ${ENGINE_ERROR}' (astronomy-engine).`);
 

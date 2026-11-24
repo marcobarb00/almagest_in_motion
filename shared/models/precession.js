@@ -1,6 +1,6 @@
 // @ts-check
 /* ==========================================================================
-   PREDICTING THE SKY - MODEL: PRECESSION (models/precession.js)
+   THE ALMAGEST IN MOTION - MODEL: PRECESSION (models/precession.js)
    The model of page 2.3: the sphere of the stars turns slowly about the
    poles of the ecliptic, or, which is the same relative motion, the pole P
    of the equator turns about the ecliptic pole K and carries the equinox

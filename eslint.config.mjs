@@ -1,5 +1,5 @@
 /* ==========================================================================
-   PREDICTING THE SKY - ESLINT CONFIGURATION (eslint.config.mjs)
+   THE ALMAGEST IN MOTION - ESLINT CONFIGURATION (eslint.config.mjs)
    Development only: the site does not need it. Run with `npm run lint`.
 
    The site's scripts are plain <script> files that share one global
@@ -27,6 +27,7 @@ const SHARED_SCRIPTS = [
 	'shared/time.js',
 	'shared/ephemeris.js',
 	'shared/vsop87-data.js',
+	'shared/vsop87-planets.js',
 	'shared/vsop87.js',
 	'shared/stars.js',
 	'shared/plate-stars.js',
@@ -48,8 +49,10 @@ const SHARED_SCRIPTS = [
 	'shared/models/kepler.js',
 	'shared/sphere3d.js',
 	'shared/plot2d.js',
+	'shared/ladder.js',
 	'shared/errorcurve.js',
 	'shared/site-map.js',
+	'shared/thumbs.js',
 	'shared/components.js'
 ];
 
@@ -111,9 +114,18 @@ export default [
 		rules: BROWSER_RULES
 	})),
 
-	// the pages, the templates and the test page see every shared name
+	// the pages, the hub, the templates, the test page and the design
+	// mockups see every shared name
 	{
-		files: ['act*/**/*.js', 'templates/**/*.js', 'shared/tests.js', 'beyond-kepler/**/*.js'],
+		files: [
+			'act*/**/*.js',
+			'templates/**/*.js',
+			'shared/tests.js',
+			'beyond-kepler/**/*.js',
+			'simulator/**/*.js',
+			'design/**/*.js',
+			'hub.js'
+		],
 		languageOptions: {
 			ecmaVersion: 2022,
 			sourceType: 'script',
@@ -136,9 +148,10 @@ export default [
 		}
 	},
 
-	// in-page functions of the smoke test run in the browser
+	// in-page functions of the smoke test and of the label check run in
+	// the browser
 	{
-		files: ['tools/check/smoke.js'],
+		files: ['tools/check/smoke.js', 'tools/check/label-jumps.js'],
 		languageOptions: {
 			globals: { ...globals.browser }
 		}

@@ -1,6 +1,6 @@
 // @ts-check
 /* ==========================================================================
-   PREDICTING THE SKY - 2D PLOTS (plot2d.js)
+   THE ALMAGEST IN MOTION - 2D PLOTS (plot2d.js)
    Simple 2D plots on a canvas: axes, grid, curves, bands, markers, an HTML
    legend and an optional hover cursor. Used by the error curve and by every
    graph on the pages. Needs common.js.
@@ -59,7 +59,8 @@ const PLOT_TICK_SPACING = { x: 90, y: 45 };
 
 class Plot2D {
 	/* options: x, y ([min, max]), xLabel, yLabel, xFormat, yFormat,
-	   xTicks, yTicks (function (min, max, count) -> [{ value, label }]),
+	   xTicks, yTicks (function (min, max, count) -> [{ value, label, words }],
+	   words: true for a label drawn as it is, without a decimal comma),
 	   aspect (height / width), minHeight, maxHeight, onDraw(plot),
 	   onHover(xValue or null) to enable the hover cursor. */
 	constructor(canvas, options = {}) {
@@ -294,7 +295,7 @@ class Plot2D {
 
 			if (labelX - half > lastRight + 8) {
 				ctx.fillStyle = COL.muted;
-				ctx.fillText(tick.label, labelX, box.bottom + 6);
+				canvasText(ctx, tick.label, labelX, box.bottom + 6);
 				lastRight = labelX + half;
 			}
 		});
@@ -309,7 +310,14 @@ class Plot2D {
 			ctx.strokeStyle = COL.line;
 			drawSegment(ctx, box.left, y, box.right, y);
 			ctx.fillStyle = COL.muted;
-			ctx.fillText(tick.label, box.left - 6, y);
+
+			// a label that is not a number (page 4.5's "4.2 equant") is
+			// drawn as it is, without a decimal comma
+			if (tick.words) {
+				ctx.fillText(tick.label, box.left - 6, y);
+			} else {
+				canvasText(ctx, tick.label, box.left - 6, y);
+			}
 		});
 
 		// the zero line, a little stronger
@@ -340,14 +348,14 @@ class Plot2D {
 		this.xTitleLines.forEach((line, i) => {
 			const fromBottom = this.xTitleLines.length - 1 - i;
 
-			ctx.fillText(line, (box.left + box.right) / 2, this.height - 2 - fromBottom * AXIS_TITLE_LINE);
+			canvasText(ctx, line, (box.left + box.right) / 2, this.height - 2 - fromBottom * AXIS_TITLE_LINE);
 		});
 
 		ctx.save();
 		ctx.translate(12, (box.top + box.bottom) / 2);
 		ctx.rotate(-Math.PI / 2);
 		ctx.textBaseline = 'middle';
-		ctx.fillText(this.yLabel, 0, 0);
+		canvasText(ctx, this.yLabel, 0, 0);
 		ctx.restore();
 	}
 
@@ -523,7 +531,8 @@ class Plot2D {
 	/* Text at data coordinates. style: color (a line colour is drawn in its
 	   text colour), align, baseline, dx, dy, font, kind ('name' or 'symbol',
 	   see labelFont), alternatives (other data points [{ x, y }] where the
-	   text may go instead, when its own place is taken: see LabelPlacer). */
+	   text may go instead, when its own place is taken: only for a label
+	   that no control moves, see LabelPlacer). */
 	text(label, x, y, style = {}) {
 		const { ctx } = this;
 
@@ -535,23 +544,17 @@ class Plot2D {
 		// the designed place first; if it would cover an earlier label or
 		// leave the plot box (on a phone): the page's alternatives, if any
 		// (style.alternatives, data points such as other points of the same
-		// curve), with the same offset; then the designed place moved inside
-		// the box, and one or two lines above or below it, so the label
-		// stays beside what it names
+		// curve), with the same offset; then the designed place slid inside
+		// the box, which it keeps even if it covers another label: a label
+		// never steps aside, or it would jump as a control moves
 		const dx = style.dx ?? 4;
 		const dy = style.dy ?? -4;
 		const designed = { x: this.px(x) + dx, y: this.py(y) + dy };
 		const alternatives = (style.alternatives ?? []).map(p => ({ x: this.px(p.x) + dx, y: this.py(p.y) + dy }));
 		const inside = this.labels.clampInside(ctx, label, designed);
-		const box = LabelPlacer.boxOf(ctx, label, 0, 0);
-		const line = box.y1 - box.y0 + 2;
-		const candidates = [designed, ...alternatives, inside];
+		const place = this.labels.choose(ctx, label, [designed, ...alternatives, inside]);
 
-		[1, -1, 2, -2].forEach(k => candidates.push({ x: inside.x, y: inside.y + k * line }));
-
-		const place = this.labels.choose(ctx, label, candidates);
-
-		ctx.fillText(label, place.x, place.y);
+		canvasText(ctx, label, place.x, place.y);
 	}
 
 	/* ======================================================================
@@ -672,5 +675,5 @@ function nameAbove(plot, text, x) {
 	ctx.font = FONT_TICK;
 	ctx.textAlign = align;
 	ctx.textBaseline = 'bottom';
-	ctx.fillText(text, plot.px(x), plot.box.top - 4);
+	canvasText(ctx, text, plot.px(x), plot.box.top - 4);
 }

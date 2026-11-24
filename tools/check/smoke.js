@@ -1,5 +1,5 @@
 /* ==========================================================================
-   PREDICTING THE SKY - SMOKE TEST (tools/check/smoke.js)
+   THE ALMAGEST IN MOTION - SMOKE TEST (tools/check/smoke.js)
    A safety net for refactoring: serves the repository on a local port,
    opens every HTML page in Chromium (Playwright) at a desktop and a phone
    width, and fails on any console error or warning, uncaught exception,
@@ -66,6 +66,11 @@ const READOUTS_FILE = path.join(__dirname, 'readouts.txt');
 
 /* Folders that hold no pages of the site. */
 const SKIP_FOLDERS = new Set(['.git', '.claude', 'node_modules', 'tools', 'raw']);
+
+/* The moment every page sees as now: the simulator's calculator and the
+   hub's plate of tonight's sky start from the date of the visit, so the
+   clock of the browser is fixed, and two runs show the same. */
+const FIXED_NOW = '2026-11-20T21:00:00Z';
 
 const VIEWPORTS = {
 	desktop: { width: 1280, height: 900 },
@@ -261,9 +266,13 @@ async function settle(page, ms = SETTLE_MS) {
 	await page.waitForTimeout(ms);
 }
 
-/* Every local link of the page must lead to an existing file of 'root'. */
+/* Every local link of the page must lead to an existing file of 'root'.
+   Each link is resolved from its attribute: the href property of a link
+   inside an SVG (the hub's timeline) is not a string. */
 async function checkLinks(page, root, base, problems) {
-	const links = await page.evaluate(() => [...document.querySelectorAll('a[href]')].map(a => a.href));
+	const links = await page.evaluate(() =>
+		[...document.querySelectorAll('a[href]')].map(a => new URL(a.getAttribute('href'), document.baseURI).href)
+	);
 	const local = [...new Set(links.map(href => href.split('#')[0]))].filter(href => href.startsWith(base));
 
 	for (const href of local) {
@@ -889,7 +898,10 @@ async function checkWithoutCdn(browser, site, pageFile, problems) {
 		return;
 	}
 
-	const context = await browser.newContext({ viewport: VIEWPORTS.desktop });
+	const context = await browser.newContext({ viewport: VIEWPORTS.desktop, reducedMotion: 'reduce' });
+
+	await context.clock.setFixedTime(FIXED_NOW);
+
 	const page = await context.newPage();
 	const errors = [];
 
@@ -916,7 +928,16 @@ async function checkWithoutCdn(browser, site, pageFile, problems) {
 /* Open one page at one width: screenshot (into shotDir), and (desktop)
    the controls, with their read-outs appended to 'log'. */
 async function checkPage(browser, site, pageFile, viewportName, shotDir, log) {
-	const context = await browser.newContext({ viewport: VIEWPORTS[viewportName], ...VIEWPORTS[viewportName] });
+	// reduced motion: a figure that plays by itself (the intro) stays at
+	// rest, so that the read-outs do not depend on the time a page took
+	const context = await browser.newContext({
+		viewport: VIEWPORTS[viewportName],
+		...VIEWPORTS[viewportName],
+		reducedMotion: 'reduce'
+	});
+
+	await context.clock.setFixedTime(FIXED_NOW);
+
 	const page = await context.newPage();
 	const problems = [];
 	const name = `${viewportName}/${slug(pageFile)}.png`;
@@ -930,7 +951,8 @@ async function checkPage(browser, site, pageFile, viewportName, shotDir, log) {
 		await checkEquationsFit(page, problems);
 
 		fs.mkdirSync(path.join(shotDir, viewportName), { recursive: true });
-		await page.screenshot({ path: path.join(shotDir, name), fullPage: true });
+		// animations at rest (the hub's twinkling stars), so that two runs match
+		await page.screenshot({ path: path.join(shotDir, name), fullPage: true, animations: 'disabled' });
 
 		if (viewportName === 'desktop') {
 			log.push(`\n=== ${pageFile} ===`);
@@ -955,7 +977,7 @@ async function capture(browser, root, shotDir, only, label) {
 	const site = { root, base };
 	const pages = findPages(root).filter(page => matchesOnly(page, only));
 	const log = [
-		'PREDICTING THE SKY - READ-OUTS (tools/check/smoke.js)',
+		'THE ALMAGEST IN MOTION - READ-OUTS (tools/check/smoke.js)',
 		'Regenerate with: node tools/check/smoke.js --update'
 	];
 	const screenshots = [];

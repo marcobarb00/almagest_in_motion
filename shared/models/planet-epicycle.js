@@ -1,6 +1,6 @@
 // @ts-check
 /* ==========================================================================
-   PREDICTING THE SKY - MODEL: THE SIMPLE PLANETARY EPICYCLE
+   THE ALMAGEST IN MOTION - MODEL: THE SIMPLE PLANETARY EPICYCLE
    (models/planet-epicycle.js)
    The model of page 4.1, the planets' anomaly relative to the Sun with a
    single epicycle on a deferent centered on the Earth (Almagest IX 5,

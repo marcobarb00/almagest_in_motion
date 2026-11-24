@@ -1,6 +1,6 @@
 // @ts-check
 /* ==========================================================================
-   PREDICTING THE SKY - MODEL: THE CLOCKS (models/clock.js)
+   THE ALMAGEST IN MOTION - MODEL: THE CLOCKS (models/clock.js)
    The model of page 1.3: the sky turns uniformly with respect to mean
    solar time, by 360° plus the mean Sun's daily motion n every day, so
    that the turn of the sky (the sidereal time) can be read off a clock.

@@ -47,10 +47,6 @@
    0. HELPERS SHARED BY THE FIGURES
    ========================================================================== */
 
-/* The direction (deg, anticlockwise from the right, as towards()) of
-   screen point b seen from screen point a. */
-const screenDirection = (a, b) => atan2d(a.y - b.y, b.x - a.x);
-
 /* A planet's disk of radius R px at (x, y), lit on the fraction k of its
    face, seen by the observer: the lit limb on the side 'litSide' (+1 the
    right, -1 the left). The bright limb is a half circle; the terminator,
@@ -212,7 +208,7 @@ const telescopeFigure = {
 			ctx.font = FONT_TICK;
 			ctx.textAlign = 'center';
 			ctx.textBaseline = 'top';
-			ctx.fillText(dateYearText(disk.jd), x, top + 6 + 0.9 * slot);
+			canvasText(ctx, dateYearText(disk.jd), x, top + 6 + 0.9 * slot);
 			ctx.fillStyle = COL.muted;
 			ctx.fillText(`${Math.round(Math.abs(disk.elongation))}°`, x, top + 6 + 0.9 * slot + 17);
 		});
@@ -347,28 +343,16 @@ const systemsFigure = {
 		drawDot(ctx, V.x, V.y, 5, COL.epicycle);
 		drawDot(ctx, P.x, P.y, 6, COL.planet);
 
-		// letters only, each on the side clearest of its lines (CLAUDE.md);
-		// V inside its circle, towards the Sun
-		labelOutside(
-			ctx,
-			'☉',
-			S,
-			6,
-			clearestDirection([screenDirection(S, O), screenDirection(S, P), screenDirection(S, V), 0]),
-			COL.sun,
-			owner.labels
-		);
-		labelOutside(ctx, 'O', O, 7, clearestDirection([screenDirection(O, S), lambda]), COL.earth, owner.labels);
+		// letters only (CLAUDE.md), each on a side of its point that turns
+		// smoothly with the drawing, so that it passes over a line for a
+		// moment rather than jumping to the other side of its point: the
+		// Sun opposite the Earth, O outward from the Sun, V inside its
+		// circle, towards the Sun, P off the line of sight, which it never
+		// crosses
+		labelOutside(ctx, '☉', S, 6, screenDirection(O, S), COL.sun, owner.labels);
+		labelOutside(ctx, 'O', O, 7, screenDirection(S, O), COL.earth, owner.labels);
 		labelOutside(ctx, 'V', V, 6, screenDirection(V, S), COL.epicycle, owner.labels);
-		labelOutside(
-			ctx,
-			'P',
-			P,
-			7,
-			clearestDirection([screenDirection(P, O), lambda, screenDirection(P, S)]),
-			COL.planet,
-			owner.labels
-		);
+		labelOutside(ctx, 'P', P, 7, lambda + SIGHT_NAME_TURN, COL.planet, owner.labels);
 	},
 
 	/* Panel (a): Copernicus, the point of the mean Sun at the center. */
@@ -437,13 +421,17 @@ const ORDERS_START = Time.julianDay(2024, 6, 4);
 /* The three disks of (b), from left to right: their name and their order
    (O sun / OK). */
 const ORDER_DISKS = [
-	{ name: 'below', ratio: PlanetArrangement.ORDERS.below },
-	{ name: 'around', ratio: PlanetArrangement.ORDERS.around },
-	{ name: 'above', ratio: PlanetArrangement.ORDERS.above }
+	{ name: tr('below', 'sotto'), ratio: PlanetArrangement.ORDERS.below },
+	{ name: tr('around', 'attorno'), ratio: PlanetArrangement.ORDERS.around },
+	{ name: tr('above', 'sopra'), ratio: PlanetArrangement.ORDERS.above }
 ];
 
 /* The drawing reaches 1.797 (OK = 1): the scale reaches 1.92. */
 const ORDERS_ROOM = 1.92;
+
+/* K's name in (a) stands this far (deg) clockwise from the line OK, clear
+   of it and of the deferent, as on page 4.1. */
+const K_NAME_TURN = 45;
 
 /* The disk at OP = 1 - r, the largest, fills this fraction of its slot
    in (b); under it, room for two lines of text (px). */
@@ -534,26 +522,14 @@ const ordersFigure = {
 		drawDot(ctx, K.x, K.y, 2.5, COL.ink, false);
 		drawDot(ctx, P.x, P.y, 6, COL.planet);
 
-		// letters only, each on the side clearest of its lines (CLAUDE.md)
-		labelOutside(ctx, 'O', O, 7, clearestDirection([sunLon, sightLon, sunLon + 180]), COL.earth, owner.labels);
-		labelOutside(
-			ctx,
-			'K',
-			K,
-			6,
-			clearestDirection([screenDirection(K, O), screenDirection(K, P), sunLon]),
-			COL.ink,
-			owner.labels
-		);
-		labelOutside(
-			ctx,
-			'P',
-			P,
-			7,
-			clearestDirection([screenDirection(P, O), sightLon, ...suns.map(S => screenDirection(P, S))]),
-			COL.planet,
-			owner.labels
-		);
+		// letters only (CLAUDE.md), each on a side of its point that turns
+		// smoothly with the drawing, so that it passes over a line for a
+		// moment rather than jumping to the other side of its point: O
+		// opposite the line of sight, K behind the line OK, P off the line
+		// of sight, which it never crosses
+		labelOutside(ctx, 'O', O, 7, sightLon + 180, COL.earth, owner.labels);
+		labelOutside(ctx, 'K', K, 6, sunLon - K_NAME_TURN, COL.ink, owner.labels);
+		labelOutside(ctx, 'P', P, 7, sightLon + SIGHT_NAME_TURN, COL.planet, owner.labels);
 	},
 
 	/* Height / width of (b): three slots side by side, the largest disk
@@ -595,7 +571,7 @@ const ordersFigure = {
 			ctx.font = FONT_NAME;
 			ctx.fillText(ORDER_DISKS[i].name, x, textY);
 			ctx.font = FONT_TICK;
-			ctx.fillText(`k = ${fixed(phase.k, 2)}`, x, textY + 22);
+			canvasText(ctx, `k = ${fixed(phase.k, 2)}`, x, textY + 22);
 		});
 	}
 };
@@ -656,8 +632,8 @@ const parallaxFigure = {
 			y: [-PARALLAX_RANGE, PARALLAX_RANGE],
 			xTicks: tenthTicksX,
 			yTicks: tenthTicksY,
-			xLabel: 'along the ecliptic, east to the left (″)',
-			yLabel: 'ecliptic latitude (″)',
+			xLabel: tr('along the ecliptic, east to the left (″)', 'lungo l’eclittica, est a sinistra (″)'),
+			yLabel: tr('ecliptic latitude (″)', 'latitudine eclittica (″)'),
 			aspect: 0.96,
 			maxHeight: 440,
 			minHeight: 240,
@@ -744,16 +720,11 @@ const parallaxFigure = {
 		this.drawMark(ctx, tycho, true);
 		this.drawMark(ctx, star, false);
 
-		labelOutside(
-			ctx,
-			'O',
-			O,
-			7,
-			clearestDirection([screenDirection(O, S), screenDirection(O, star), screenDirection(O, tycho)]),
-			COL.earth,
-			owner.labels
-		);
-		labelOutside(ctx, '☉', S, 7, clearestDirection([screenDirection(S, O)]), COL.sun, owner.labels);
+		// O on the side away from Tycho's star, which stays still, and the
+		// Sun outward from O: the Sun's line passes over O's name for a
+		// moment once a year
+		labelOutside(ctx, 'O', O, 7, screenDirection(tycho, O), COL.earth, owner.labels);
+		labelOutside(ctx, '☉', S, 7, screenDirection(O, S), COL.sun, owner.labels);
 		centeredLabel(ctx, 'T', { x: tycho.x + 14, y: tycho.y + 14 }, COL.planet, owner.labels);
 	},
 
@@ -846,8 +817,8 @@ const phaseFigure = {
 		this.plot = new Plot2D(byId('phase-plot'), {
 			x: FIT_RANGE_X,
 			y: PHASE_RANGE_K,
-			xLabel: 'the order O☉ : OK',
-			yLabel: 'k at greatest elongation',
+			xLabel: tr('the order O☉ : OK', 'l’ordine O☉ : OK'),
+			yLabel: tr('k at greatest elongation', 'k alla massima elongazione'),
 			aspect: 0.55,
 			maxHeight: 380,
 			minHeight: 240,
@@ -855,9 +826,9 @@ const phaseFigure = {
 		});
 
 		Plot2D.legend(byId('phase-legend'), [
-			{ label: 'Venus above the Sun', color: COL.earth, mark: 'band' },
-			{ label: 'Venus below the Sun', color: COL.epicycle, mark: 'band' },
-			{ label: 'the real Venus, 1986–2025', color: COL.planet, mark: 'dot' }
+			{ label: tr('Venus above the Sun', 'Venere sopra il Sole'), color: COL.earth, mark: 'band' },
+			{ label: tr('Venus below the Sun', 'Venere sotto il Sole'), color: COL.epicycle, mark: 'band' },
+			{ label: tr('the real Venus, 1986–2025', 'la Venere reale, 1986–2025'), color: COL.planet, mark: 'dot' }
 		]);
 	},
 
@@ -880,7 +851,12 @@ const phaseFigure = {
 		// the model, and Ptolemy's order on it
 		p.fn(phaseAtGreatest, { color: COL.ink, width: 2 });
 		p.marker(ptolemy, phaseAtGreatest(ptolemy), { color: COL.epicycle, radius: 5 });
-		p.text('Ptolemy', ptolemy, phaseAtGreatest(ptolemy), { color: COL.epicycle, align: 'center', dx: 0, dy: -12 });
+		p.text(tr('Ptolemy', 'Tolomeo'), ptolemy, phaseAtGreatest(ptolemy), {
+			color: COL.epicycle,
+			align: 'center',
+			dx: 0,
+			dy: -12
+		});
 
 		// the real Venus, each greatest elongation at the order it gives
 		this.real.forEach(point => p.marker(point.ratio, point.k, { color: COL.planet, radius: 3 }));
@@ -925,7 +901,7 @@ const testFigure = {
 
 		const options = {
 			x: [yearOf(TEST_START), yearOf(TEST_END)],
-			xLabel: 'year',
+			xLabel: tr('year', 'anno'),
 			aspect: 0.36,
 			maxHeight: 280,
 			minHeight: 200
@@ -943,7 +919,7 @@ const testFigure = {
 			byId('test-error'),
 			Object.assign({}, options, {
 				y: TEST_ERROR_RANGE,
-				yLabel: 'model − real',
+				yLabel: tr('model − real', 'modello − reale'),
 				aspect: 0.28,
 				onDraw: () => this.drawError()
 			})

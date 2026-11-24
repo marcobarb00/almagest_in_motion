@@ -1,6 +1,6 @@
 // @ts-check
 /* ==========================================================================
-   PREDICTING THE SKY - MODEL: THE LUNAR EPICYCLE (models/lunar-epicycle.js)
+   THE ALMAGEST IN MOTION - MODEL: THE LUNAR EPICYCLE (models/lunar-epicycle.js)
    The model of page 3.1, the Moon's first anomaly (Almagest IV 5-10): the
    center K of an epicycle of radius r moves uniformly on a deferent of
    radius R centered on the Earth O, at the mean longitude

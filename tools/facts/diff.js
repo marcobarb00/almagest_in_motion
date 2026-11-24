@@ -1,5 +1,5 @@
 /* ==========================================================================
-   PREDICTING THE SKY - HISTORICAL CLAIMS LEDGER CHECK (tools/facts/diff.js)
+   THE ALMAGEST IN MOTION - HISTORICAL CLAIMS LEDGER CHECK (tools/facts/diff.js)
    Compares the pages with the ledger of checked historical claims
    (tools/facts/claims.json) and prints what a new fact-check has to look
    at:

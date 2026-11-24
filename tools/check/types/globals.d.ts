@@ -1,5 +1,5 @@
 /* ==========================================================================
-   PREDICTING THE SKY - TYPES OF THE LIBRARIES FROM CDNJS
+   THE ALMAGEST IN MOTION - TYPES OF THE LIBRARIES FROM CDNJS
    (tools/check/types/globals.d.ts)
    Only for the type check (tools/check/typecheck.js): KaTeX and its
    auto-render extension, loaded by the pages from cdnjs, declare these

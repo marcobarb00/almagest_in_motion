@@ -62,6 +62,17 @@ alternates. The block between its two comments is never edited by hand:
 change the site map and run the script again. `--check` reports a page
 that is out of date, and CI runs it.
 
+## Analytics
+
+Page views are counted with GoatCounter, by section 10 of
+`shared/components.js`, only on the published site, so local servers,
+the checks and the raw.githack previews count nothing. The site's code
+(`ANALYTICS.code`, the `<code>` of `https://<code>.goatcounter.com`) is
+the one setting; counting is off while it is empty. The script is the
+versioned `count.v4.js`, pinned by its hash.
+
+## Preview images
+
 The preview images, `shared/preview.png` and `shared/preview.it.png`
 (1200 × 630 px), are rendered from `design/preview/card.html` by
 `node tools/make-preview.js`; run it after changing the card or the

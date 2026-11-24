@@ -313,6 +313,11 @@ section.
   1.1's blue plate, rendered by `tools/make-preview.js`. No
   `robots.txt`: a project site cannot serve one at the domain's root,
   so the sitemap is submitted in Google Search Console. → DEVELOPING.md
+- **Page views are counted with GoatCounter** (Marco, 2026-11-24): no
+  cookies and no personal data, so no consent banner. Its script is
+  added by `components.js` only on `marcobarb00.github.io`, pinned by
+  its hash, and counts nothing while the site's code is empty. The
+  README says so under Privacy. → shared/components.js §10, DEVELOPING.md
 
 ## Look
 

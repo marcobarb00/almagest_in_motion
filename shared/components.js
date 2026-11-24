@@ -49,7 +49,8 @@
 	 7. Hub
 	 8. Footer: copyright and licences
 	 9. Language switch: the flag of the other language
-	10. Entry point
+	10. Analytics: GoatCounter on the published site
+	11. Entry point
 	 GraduatedFrame (after Site): the border of every figure
    ========================================================================== */
 
@@ -762,7 +763,48 @@ const Site = (function () {
 	document.addEventListener('DOMContentLoaded', buildLanguageSwitch);
 
 	/* ======================================================================
-	   10. ENTRY POINT
+	   10. ANALYTICS: GOATCOUNTER ON THE PUBLISHED SITE
+	   Page views are counted with GoatCounter (goatcounter.com), which sets
+	   no cookies and keeps no personal data, so the site needs no consent
+	   banner. Its script is added only on the published site (HOST): local
+	   servers, the checks and the raw.githack previews count nothing. It
+	   is the versioned file, pinned by its hash as KaTeX is; a new version
+	   needs its new hash (openssl dgst -sha384 -binary | openssl base64).
+	   Nothing is counted while CODE is empty.
+	   ====================================================================== */
+
+	const ANALYTICS = {
+		code: '', // the site's code: its dashboard is https://<code>.goatcounter.com
+		host: 'marcobarb00.github.io',
+		script: 'https://gc.zgo.at/count.v4.js',
+		integrity: 'sha384-nRw6qfbWyJha9LhsOtSb2YJDyZdKvvCFh0fJYlkquSFjUxp9FVNugbfy8q1jdxI+'
+	};
+
+	/* Add GoatCounter's script once; it counts the page as it loads. */
+	function loadAnalytics() {
+		if (!ANALYTICS.code || window.location.hostname !== ANALYTICS.host) {
+			return;
+		}
+
+		if (document.querySelector('script[data-goatcounter]')) {
+			return;
+		}
+
+		const tag = document.createElement('script');
+
+		tag.async = true;
+		tag.src = ANALYTICS.script;
+		tag.integrity = ANALYTICS.integrity;
+		tag.crossOrigin = 'anonymous';
+		tag.dataset.goatcounter = `https://${ANALYTICS.code}.goatcounter.com/count`;
+		document.head.appendChild(tag);
+	}
+
+	/* Every page that loads this file is counted, as it gets the footer. */
+	document.addEventListener('DOMContentLoaded', loadAnalytics);
+
+	/* ======================================================================
+	   11. ENTRY POINT
 	   ====================================================================== */
 
 	/* Build every shared component of an article page, then typeset. The

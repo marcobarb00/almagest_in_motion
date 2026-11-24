@@ -22,7 +22,7 @@ licensed separately, under the MIT License: see [LICENSE](LICENSE).
 
 ## How to credit
 
-> Marco Barbieri, *The Almagest in Motion*, https://marcobarb00.github.io/astronomy/
+> Marco Barbieri, *The Almagest in Motion*, https://marcobarb00.github.io/almagest_in_motion/
 
 followed by the licence, CC BY-NC-SA 4.0, with a link to
 <https://creativecommons.org/licenses/by-nc-sa/4.0/>, and a note of any

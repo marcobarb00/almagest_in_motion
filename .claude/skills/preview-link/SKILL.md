@@ -20,8 +20,8 @@ branch of the repository as a website.
    every page: then give the hub and every page that is `ready: true` in
    `shared/site-map.js`.
 5. Give one link per page, in this form:
-   `https://raw.githack.com/marcobarb00/astronomy/<branch>/<path>`
-   e.g. `https://raw.githack.com/marcobarb00/astronomy/page_2_1/act2-sun/01-uneven-year/index.html`.
+   `https://raw.githack.com/marcobarb00/almagest_in_motion/<branch>/<path>`
+   e.g. `https://raw.githack.com/marcobarb00/almagest_in_motion/page_2_1/act2-sun/01-uneven-year/index.html`.
    Link to the section that changed when there is one (`#model`).
 6. Under the links, one line per page saying what to look at: the
    figure, the section or the control that changed.

@@ -48,4 +48,21 @@ smoke test are described in [`tools/check/README.md`](tools/check/README.md).
 ## Publishing a page
 
 Set `ready: true` on the page's entry in `shared/site-map.js`: the hub and
-the previous / next links follow.
+the previous / next links follow. Then run `node tools/make-meta.js`.
+
+## Search and link previews
+
+Search engines and link previews (Mastodon, Reddit, messaging apps) read
+a page without running its scripts, so what they need is written into
+each page's `<head>` by `tools/make-meta.js`, from the site map: the
+description (the page's question and what the page is), the canonical
+address, and the Open Graph tags with the preview image. It also writes
+`sitemap.xml`, with each page's English and Italian addresses as
+alternates. The block between its two comments is never edited by hand:
+change the site map and run the script again. `--check` reports a page
+that is out of date, and CI runs it.
+
+The preview images, `shared/preview.png` and `shared/preview.it.png`
+(1200 × 630 px), are rendered from `design/preview/card.html` by
+`node tools/make-preview.js`; run it after changing the card or the
+site's title.

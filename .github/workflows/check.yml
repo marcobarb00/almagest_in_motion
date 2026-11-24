@@ -1,7 +1,8 @@
 # ============================================================================
 # THE ALMAGEST IN MOTION - CHECKS (.github/workflows/check.yml)
 # On every push to main or develop, and every pull request: lint, format,
-# type check, the tests of shared/tests.html in Node, the golden values,
+# type check, the tests of shared/tests.html in Node, the search and
+# link-preview tags (tools/make-meta.js --check), the golden values,
 # and the smoke test of every page. The golden values (about 20 minutes)
 # and the smoke test run as two jobs in parallel, so that neither waits
 # for the other; a newer push cancels the older run of the same branch. A change in the reference numbers (golden.txt, readouts.txt) or a
@@ -51,6 +52,11 @@ jobs:
 
       - name: Tests of shared/tests.html
         run: npm run tests
+
+      # The description and link-preview tags of every page, and the
+      # sitemap, match the site map.
+      - name: Search and link previews
+        run: node tools/make-meta.js --check
 
       - name: Golden values
         run: node tools/check/golden.js --check

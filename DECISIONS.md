@@ -304,6 +304,16 @@ section.
   stays "From the celestial sphere to Kepler's ellipse". →
   shared/components.js (SITE_TITLE), index.html, every page's title
 
+- **Search and link previews are generated from the site map**
+  (Marco, 2026-11-24): every page's head has a description (its
+  question, then what the page is), a canonical address and Open Graph
+  tags, written by `tools/make-meta.js` between two marker comments,
+  with `sitemap.xml` beside the hub; CI checks that they are up to date.
+  The preview image is one card per language, the title beside page
+  1.1's blue plate, rendered by `tools/make-preview.js`. No
+  `robots.txt`: a project site cannot serve one at the domain's root,
+  so the sitemap is submitted in Google Search Console. → DEVELOPING.md
+
 ## Look
 
 - **The star-atlas style (variant "B2"): navy ink on parchment, margin

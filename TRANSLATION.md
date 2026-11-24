@@ -59,7 +59,11 @@ page in English first, then its Italian translation in the same commit.
   not "il posto"; "si trova", not "sta", for where a point lies;
   "precede / segue", not "corre avanti", for a body ahead of its mean
   place; "osserva", not "nota", in captions; "passa il puntatore sul grafico",
-  not "punta il grafico"; "osservazione", not "avvistamento".
+  not "punta il grafico"; "osservazione", not "avvistamento"; never
+  "disuguale" for "unequal" or "uneven" (Marco, 2026-11-24): "di durata
+  diversa", "diversi fra loro", "non uniforme", "irregolare" as the
+  sentence needs (page 2.1 is "L'anno irregolare"). "Disuguaglianza"
+  stays, as the technical term (la seconda disuguaglianza della Luna).
 - The voice is the one of WRITING.md: "noi" for the work done together,
   "tu" for what the reader does with the page.
 - Every longitude and latitude names its kind, as in English:

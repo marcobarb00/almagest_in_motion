@@ -116,7 +116,7 @@ const SITE_MAP = (function () {
 			number: '2.1',
 			act: 2,
 			ready: true,
-			title: tr('The uneven year', "L'anno disuguale"),
+			title: tr('The uneven year', "L'anno irregolare"),
 			question: tr('Why are the seasons not equal?', 'Perché le stagioni non sono uguali?'),
 			path: 'act2-sun/01-uneven-year/index.html',
 			italian: true

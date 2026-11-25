@@ -5478,6 +5478,11 @@ Regenerate with: node tools/check/smoke.js --update
   hover #drift-canvas left
   dragged 0 spheres
 
+=== design/preview/card.html ===
+  as loaded
+  opened 0 hints and answers
+  dragged 0 spheres
+
 === design/references/index.html ===
   as loaded
     .readout: 

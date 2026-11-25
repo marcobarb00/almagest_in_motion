@@ -98,6 +98,12 @@ python3 -m http.server
 and open <http://localhost:8000/>. The fonts and the formula typesetting
 (KaTeX) are loaded from the web.
 
+## Privacy
+
+The site counts page views with [GoatCounter](https://www.goatcounter.com),
+which sets no cookies and collects no personal data. Nothing else is
+tracked.
+
 ## Licence
 
 The text, figures, exercises and charts are © 2026 Marco Barbieri, under

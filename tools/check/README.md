@@ -40,7 +40,10 @@ and commit them with the change, so the diff shows exactly what moved.
 its screenshots, its log and images of any difference to `tools/check/out/`.
 
 On GitHub, `.github/workflows/check.yml` runs all of these on every push
-and pull request. A change in `golden.txt` or `readouts.txt`, a console
+to `main` or `develop` and on every pull request, in two jobs side by side:
+the checks in Node (lint, format, types, tests, golden values, about 20
+minutes) and the smoke test. A newer push cancels the older run of the
+same branch. A change in `golden.txt` or `readouts.txt`, a console
 error or a failed check fails the build; screenshot differences from the
 previous commit are only reported (in the job summary, with the images
 as an artifact), since fonts and anti-aliasing differ a little between

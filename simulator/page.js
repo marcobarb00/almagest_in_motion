@@ -655,7 +655,7 @@ const PARAMETER_ROWS = [
 	}
 ].concat(
 	['mercury', 'venus', 'jupiter', 'saturn'].map(name => ({
-		page: tr('simulator', 'cassetta'),
+		page: tr('simulator', 'simulatore'),
 		model: tr(
 			`${name.charAt(0).toUpperCase() + name.slice(1)}'s ellipse`,
 			`l'ellisse di ${bodyName(name.charAt(0).toUpperCase() + name.slice(1))}`

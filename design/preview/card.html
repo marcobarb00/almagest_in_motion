@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<!-- ==========================================================================
+     THE LINK PREVIEW CARD (design/preview/card.html)
+     The image that Mastodon, Reddit, messaging apps and search engines show
+     beside a link to the site (Open Graph og:image), 1200 × 630 px: the
+     title on parchment beside page 1.1's blue plate of the sky around the
+     pole. Not linked from the site. tools/make-preview.js renders it to
+     shared/preview.png, and with ?lang=it to shared/preview.it.png.
+     ========================================================================== -->
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Link preview card</title>
+
+	<!-- The language, before the shared scripts read it (common.js, LANG) -->
+	<script>
+		if (new URLSearchParams(location.search).get('lang') === 'it') {
+			document.documentElement.lang = 'it';
+		}
+	</script>
+
+	<!-- Fonts and theme (STYLE.md §2, §3) -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&amp;family=Cormorant+SC:wght@500;600&amp;family=Spectral:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap">
+	<link rel="stylesheet" href="../../shared/theme.css">
+
+	<style>
+		/* The card fills exactly the image: 1200 × 630 px, no scrolling. */
+		html,
+		body {
+			width: 1200px;
+			height: 630px;
+			margin: 0;
+			overflow: hidden;
+			background: var(--bg);
+		}
+
+		/* Two columns of fixed width, so that the two languages place the
+		   plate alike: the words on the left, the plate on the right. */
+		.card {
+			display: grid;
+			grid-template-columns: 525px 560px;
+			gap: 50px;
+			align-items: center;
+			box-sizing: border-box;
+			width: 1200px;
+			height: 630px;
+			padding: 35px 35px 35px 30px;
+		}
+
+		.words {
+			padding-left: 30px;
+		}
+
+		/* The act line of the hub, in small caps. */
+		.kicker {
+			margin: 0 0 18px;
+			font-family: 'Cormorant SC', serif;
+			font-size: 25px;
+			letter-spacing: 0.1em;
+			white-space: nowrap;
+			color: var(--accent);
+		}
+
+		.card h1 {
+			margin: 0;
+			font-family: 'Cormorant Garamond', serif;
+			font-size: 92px;
+			font-weight: 600;
+			line-height: 0.98;
+			color: var(--ink);
+		}
+
+		/* The subtitle, then the hub's double rule under it. */
+		.sub {
+			margin: 22px 0 0;
+			padding-bottom: 26px;
+			border-bottom: 3px double var(--ink);
+			font-family: 'Cormorant Garamond', serif;
+			font-size: 36px;
+			font-style: italic;
+			line-height: 1.15;
+			color: var(--ink-soft);
+		}
+
+		/* The blue plate of the pages (theme.css .plate), square, with the
+		   chart filling it. */
+		.card .plate {
+			box-sizing: border-box;
+			width: 560px;
+			height: 560px;
+			padding: 18px;
+		}
+
+		.card .plate .chart {
+			flex: 1 1 auto;
+			max-width: none;
+		}
+	</style>
+
+	<!-- Shared code for the plate, in dependency order -->
+	<script defer src="../../shared/common.js"></script>
+	<script defer src="../../shared/time.js"></script>
+	<script defer src="../../shared/ephemeris.js"></script>
+	<script defer src="../../shared/stars.js"></script>
+	<script defer src="../../shared/plate-stars.js"></script>
+	<script defer src="../../shared/plate.js"></script>
+</head>
+<body>
+	<div class="card">
+		<div class="words">
+			<p class="kicker" data-en="Classical positional astronomy" data-it="Astronomia di posizione classica"></p>
+			<h1 data-en="The Almagest in&#160;Motion" data-it="L'Almagesto in&#160;movimento"></h1>
+			<p class="sub" data-en="From the celestial sphere to Kepler&#8217;s ellipse, an interactive course"
+				data-it="Dalla sfera celeste all&#8217;ellisse di Keplero, un corso interattivo"></p>
+		</div>
+		<div class="plate">
+			<div class="chart" id="plate"></div>
+		</div>
+	</div>
+
+	<script>
+		/* The words of the card's language, then page 1.1's plate of the
+		   sky around the pole, without its names (too small at this size).
+		   document.body.dataset.ready tells tools/make-preview.js that the
+		   card is drawn. */
+		document.addEventListener('DOMContentLoaded', () => {
+			document.querySelectorAll('[data-en]').forEach(element => {
+				element.innerHTML = tr(element.dataset.en, element.dataset.it);
+			});
+
+			Plate.polar(document.getElementById('plate'), {
+				rimDec: 25,
+				figures: ['URSA MAJOR', 'URSA MINOR', 'CASSIOPEIA', 'CEPHEUS', 'CYGNUS'],
+				names: [],
+				label: tr('The northern sky around the celestial pole.', 'Il cielo settentrionale attorno al polo celeste.')
+			});
+
+			document.fonts.ready.then(() => {
+				document.body.dataset.ready = 'true';
+			});
+		});
+	</script>
+</body>
+</html>
